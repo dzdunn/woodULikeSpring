@@ -15,5 +15,7 @@
 			<input type="submit" value="submit"/>
 	</form>
 
+	<img alt="graduation" src="resources/static/graduation.jpg"/>
+
 </body>
 </html>
