@@ -14,7 +14,7 @@ public class WebAppInitialiser implements WebApplicationInitializer {
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-		rootContext.register(WoodULikeApplication.class);
+		rootContext.register(WebMvcConfig.class);
 		
 		servletContext.addListener(new ContextLoaderListener(rootContext));
 		
