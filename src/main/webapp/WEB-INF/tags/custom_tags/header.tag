@@ -8,8 +8,9 @@
 <script type="text/javascript" src="static/jquery/3.0.0/jquery.min.js"></script>
 </head>
 <body>
+
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-		<a class="navbar-brand" href="#">
+		<a class="navbar-brand" href="${viewName.HOME}">
 		<spring:eval expression="@uiProperties.getProperty('brand')" />
 		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
