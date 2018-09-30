@@ -16,9 +16,9 @@ public class ProductionDatasourceConfig {
     public DataSource dataSource(){
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("root");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/wooulike-local");
+        dataSource.setUsername("etoblatmlgqsea");
+        dataSource.setPassword("ff6cf781c700a9b4c6640ebb6744ba7e7ad14d3c3b02cee055844389b5a685b8");
+        dataSource.setUrl("jdbc:postgres://etoblatmlgqsea:ff6cf781c700a9b4c6640ebb6744ba7e7ad14d3c3b02cee055844389b5a685b8@ec2-23-21-171-249.compute-1.amazonaws.com:5432/dfhie9hmsobu6b\n");
         return dataSource;
     }
 
