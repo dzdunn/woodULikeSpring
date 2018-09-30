@@ -20,7 +20,7 @@ public class DevDatasourceConfig {
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUsername("postgres");
         dataSource.setPassword("root");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/wooulike-local");
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/woodulike-local");
         return dataSource;
     }
 
@@ -30,7 +30,7 @@ public class DevDatasourceConfig {
                 setProperty("hibernate.hbm2ddl.auto",
                         "create-drop");
                 setProperty("hibernate.dialect",
-                        "org.hibernate.dialiect.PostgreSQL95Dialect");
+                        "org.hibernate.dialect.PostgreSQL95Dialect");
                 setProperty("hibernate.globally_quoted_identifiers",
                         "true");
             }

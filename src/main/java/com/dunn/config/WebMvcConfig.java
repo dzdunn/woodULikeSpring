@@ -13,7 +13,6 @@ import org.springframework.web.servlet.resource.WebJarsResourceResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.dunn.controller.path.ViewName;
-
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {"com.dunn"})
