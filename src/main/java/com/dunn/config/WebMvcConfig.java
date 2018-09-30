@@ -24,7 +24,7 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		registry.addResourceHandler("/static/**")
 		.addResourceLocations("/resources/", "/webjars/")
 		.setCacheControl(
-				CacheControl.maxAge(30L, TimeUnit.DAYS).cachePublic())
+				CacheControl.maxAge(30L, TimeUnit.MILLISECONDS).cachePublic()) //Change back to minutes
 		.resourceChain(true)
 		.addResolver(new WebJarsResourceResolver());
 	}

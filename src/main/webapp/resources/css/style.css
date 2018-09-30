@@ -1,0 +1,29 @@
+@charset "ISO-8859-1";
+
+:root{
+	--woodulike-green:#42f4a4;
+	--woodulike-brown:#ad5a5a;
+}
+
+.page-footer{
+	background-color: var(--woodulike-green);
+}
+
+h1{
+	color:#42f4a4;
+}
+
+.navbar{
+	background-color:var(--woodulike-brown);
+}
+
+#home-carousel img{
+	height: 100%;
+	width: 100%x;
+	object-fit:contain;
+}
+
+.carousel-item{
+	height: 400px;
+	width:800px;
+}

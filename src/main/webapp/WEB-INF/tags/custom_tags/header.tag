@@ -2,15 +2,13 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ attribute name="text" required="true"%>
 <head>
-
 <link href="static/bootstrap/css/bootstrap.min.css" type="text/css"
 	rel="stylesheet" />
-<script type="text/javascript" src="static/jquery/3.0.0/jquery.min.js"></script>
+<link href="static/css/style.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
-
-	<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-		<a class="navbar-brand" href="${viewName.HOME}">
+	<nav class="navbar navbar-expand-md navbar-dark">
+		<a class="navbar-brand" href="${viewName.HOME}"> 
 		<spring:eval expression="@uiProperties.getProperty('brand')" />
 		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -41,9 +39,5 @@
 			</form>
 		</div>
 	</nav>
-
-	<script src="static/bootstrap/js/bootstrap.min.js"></script>
-	<script src="static/popper.js/popper.min.js"></script>
-	<script src="static/jquery/dist/jquery.min.js"></script>
 </body>
 
