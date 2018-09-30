@@ -12,7 +12,7 @@ import org.springframework.core.io.ClassPathResource;
 	@PropertySource("classpath:configuration/database.properties"),
 	@PropertySource("classpath:configuration/UI.properties")
 })
-public class Properties {
+public class WoodulikeProperties {
 
 	@Bean
 	public PropertiesFactoryBean uiProperties() {

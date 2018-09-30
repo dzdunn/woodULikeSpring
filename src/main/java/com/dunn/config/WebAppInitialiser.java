@@ -23,6 +23,8 @@ public class WebAppInitialiser implements WebApplicationInitializer {
 		         
 		        dispatcher.setLoadOnStartup(1);
 		        dispatcher.addMapping("/");
+
+		        servletContext.setInitParameter("spring.profiles.active", "dev");
 		
 	}
 
