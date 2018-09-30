@@ -13,13 +13,59 @@ h1{
 	color:#42f4a4;
 }
 
+.navbar-brand{
+	font-size:150%;
+}
+
+.navbar-brand:hover{
+	color:var(--woodulike-green);
+	font-size:190%;
+}
+
+.navbar-brand:focus{
+	color:var(--woodulike-brown);
+	background-color:var(--woodulike-green);
+	font-size:190%;
+}
+
+
 .navbar{
 	background-color:var(--woodulike-brown);
 }
 
+
+.navbar a{
+	color: whitesmoke;
+}
+
+.navbar a:hover:not(.disabled):not(.navbar-brand) {
+	color:var(--woodulike-green);
+	font-size: 130%;
+}
+
+.navbar a:focus:not(.disabled):not(.navbar-brand) {
+	color:var(--woodulike-brown);
+	background-color:var(--woodulike-green);
+	font-size: 130%;
+}
+
+.dropdown-menu{
+	background-color:var(--woodulike-brown);
+}
+
+.dropdown-menu a:hover:not(.disabled) {
+	background-color:var(--woodulike-brown);
+}
+
+.dropdown-menu a:focus:not(.disabled) {
+	color:var(--woodulike-brown);
+	background-color:var(--woodulike-green);
+	font-size: 130%;
+}
+
 #home-carousel img{
 	height: 100%;
-	width: 100%x;
+	width: 100%;
 	object-fit:contain;
 }
 

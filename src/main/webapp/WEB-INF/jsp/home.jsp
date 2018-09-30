@@ -12,7 +12,7 @@
 	<div class="container">
 		<div class="row">
 			<div id="home-carousel" class="carousel slide"
-				data-ride="carousel">
+				data-ride="carousel" data-interval="1000">
 				<div class="carousel-inner">
 					<div class="carousel-item active">
 						<img class="d-block w-100" src="static/img/carousel/picard.jpg" alt="First slide">
