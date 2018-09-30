@@ -21,4 +21,11 @@ public class WoodulikeProperties {
 		return uiProperties;
 	}
 
+	@Bean
+	public PropertiesFactoryBean databaseProperties() {
+		PropertiesFactoryBean databaseProperties = new PropertiesFactoryBean();
+		databaseProperties.setLocation(new ClassPathResource("configuration/database.properties"));
+		return databaseProperties;
+	}
+
 }

@@ -45,7 +45,7 @@ public class PersistenceJPAConfig {
 
     @Bean
     public DataSource datasource(){
-        switch(env.getProperty("profile")){
+        switch(env.getProperty("spring.profiles.active")){
             case "dev":
                 return new DevDatasourceConfig().dataSource();
             case "production":
@@ -56,7 +56,7 @@ public class PersistenceJPAConfig {
     }
 
    private Properties properties(){
-       switch(env.getProperty("profile")){
+       switch(env.getProperty("spring.profiles.active")){
            case "dev":
                return new DevDatasourceConfig().hibernateProperties();
            case "production":
