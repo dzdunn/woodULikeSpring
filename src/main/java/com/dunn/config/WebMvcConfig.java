@@ -2,6 +2,8 @@ package com.dunn.config;
 
 import java.util.concurrent.TimeUnit;
 
+import com.dunn.dao.PostgresqlDAO;
+import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

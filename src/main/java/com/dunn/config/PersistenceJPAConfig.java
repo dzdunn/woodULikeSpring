@@ -1,5 +1,6 @@
 package com.dunn.config;
 
+import com.dunn.dao.PostgresqlDAO;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -65,4 +66,11 @@ public class PersistenceJPAConfig {
                throw new IllegalArgumentException("No datasource set for current profile.");
        }
    }
+
+//    @Bean
+//    public PostgresqlDAO postgresqlDAO(){
+//        PostgresqlDAO postgresqlDAO = new PostgresqlDAO();
+//        postgresqlDAO.setSessionFactory(sessionFactory().getObject());
+//        return postgresqlDAO;
+//    }
 }

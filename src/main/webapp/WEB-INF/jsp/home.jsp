@@ -1,12 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+
 <%@taglib prefix="wul" uri="http://woodulike.com/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
 <title>Home Page</title>
-<wul:header text="HEADER TAG" />
+	<%@include file="templates/header.jsp"%>
 </head>
 <body>
 	<div class="container">

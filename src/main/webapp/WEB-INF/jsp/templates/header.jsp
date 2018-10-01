@@ -1,6 +1,5 @@
-<%@ tag language="java" pageEncoding="ISO-8859-1" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ attribute name="text" required="true" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <head>
     <link href="../static/bootstrap/css/bootstrap.min.css" type="text/css"
           rel="stylesheet"/>

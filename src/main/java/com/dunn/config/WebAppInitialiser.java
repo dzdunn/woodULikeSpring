@@ -21,18 +21,12 @@ import java.util.Properties;
 
 public class WebAppInitialiser implements WebApplicationInitializer {
 
-
-
-
-
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
 		rootContext.register(WebMvcConfig.class);
 		rootContext.setServletContext(servletContext);
 
-
-		
 		servletContext.addListener(new ContextLoaderListener(rootContext));
 		
 		ServletRegistration.Dynamic dispatcher = servletContext
@@ -40,12 +34,6 @@ public class WebAppInitialiser implements WebApplicationInitializer {
 		         
 		        dispatcher.setLoadOnStartup(1);
 		        dispatcher.addMapping("/");
-
-             // servletContext.setInitParameter("spring.profiles.active", profile);
-              //SpringApplication.
-
-
-		
 	}
 
 }
