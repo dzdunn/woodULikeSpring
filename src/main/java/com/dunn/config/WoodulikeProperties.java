@@ -10,7 +10,8 @@ import org.springframework.core.io.ClassPathResource;
 @Configuration
 @PropertySources({
 	@PropertySource("classpath:configuration/database.properties"),
-	@PropertySource("classpath:configuration/UI.properties")
+	@PropertySource("classpath:configuration/UI.properties"),
+		@PropertySource(value = "classpath:configuration/local.properties", ignoreResourceNotFound = true)
 })
 public class WoodulikeProperties {
 

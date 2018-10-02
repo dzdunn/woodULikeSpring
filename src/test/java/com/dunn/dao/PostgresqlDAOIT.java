@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -33,7 +34,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 public class PostgresqlDAOIT {
 
-
+@Autowired
+private ApplicationContext applicationContext;
 
     @Autowired
     private PersistenceJPAConfig persistenceJPAConfig;
@@ -90,5 +92,13 @@ public class PostgresqlDAOIT {
        // WoodProject wpResult = (WoodProject) sessionFactory.getCurrentSession().get(WoodProject.class, woodProject.getId());
 
        // assertEquals(woodProject, wpResult);
+    }
+
+    @Test
+    public void testProfile(){
+        for(String s :applicationContext.getEnvironment().getActiveProfiles()){
+            System.out.println(s);
+        };
+
     }
 }
