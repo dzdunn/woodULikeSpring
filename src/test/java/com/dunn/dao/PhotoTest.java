@@ -4,8 +4,11 @@ import com.dunn.config.WebMvcConfig;
 import com.dunn.model.Photo;
 
 
+import com.dunn.model.user.UserRole;
+import com.dunn.model.user.WoodulikeUser;
 import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.hibernate.SessionFactory;
+import org.hibernate.metadata.ClassMetadata;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Commit;
@@ -104,6 +107,15 @@ public class PhotoTest {
 //        BufferedImage bufferedImage2 = ImageIO.read(bis);
 //        ImageIO.write(bufferedImage2, "jpg", new File("C:\\Users\\dzdun\\Pictures\\TESTING.jpg"));
 
+    }
+
+    @Test
+    public void testPropertyNames(){
+        ClassMetadata classMetadata = sessionFactory.getClassMetadata(UserRole.class);
+        String[] propertyNames = classMetadata.getPropertyNames();
+        for(String p : propertyNames){
+            System.out.println(p);
+        }
     }
 }
 

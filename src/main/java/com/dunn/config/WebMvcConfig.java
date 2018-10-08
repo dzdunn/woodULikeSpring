@@ -16,7 +16,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import java.util.concurrent.TimeUnit;
 @Configuration
 @EnableWebMvc
-//@EnableAspectJAutoProxy(proxyTargetClass = true)
 @ComponentScan(basePackages = {"com.dunn"})
 @EnableTransactionManagement
 public class WebMvcConfig implements WebMvcConfigurer{
