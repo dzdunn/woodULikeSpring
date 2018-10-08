@@ -9,15 +9,19 @@ import java.util.List;
 @Entity
 public class WoodProject implements Serializable {
 
-    private Long id;
-    private String title;
-    private String description;
-    private Date date;
-    private List<Image> images;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="WOODPROJECT_ID", unique = true, nullable = false)
+    private Long id;
+
+    private String title;
+    private String description;
+    private Date date;
+
+    @OneToMany(targetEntity = Image.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Image> images;
+
+
     public Long getId() {
         return id;
     }
@@ -50,7 +54,6 @@ public class WoodProject implements Serializable {
         this.date = date;
     }
 
-    @OneToMany(targetEntity = Image.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     public List<Image> getImages() {
         return images;
     }

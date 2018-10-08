@@ -9,12 +9,23 @@ import org.springframework.web.servlet.ModelAndView;
 import com.dunn.controller.path.ViewName;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping(ViewName.HOME)
 public class HomeController {
 
-	@RequestMapping(value= {"", ViewName.HOME}, method=RequestMethod.GET)
+	@RequestMapping(value= ViewName.HOME, method=RequestMethod.GET)
 	public String home() {
-		return "home";
+		return "home/home";
+	}
+
+
+	@RequestMapping(value=ViewName.ABOUT, method=RequestMethod.GET)
+	public String about(){
+		return "home/about";
+	}
+
+	@RequestMapping(value=ViewName.CONTACT, method = RequestMethod.GET)
+	public String contact(){
+		return "home/contact";
 	}
 
 	@RequestMapping(value="inputData", method=RequestMethod.POST)

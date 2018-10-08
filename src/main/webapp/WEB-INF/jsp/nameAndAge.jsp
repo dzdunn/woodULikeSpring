@@ -10,7 +10,7 @@
 <h2>${name}</h2>
 <h1>Your age is:</h1>
 <h2>${age}</h2>
-<a href="woodulike">Home</a>
+<a href="${ViewName.HOME}">Home</a>
 <%@include file="templates/footer.jsp"%>
 </body>
 </html>

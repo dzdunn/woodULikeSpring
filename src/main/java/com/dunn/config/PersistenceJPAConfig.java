@@ -1,6 +1,5 @@
 package com.dunn.config;
 
-import com.dunn.dao.PostgresqlDAO;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +9,6 @@ import org.springframework.dao.annotation.PersistenceExceptionTranslationPostPro
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.annotation.Transactional;
 
 
 import javax.sql.DataSource;
@@ -23,20 +21,21 @@ public class PersistenceJPAConfig {
     @Autowired
     private Environment env;
 
-    @Bean
+    @Bean(name="sessionFactory")
     public LocalSessionFactoryBean sessionFactory(){
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(datasource());
         sessionFactory.setHibernateProperties(properties());
         sessionFactory.setPackagesToScan(new String[] {"com.dunn.model"});
+
         return sessionFactory;
     }
 
     @Bean
-    public HibernateTransactionManager transactionManager(SessionFactory sessionFactory){
-        HibernateTransactionManager txManager = new HibernateTransactionManager();
-        txManager.setSessionFactory(sessionFactory);
-        return txManager;
+    public HibernateTransactionManager transactionManager(){
+        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+        transactionManager.setSessionFactory(sessionFactory().getObject());
+        return transactionManager;
     }
 
     @Bean

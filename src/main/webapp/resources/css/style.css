@@ -73,3 +73,31 @@ h1{
 	height: 400px;
 	width:800px;
 }
+
+.row {
+	border: 2px solid red;
+}
+
+.col {
+	border: 1px solid blue;
+}
+
+.container {
+	border: 3px solid orange;
+}
+
+.carousel-inner{
+	border: 1px solid purple;
+	align-content: center;
+	align-items: center;
+}
+
+.carousel-item {
+	border: 1px solid green;
+	align-self: center;
+}
+
+.carousel-item img {
+	border: 1px solid green;
+	align-content: center;
+}

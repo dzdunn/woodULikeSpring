@@ -5,6 +5,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -28,7 +29,7 @@ public class DevDatasourceConfig {
         return new Properties() {
             {
                 setProperty("hibernate.hbm2ddl.auto",
-                        "create-drop");
+                        "update");
                 setProperty("hibernate.dialect",
                         "org.hibernate.dialect.PostgreSQL95Dialect");
                 setProperty("hibernate.globally_quoted_identifiers",
