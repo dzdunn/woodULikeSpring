@@ -16,6 +16,8 @@ public class Photo {
 
     private byte[] image;
 
+    private int threadValue;
+
     public Long getId() {
         return id;
     }
@@ -39,4 +41,13 @@ public class Photo {
     public void setImage(byte[] image) {
         this.image = image;
     }
+
+    public int getThreadValue(){
+        return threadValue;
+    }
+
+    public void setThreadValue(int threadValue){
+        this.threadValue = threadValue;
+    }
+
 }

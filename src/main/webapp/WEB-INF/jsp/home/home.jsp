@@ -1,4 +1,5 @@
 <%@taglib prefix="wul" uri="http://woodulike.com/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,11 +42,13 @@
     <h1>HOME PAGE</h1>
 
 
-    <form action="inputData" method="POST">
-        <label>Type your name: </label> <input type="text" name="name"/> <label>Type
-        your age: </label> <input type="text" name="age"/> <input type="submit"
-                                                                  value="submit"/>
-    </form>
+    <form:form action="inputData" method="POST">
+        <label>Type your name: </label>
+        <input type="text" name="name"/>
+        <label>Type
+        your age: </label>
+        <input type="text" name="age"/> <input type="submit" value="submit"/>
+    </form:form>
 
     <h3>
         The date is:

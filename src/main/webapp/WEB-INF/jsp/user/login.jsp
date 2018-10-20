@@ -6,6 +6,17 @@
 </head>
 <body>
 
+<form:form name="loginForm" action="${ViewName.LOGIN_PROCESS}" method="POST" modelAttribute="woodulikeUser">
+    <form:label path="username">Username</form:label>
+    <form:input path="username" type="text" id="username" name="username"/>
+    <form:label path="password">Password</form:label>
+    <form:password path="password" id="password" name="password"/>
+    <div class="form-actions">
+        <button type="submit" class="btn">Log in</button>
+    </div>
+</form:form>
+
+<a class="button" href="${ViewName.REGISTER}">Register</a>
 
 <%@include file="../templates/footer.jsp"%>
 </body>

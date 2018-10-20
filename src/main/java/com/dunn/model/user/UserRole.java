@@ -3,7 +3,7 @@ package com.dunn.model.user;
 import javax.persistence.*;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"role", "username"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"role", "woodulikeuser_ID"}))
 public class UserRole {
 
     private Long id;
@@ -33,7 +33,7 @@ public class UserRole {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "username", nullable = false)
+    @JoinColumn(name = "woodulikeuser_ID", nullable = false)
     public WoodulikeUser getWoodulikeUser() {
         return woodulikeUser;
     }

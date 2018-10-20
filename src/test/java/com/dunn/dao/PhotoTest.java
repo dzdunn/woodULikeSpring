@@ -87,35 +87,8 @@ public class PhotoTest {
             ImageIO.write(bImageFromConvert, "jpg", new File(
                     "C:\\Users\\dzdun\\Pictures\\TESTING.jpg"));
 
-//
-//
-//        File file = new File("C:\\Users\\dzdun\\git\\woodULikeSpring\\src\\main\\webapp\\resources\\img\\carousel\\picard.jpg");
-//        FileInputStream fis = new FileInputStream(file);
-//        //ImageInputStream testImageInputStream = ImageIO.createImageInputStream(fis);
-//        //BufferedImage bf = new BufferedImage(1024, 768, BufferedImage.TYPE_INT_ARGB);
-//        ImageIO.getImageReadersBySuffix(".jpg");
-//        BufferedImage bf = ImageIO.read(fis);
-//
-//
-//
-//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//        ImageIO.write(bf, "jpg", bos);
-//
-//        byte[] outputtedBytes = bos.toByteArray();
-//
-//        ByteArrayInputStream bis = new ByteArrayInputStream(outputtedBytes);
-//        BufferedImage bufferedImage2 = ImageIO.read(bis);
-//        ImageIO.write(bufferedImage2, "jpg", new File("C:\\Users\\dzdun\\Pictures\\TESTING.jpg"));
 
     }
 
-    @Test
-    public void testPropertyNames(){
-        ClassMetadata classMetadata = sessionFactory.getClassMetadata(UserRole.class);
-        String[] propertyNames = classMetadata.getPropertyNames();
-        for(String p : propertyNames){
-            System.out.println(p);
-        }
-    }
 }
 

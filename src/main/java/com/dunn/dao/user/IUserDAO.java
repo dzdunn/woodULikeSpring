@@ -5,6 +5,8 @@ import com.dunn.model.user.WoodulikeUser;
 
 public interface IUserDAO {
 
-    public WoodulikeUser findByUserName(String username);
+    WoodulikeUser findByUserName(String username);
+
+    boolean register(WoodulikeUser woodulikeUser);
 
 }
