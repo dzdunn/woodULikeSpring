@@ -1,45 +1,64 @@
 package com.dunn.model.user;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
-public class WoodulikeUser {
+public class WoodulikeUser implements UserDetails {
+
+    private Long id;
+    private String username;
+    private String password;
+
+    private boolean isEnabled;
+    private boolean isAccountNonExpired;
+    private boolean isAccountNonLocked;
+
+
+
+    private boolean isCredentialsNonExpired;
+
+    private Collection<UserRole> userRoles;
+
+
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return isAccountNonExpired;
+    }
+
+    public void setAccountNonExpired(boolean accountNonExpired) {
+        isAccountNonExpired = accountNonExpired;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return isAccountNonLocked;
+    }
+
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        isAccountNonLocked = accountNonLocked;
+    }
+
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
-
-    public String username;
-
-    public String password;
-
-    private boolean enabled;
-
-    private Set<UserRole> userRole = new HashSet<UserRole>(0);
-
-    public WoodulikeUser() {
-
-    }
-
-    public WoodulikeUser(String username, String password, boolean enabled) {
-        this.username = username;
-        this.password = password;
-        this.enabled = enabled;
-    }
-
-
-    public WoodulikeUser(String username, String password, boolean enabled, Set<UserRole> userRole) {
-        this.username = username;
-        this.password = password;
-        this.enabled = enabled;
-        this.userRole = userRole;
-    }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return id;
     }
@@ -48,7 +67,7 @@ public class WoodulikeUser {
         this.id = id;
     }
 
-    @Column(name="username", unique = true, nullable = false, length = 60)
+    @Column(unique = true, length = 20, nullable = false)
     public String getUsername() {
         return username;
     }
@@ -57,30 +76,41 @@ public class WoodulikeUser {
         this.username = username;
     }
 
-    @Column(nullable = false, length = 60)
+
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(String password){
         this.password = password;
     }
 
-    @Column(nullable = false)
-    public boolean isEnabled() {
-        return enabled;
+    @OneToMany(targetEntity = UserRole.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    public Collection<UserRole> getUserRoles() {
+        return userRoles;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public void setUserRoles(Collection<UserRole> userRoles) {
+        this.userRoles = userRoles;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "woodulikeUser")
-    public Set<UserRole> getUserRole() {
-        return userRole;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return isCredentialsNonExpired;
     }
 
-    public void setUserRole(Set<UserRole> userRole) {
-        this.userRole = userRole;
+    public void setCredentialsNonExpired(boolean credentialsNonExpired) {
+        isCredentialsNonExpired = credentialsNonExpired;
     }
+
+    @Override
+    @Transient
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for(UserRole userRole : this.getUserRoles()){
+            authorities.add(new SimpleGrantedAuthority(userRole.getAuthority()));
+        };
+        return authorities;
+    }
+
 }

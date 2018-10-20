@@ -4,6 +4,7 @@ import com.dunn.controller.path.ViewName;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.http.CacheControl;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -18,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 @EnableWebMvc
 @ComponentScan(basePackages = {"com.dunn"})
 @EnableTransactionManagement
+@EnableAspectJAutoProxy(proxyTargetClass=true)
 public class WebMvcConfig implements WebMvcConfigurer{
 
 
@@ -42,11 +44,6 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		//viewResolver.setExposedContextBeanNames("viewName");
 		return viewResolver;
 	}
-
-//	@Bean
-//	public ViewName viewName() {
-//		return ViewName.getInstance();
-//	}
 
 	@Bean(name = "multipartResolver")
 	public CommonsMultipartResolver multipartResolver() {

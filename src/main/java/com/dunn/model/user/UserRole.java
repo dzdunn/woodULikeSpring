@@ -1,29 +1,26 @@
 package com.dunn.model.user;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"role", "woodulikeuser_ID"}))
 public class UserRole {
 
     private Long id;
-
-    private WoodulikeUser woodulikeUser;
-
-    private String role;
+    private String authority;
 
     public UserRole(){
 
     }
 
-    public UserRole(WoodulikeUser woodulikeUser, String role){
-        this.woodulikeUser = woodulikeUser;
-        this.role = role;
+    public UserRole(String authority){
+        this.authority = authority;
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return id;
     }
@@ -32,23 +29,13 @@ public class UserRole {
         this.id = id;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "woodulikeuser_ID", nullable = false)
-    public WoodulikeUser getWoodulikeUser() {
-        return woodulikeUser;
+    public String getAuthority() {
+        return authority;
     }
 
-    public void setWoodulikeUser(WoodulikeUser user) {
-        this.woodulikeUser = user;
+    public void setAuthority(String authority) {
+        this.authority = authority;
     }
 
-    @Column(name="role", nullable = false, length = 45)
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 
 }
