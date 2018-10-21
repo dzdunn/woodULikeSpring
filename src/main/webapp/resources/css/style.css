@@ -101,3 +101,14 @@ h1{
 	border: 1px solid green;
 	align-content: center;
 }
+
+.navbar .navbar-toggler{
+	border-color: rgb(255,102,203);
+	/*background-image: url("/static/css/icon/svg/menu.svg");*/
+	/*color: green;*/
+}
+
+.navbar .navbar-toggler-icon{
+	background-image: url("/static/css/icon/svg/menu.svg");
+	background: green;
+}

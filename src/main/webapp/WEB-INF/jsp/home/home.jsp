@@ -40,7 +40,7 @@
     %>
 
     <h1>HOME PAGE</h1>
-
+    <img src="../static/css/icon/svg/arrow-right.svg?color=6a1b9a"/>
 
     <form:form action="inputData" method="POST">
         <label>Type your name: </label>

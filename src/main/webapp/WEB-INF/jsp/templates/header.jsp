@@ -12,14 +12,17 @@
     <link href="../static/css/style.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
-<nav class="navbar navbar-expand-md">
+<nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="${ViewName.HOME}">
         <spring:eval expression="@uiProperties.getProperty('brand')"/>
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarsExample04" aria-controls="navbarsExample04"
             aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon">
+            <%--<img src="../static/css/icon/svg/arrow-right.svg" class="icon-account-login"/>--%>
+            <svg
+        </span>
     </button>
     <div class="collapse navbar-collapse" id="navbarsExample04">
         <ul class="navbar-nav mr-auto">
@@ -28,6 +31,14 @@
             </a></li>
             <li class="nav-item"><a class="nav-link" href="${ViewName.CONTACT}">Contact</a></li>
 
+
+            <sec:authorize access="isAnonymous()">
+                <li class=nav-item>
+                    <a class="nav-link" href="${ViewName.LOGIN}">Login</a>
+                </li>
+            </sec:authorize>
+
+            <sec:authorize access="isAuthenticated()">
             <li class="nav-item dropdown"><a
                     class="nav-link dropdown-toggle" href="#" id="dropdown04"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My WoodProjects</a>
@@ -38,25 +49,21 @@
                 </div>
             </li>
 
-        <sec:authorize access="isAnonymous()">
-            <li class = nav-item>
-                <a class="nav-link" href="${ViewName.LOGIN}">Login</a>
-            </li>
-        </sec:authorize>
 
-        <sec:authorize access="isAuthenticated()">
-            <c:out value="${pageContext.request.remoteUser}"/>
+                <c:out value="${pageContext.request.remoteUser}"/>
 
-                <li class = nav-item>
+                <li class=nav-item>
                     <a class="nav-link" href="${ViewName.LOGOUT}">Logout</a>
                 </li>
 
-        </sec:authorize>
+            </sec:authorize>
         </ul>
-        <form class="form-inline my-2 my-md-0">
-            <input class="form-control" type="text" placeholder="Search">
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
 </nav>
+
 </body>
 

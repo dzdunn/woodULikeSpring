@@ -37,12 +37,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider(){
+    public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setPasswordEncoder(passwordEncoder);
         authenticationProvider.setUserDetailsService(userService);
@@ -53,24 +53,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(ViewName.LOGIN).permitAll()
-                .antMatchers("/static/**").permitAll()
-                .antMatchers(ViewName.REGISTER).permitAll().antMatchers(ViewName.REGISTER_PROCESS).permitAll();
-//                .antMatchers("/admin/**").hasRole("ADMIN")
-//                .antMatchers("/**").hasAnyRole("ADMIN", "USER")
-//                .and()
-//                .formLogin().loginPage(ViewName.LOGIN).loginProcessingUrl(ViewName.LOGIN_PROCESS)
-//                .defaultSuccessUrl(ViewName.HOMEPAGE).failureUrl(ViewName.LOGIN+"?error=true")
-//                .and().logout().logoutSuccessUrl(ViewName.LOGIN).permitAll()
-//                .and().csrf().and().rememberMe();
+                .antMatchers("/static/**").permitAll().antMatchers("/img/**").permitAll()
+                .antMatchers(ViewName.REGISTER).permitAll()
+                .antMatchers(ViewName.REGISTER_PROCESS).permitAll()
+                .antMatchers(ViewName.HOMEPAGE).permitAll().antMatchers(ViewName.HOME).permitAll().antMatchers("/").permitAll()
+                .antMatchers(ViewName.ABOUT).permitAll().antMatchers(ViewName.CONTACT).permitAll();
+//
 
         http.authorizeRequests().anyRequest().hasAnyRole("ADMIN", "USER")
                 .and()
                 .formLogin().loginPage(ViewName.LOGIN)
                 .loginProcessingUrl(ViewName.LOGIN_PROCESS)
-                .defaultSuccessUrl(ViewName.HOMEPAGE).failureUrl(ViewName.LOGIN+"?error=true")
+                .defaultSuccessUrl(ViewName.HOMEPAGE).failureUrl(ViewName.LOGIN + "?error=true")
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
                 .logoutSuccessUrl(ViewName.LOGIN).deleteCookies("JSESSIONID")
-                .invalidateHttpSession(true) .and().csrf().and().rememberMe();
+                .invalidateHttpSession(true).and().csrf().and().rememberMe();
 
     }
 }
