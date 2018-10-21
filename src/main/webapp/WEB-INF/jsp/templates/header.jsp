@@ -1,5 +1,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.dunn.controller.path.ViewName" %>
 <head>
@@ -33,6 +37,21 @@
                     <a class="dropdown-item" href="${ViewName.MY_PROFILE}">My Profile</a>
                 </div>
             </li>
+
+        <sec:authorize access="isAnonymous()">
+            <li class = nav-item>
+                <a class="nav-link" href="${ViewName.LOGIN}">Login</a>
+            </li>
+        </sec:authorize>
+
+        <sec:authorize access="isAuthenticated()">
+            <c:out value="${pageContext.request.remoteUser}"/>
+
+                <li class = nav-item>
+                    <a class="nav-link" href="${ViewName.LOGOUT}">Logout</a>
+                </li>
+
+        </sec:authorize>
         </ul>
         <form class="form-inline my-2 my-md-0">
             <input class="form-control" type="text" placeholder="Search">

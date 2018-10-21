@@ -9,11 +9,13 @@ public class ViewName {
 
 	public final static String HEADER = TEMPLATES + "/header";
 
-	public final static String HOME = "/";
+	public final static String HOME = "/home";
 
-	public final static String ABOUT = "/about";
+	public final static String HOMEPAGE = HOME + "/home";
 
-	public final static String CONTACT = "/contact";
+	public final static String ABOUT =  HOME + "/about";
+
+	public final static String CONTACT = HOME + "/contact";
 
 	public final static String MY_WOOD_PROJECTS = "/myWoodProjects";
 
@@ -28,6 +30,10 @@ public class ViewName {
 	public final static String LOGIN = USER + "/login";
 
 	public final static String LOGIN_PROCESS = LOGIN + "process";
+
+	public final static String LOGOUT = "/logout";
+
+	public final static String LOGOUT_PROCESS = LOGOUT + "process";
 
 	public final static String REGISTER = USER + "/register";
 

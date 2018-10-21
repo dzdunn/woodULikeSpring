@@ -1,9 +1,8 @@
 package com.dunn.controller.user;
 
 import com.dunn.controller.path.ViewName;
-import com.dunn.dao.user.UserService;
 import com.dunn.model.user.WoodulikeUser;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +13,11 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class LoginController {
 
+//    @RequestMapping(value = "/", method = RequestMethod.GET)
+//    public String test(){
+//        return "/home/home";
+//    }
+
     @RequestMapping(value = ViewName.LOGIN, method = RequestMethod.GET)
     public ModelAndView showLogin(@RequestParam(value = "error", required = false)boolean error){
         ModelAndView mav = new ModelAndView(ViewName.LOGIN);
@@ -23,8 +27,20 @@ public class LoginController {
 
     @RequestMapping(value = ViewName.LOGIN_PROCESS, method = RequestMethod.POST)
     public ModelAndView loginProcess(@ModelAttribute("woodulikeUser") WoodulikeUser woodulikeUser){
-        return new ModelAndView(ViewName.HOME);
+        ModelAndView mav = new ModelAndView();
+        if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()){
+            mav.setViewName("redirect:" + ViewName.HOMEPAGE);
+        } else{
+            mav.setViewName("redirect:" + ViewName.LOGIN);
+        }
+        return mav;
     }
+
+//    @RequestMapping(value=ViewName.LOGOUT, method = RequestMethod.GET)
+//    public ModelAndView logoutProcess(){
+//        ModelAndView mav = new ModelAndView("redirect:" + ViewName.LOGIN);
+//        return mav;
+//    }
 
 
 }

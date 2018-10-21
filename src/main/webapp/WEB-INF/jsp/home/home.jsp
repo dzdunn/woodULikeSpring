@@ -1,5 +1,4 @@
 <%@taglib prefix="wul" uri="http://woodulike.com/tags" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,6 +31,7 @@
             </div>
         </div>
     </div>
+    <c:out value="${username}"/>
 
     <%
         out.println(request.getRemoteHost());

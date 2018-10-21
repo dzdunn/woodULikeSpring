@@ -5,17 +5,14 @@ import com.dunn.dao.user.UserService;
 import com.dunn.model.user.UserRole;
 import com.dunn.model.user.WoodulikeUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
 import java.util.Arrays;
 
 @Controller
@@ -28,7 +25,7 @@ public class RegisterController {
     private PasswordEncoder passwordEncoder;
 
     @RequestMapping(value = ViewName.REGISTER, method = RequestMethod.GET)
-    public ModelAndView showRegister(){
+    public ModelAndView showRegister(@RequestParam(value = "error", required = false) Boolean error){
         ModelAndView mav = new ModelAndView(ViewName.REGISTER);
         mav.addObject("woodulikeUser", new WoodulikeUser());
         return mav;
@@ -45,10 +42,11 @@ public class RegisterController {
         woodulikeUser.setAccountNonLocked(true);
         boolean isRegistered = userService.registerUser(woodulikeUser);
         if(isRegistered) {
-            mav.setViewName("redirect:"+ViewName.LOGIN);
+           mav.setViewName("redirect:" + ViewName.LOGIN);
+           return mav;
         } else {
-            mav.setViewName(ViewName.REGISTER);
+           mav.setViewName("redirect:" + ViewName.REGISTER + "?error=true");
+           return mav;
         }
-        return mav;
     }
 }

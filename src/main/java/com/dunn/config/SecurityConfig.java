@@ -9,9 +9,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -47,28 +49,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return authenticationProvider;
     }
 
-//    @Bean
-//    public UserService userServiceBean(){
-//        return new UserService();
-//    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(ViewName.LOGIN).permitAll()
                 .antMatchers("/static/**").permitAll()
-                .antMatchers(ViewName.REGISTER).permitAll().antMatchers(ViewName.REGISTER_PROCESS).permitAll()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/**").hasAnyRole("ADMIN", "USER")
-                .and()
-                .formLogin().loginPage(ViewName.LOGIN).loginProcessingUrl(ViewName.LOGIN_PROCESS)
-                .defaultSuccessUrl(ViewName.HOME).failureUrl(ViewName.LOGIN+"?error=true")
-                .and().logout().logoutSuccessUrl(ViewName.LOGIN).permitAll()
-                .and().csrf().and().rememberMe();
+                .antMatchers(ViewName.REGISTER).permitAll().antMatchers(ViewName.REGISTER_PROCESS).permitAll();
+//                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .antMatchers("/**").hasAnyRole("ADMIN", "USER")
+//                .and()
+//                .formLogin().loginPage(ViewName.LOGIN).loginProcessingUrl(ViewName.LOGIN_PROCESS)
+//                .defaultSuccessUrl(ViewName.HOMEPAGE).failureUrl(ViewName.LOGIN+"?error=true")
+//                .and().logout().logoutSuccessUrl(ViewName.LOGIN).permitAll()
+//                .and().csrf().and().rememberMe();
 
         http.authorizeRequests().anyRequest().hasAnyRole("ADMIN", "USER")
                 .and()
-                .formLogin().loginPage(ViewName.LOGIN).loginProcessingUrl(ViewName.LOGIN_PROCESS).defaultSuccessUrl(ViewName.HOME).failureUrl(ViewName.LOGIN+"?error=true")
-                .and().logout().logoutSuccessUrl(ViewName.LOGIN).and().csrf().and().rememberMe();
+                .formLogin().loginPage(ViewName.LOGIN)
+                .loginProcessingUrl(ViewName.LOGIN_PROCESS)
+                .defaultSuccessUrl(ViewName.HOMEPAGE).failureUrl(ViewName.LOGIN+"?error=true")
+                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+                .logoutSuccessUrl(ViewName.LOGIN).deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true) .and().csrf().and().rememberMe();
+
     }
 }

@@ -42,6 +42,7 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		viewResolver.setPrefix("/WEB-INF/jsp/");
 		viewResolver.setSuffix(".jsp");
 		//viewResolver.setExposedContextBeanNames("viewName");
+
 		return viewResolver;
 	}
 
