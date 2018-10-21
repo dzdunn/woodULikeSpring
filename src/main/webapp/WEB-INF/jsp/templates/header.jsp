@@ -32,7 +32,7 @@
             </a></li>
             <li class="nav-item"><a class="nav-link" href="${ViewName.CONTACT}">Contact</a></li>
 
-
+            <div class="dropdown-divider"></div>
             <sec:authorize access="isAuthenticated()">
                 <li class="nav-item dropdown"><a
                         class="nav-link dropdown-toggle" href="#" id="dropdown04"
@@ -49,19 +49,10 @@
 
     </div>
 
-    <div class="navbar-collapse collapse w-100 order-2 dual-collapse2">
-        <ul class="navbar-nav mr-auto">
-            <form:form class="form-inline">
-                <li>
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </li>
-            </form:form>
-        </ul>
-    </div>
 
     <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
         <ul class="navbar-nav ml-auto">
+
             <sec:authorize access="isAnonymous()">
                 <li class="nav-item">
                     <a class="nav-link" href="${ViewName.LOGIN}">Login</a>
@@ -70,7 +61,7 @@
                     <a class="nav-link" href="${ViewName.REGISTER}">Register</a>
                 </li>
             </sec:authorize>
-            <sec:authorize access="isAuthenticated()">
+            <sec:authorize access="isAuthenticated()" var="isAuthenticated">
                 <li class="nav-item">
                     <a class="nav-link" href="#"><c:out value="${pageContext.request.remoteUser}"/></a>
                 </li>
@@ -78,6 +69,13 @@
                     <a class="nav-link" href="${ViewName.LOGOUT}">Logout</a>
                 </li>
             </sec:authorize>
+            <div class="dropdown-divider"></div>
+            <form:form class="form-inline">
+                <li>
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </li>
+            </form:form>
         </ul>
     </div>
 </nav>

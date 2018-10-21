@@ -65,7 +65,13 @@
 
     $(document).ready(function () {
 
-        alert("works");
+
+
+        if(${isAuthenticated}){
+        alert("Welcome ${pageContext.request.remoteUser}");
+    } else {
+            alert("works");
+        };
     });
 </script>
 
