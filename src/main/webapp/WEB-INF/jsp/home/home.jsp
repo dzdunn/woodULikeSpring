@@ -43,7 +43,7 @@
     <!--brand icon-->
     <i class="fab fa-github-square"></i> <!-- uses brands style -->
 
-    <form:form action="inputData" method="POST">
+    <form:form action="/inputData" method="POST">
         <label>Type your name: </label>
         <input type="text" name="name"/>
         <label>Type

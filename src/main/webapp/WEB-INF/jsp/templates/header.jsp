@@ -15,29 +15,23 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg">
-    <a class="navbar-brand" href="${ViewName.HOME}">
+    <a class="navbar-brand" href="${ViewName.HOMEPAGE}">
         <spring:eval expression="@uiProperties.getProperty('brand')"/>
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarsExample04" aria-controls="navbarsExample04"
+            data-target=".dual-collapse2" aria-controls="dual-collapse2"
             aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon">
             <i id="collapsedMenuIcon" class="fas fa-bars"></i>
         </span>
     </button>
-    <div class="collapse navbar-collapse" id="headerNavbar">
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2" id="headerNavbar">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active"><a class="nav-link" href="${ViewName.ABOUT}">About
                 <span class="sr-only">(current)</span>
             </a></li>
             <li class="nav-item"><a class="nav-link" href="${ViewName.CONTACT}">Contact</a></li>
 
-
-            <sec:authorize access="isAnonymous()">
-                <li class="nav-item">
-                    <a class="nav-link" href="${ViewName.LOGIN}">Login</a>
-                </li>
-            </sec:authorize>
 
             <sec:authorize access="isAuthenticated()">
                 <li class="nav-item dropdown"><a
@@ -49,25 +43,43 @@
                         <a class="dropdown-item" href="${ViewName.MY_PROFILE}">My Profile</a>
                     </div>
                 </li>
+            </sec:authorize>
+        </ul>
 
+
+    </div>
+
+    <div class="navbar-collapse collapse w-100 order-2 dual-collapse2">
+        <ul class="navbar-nav mr-auto">
+            <form:form class="form-inline">
+                <li>
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </li>
+            </form:form>
+        </ul>
+    </div>
+
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <sec:authorize access="isAnonymous()">
+                <li class="nav-item">
+                    <a class="nav-link" href="${ViewName.LOGIN}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="${ViewName.REGISTER}">Register</a>
+                </li>
+            </sec:authorize>
+            <sec:authorize access="isAuthenticated()">
                 <li class="nav-item">
                     <a class="nav-link" href="#"><c:out value="${pageContext.request.remoteUser}"/></a>
                 </li>
-
-
                 <li class="nav-item">
                     <a class="nav-link" href="${ViewName.LOGOUT}">Logout</a>
                 </li>
-
-
             </sec:authorize>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
     </div>
 </nav>
-
 </body>
 
