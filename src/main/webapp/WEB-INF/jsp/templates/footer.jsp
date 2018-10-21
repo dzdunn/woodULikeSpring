@@ -64,10 +64,11 @@
 	</div>
 	<!-- Footer Links --> <!-- Copyright -->
 	<div class="footer-copyright text-center py-3 ">
-		© 2018 Copyright: <a href="${viewName.HOME}"> woodulike.com</a>
+		ï¿½ 2018 Copyright: <a href="${viewName.HOME}"> woodulike.com</a>
 	</div>
 	<!-- Copyright --> </footer>
 	<!-- Footer -->
+	<script defer src="../static/font-awesome/js/all.js"></script>
 	<script src="../static/jquery/jquery.min.js"></script>
 	<script src="../static/popper.js/popper.min.js"></script>
 	<script src="../static/bootstrap/js/bootstrap.min.js"></script>

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>TemplateTitle</title>
+    <title>Woodulike</title>
     <%@include file="../templates/header.jsp"%>
 </head>
 <body>

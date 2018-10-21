@@ -11,10 +11,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.dunn.controller.path.ViewName;
 
 @Controller
-@RequestMapping
+@RequestMapping(value={ViewName.HOMEPAGE, ViewName.HOME, "/"})
 public class HomeController {
 
-	@RequestMapping(value={ViewName.HOMEPAGE, ViewName.HOME, "/"}, method=RequestMethod.GET)
+	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView home() {
 		ModelAndView mav = new ModelAndView(ViewName.HOMEPAGE);
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
