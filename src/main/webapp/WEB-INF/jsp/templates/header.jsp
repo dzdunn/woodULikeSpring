@@ -12,6 +12,7 @@
     <link href="../static/font-awesome/css/all.css" type="text/css"
           rel="stylesheet"/>
     <link href="../static/css/style.css" type="text/css" rel="stylesheet"/>
+    <link href="../static/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg">

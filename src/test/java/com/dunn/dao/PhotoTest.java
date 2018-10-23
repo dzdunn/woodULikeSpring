@@ -19,6 +19,10 @@ import javax.transaction.Transactional;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -29,6 +33,23 @@ public class PhotoTest {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private SessionFactory sessionFactory;
+
+    @Test
+    public void testCountryList(){
+//        String[] locales = Locale.getISOCountries();
+//        for(String locale : locales){
+//            System.out.println(locale);
+//
+//            Locale country = new Locale("", locale);
+//            System.out.println(country.getCountry() + " --- " + country.getDisplayCountry());
+//        }
+
+        List<String> countries = Arrays.stream(Locale.getISOCountries()).map(x -> new Locale("", x).getDisplayCountry()).collect(Collectors.toList());
+
+        for (String c : countries){
+            System.out.println(c);
+        }
+    }
 
     @Test
     @Commit

@@ -63,9 +63,9 @@
 
 <script type="text/javascript">
 
+
+
     $(document).ready(function () {
-
-
 
         if(${isAuthenticated}){
         alert("Welcome ${pageContext.request.remoteUser}");

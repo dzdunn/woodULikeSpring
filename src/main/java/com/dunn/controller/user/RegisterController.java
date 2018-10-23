@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Controller
 public class RegisterController {
@@ -24,9 +28,18 @@ public class RegisterController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    private static final List<String> countries = Arrays.stream(Locale.getISOCountries())
+                                                    .map(x -> new Locale("", x)
+                                                    .getDisplayCountry()).sorted(Comparator.naturalOrder())
+                                                    .collect(Collectors.toList());
+
+
     @RequestMapping(value = ViewName.REGISTER, method = RequestMethod.GET)
     public ModelAndView showRegister(@RequestParam(value = "error", required = false) Boolean error){
         ModelAndView mav = new ModelAndView(ViewName.REGISTER);
+        mav.addObject("countries", countries);
+
+
         mav.addObject("woodulikeUser", new WoodulikeUser());
         return mav;
     }

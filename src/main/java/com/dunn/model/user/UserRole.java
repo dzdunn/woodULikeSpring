@@ -1,18 +1,19 @@
 package com.dunn.model.user;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class UserRole {
+public class UserRole implements GrantedAuthority {
 
     private Long id;
     private String authority;
 
     public UserRole(){
-
     }
 
     public UserRole(String authority){
@@ -29,6 +30,7 @@ public class UserRole {
         this.id = id;
     }
 
+    @Override
     public String getAuthority() {
         return authority;
     }

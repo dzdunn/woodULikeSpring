@@ -1,10 +1,12 @@
 package com.dunn.model.user;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -20,13 +22,25 @@ public class WoodulikeUser implements UserDetails {
     private boolean isEnabled;
     private boolean isAccountNonExpired;
     private boolean isAccountNonLocked;
-
-
-
     private boolean isCredentialsNonExpired;
 
     private Collection<UserRole> userRoles;
 
+    private String emailAddress;
+
+    private String country;
+
+    private String firstName;
+
+    private String middleName;
+
+    private String lastName;
+
+    @DateTimeFormat(pattern = "YYYY-MM-DD")
+    private LocalDate dateOfBirth;
+
+    public WoodulikeUser() {
+    }
 
 
     public void setEnabled(boolean enabled) {
@@ -86,6 +100,7 @@ public class WoodulikeUser implements UserDetails {
     }
 
     @OneToMany(targetEntity = UserRole.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name="woodulikeUser_id")
     public Collection<UserRole> getUserRoles() {
         return userRoles;
     }
@@ -108,9 +123,56 @@ public class WoodulikeUser implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
         for(UserRole userRole : this.getUserRoles()){
-            authorities.add(new SimpleGrantedAuthority(userRole.getAuthority()));
+            authorities.add(userRole);
         };
         return authorities;
     }
 
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
 }

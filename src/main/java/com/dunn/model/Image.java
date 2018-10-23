@@ -23,6 +23,8 @@ public class Image {
 
     private byte[] blob;
 
+    private WoodProject woodProject;
+
 
     public Long getId() {
         return id;
@@ -72,6 +74,13 @@ public class Image {
         return image;
     }
 
+    @ManyToOne(targetEntity = WoodProject.class, fetch = FetchType.LAZY)
+   // @JoinColumn(name = "image_id")
+    public WoodProject getWoodProject() {
+        return woodProject;
+    }
 
-
+    public void setWoodProject(WoodProject woodProject) {
+        this.woodProject = woodProject;
+    }
 }
