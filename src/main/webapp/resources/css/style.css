@@ -100,4 +100,9 @@ button.navbar-toggler:hover {
 /*Removes border on collapsed menu icon on click*/
 button.navbar-toggler:focus { outline: 1px none; }
 
+#dobCalendar .dropdown-menu{
+    color: var(--woodulike-brown);
+    background-color: var(--woodulike-green);
+}
+
 

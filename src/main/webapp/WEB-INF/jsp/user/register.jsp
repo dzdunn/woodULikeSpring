@@ -12,7 +12,7 @@
 
 <div class="row">
     <div class="col-6 p-5">
-        <form:form name="registerForm" action="${ViewName.REGISTER_PROCESS}" method="POST"
+        <form:form id="registerForm" name="registerForm" action="${ViewName.REGISTER_PROCESS}" method="POST"
                    modelAttribute="woodulikeUser">
             <div class="form-group">
                 <form:label path="emailAddress">Email</form:label>
@@ -42,11 +42,11 @@
             </div>
             <div class="form-group">
                 <form:label path="dateOfBirth">Date of Birth</form:label>
-                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                    <form:input type="text" cssClass="form-control datetimepicker-input" data-target="#datetimepicker1"
-                                path="dateOfBirth" id="dateOfBirth"
+                <div class="input-group date" id="dobCalendar" data-target-input="nearest">
+                    <form:input path="dateOfBirth" type="text" cssClass="form-control datetimepicker-input" data-target="#dobCalendar"
+                                id="dateOfBirth"
                                 name="dateOfBirth"/>
-                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                    <div class="input-group-append" data-target="#dobCalendar" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
                 </div>
@@ -75,12 +75,19 @@
 <%@include file="../templates/footer.jsp" %>
 <script>
     $(document).ready(function () {
-        $('#datetimepicker1').datetimepicker({
-            sideBySide: true,
+        $('#dobCalendar').datetimepicker({
             format: "DD-MMM-YYYY",
             extraFormats: ['DD-MM-YYYY'],
             maxDate: moment(),
-            altFormat: "yyyy-MM-dd"
+            viewMode: "years"
+        });
+
+
+        $('#registerForm').submit(function(){
+            alert("works");
+            var input = $(this).find('input[name=dateOfBirth]');
+            var date = input.val();
+            input.val(moment(date).format("YYYY-MM-DD"));
         });
     })
 </script>

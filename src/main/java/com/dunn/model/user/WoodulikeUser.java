@@ -36,7 +36,7 @@ public class WoodulikeUser implements UserDetails {
 
     private String lastName;
 
-    @DateTimeFormat(pattern = "YYYY-MM-DD")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
 
     public WoodulikeUser() {
