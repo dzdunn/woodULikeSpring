@@ -15,6 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import javax.swing.text.View;
+
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -51,14 +53,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        String[] publicViews = {ViewName.HOMEPAGE, ViewName.LOGIN, ViewName.REGISTER, ViewName.REGISTER_PROCESS, ViewName.ABOUT, ViewName.CONTACT, ViewName.RESET_PASSWORD, ViewName.RESET_PASSWORD_PROCESS, ViewName.UPDATE_PASSWORD, ViewName.CHANGE_PASSWORD};
+
+        String[] resourcePatterns = {"/static/**", "/img/**"};
         http.authorizeRequests()
-                .antMatchers(ViewName.LOGIN).permitAll()
-                .antMatchers("/static/**").permitAll().antMatchers("/img/**").permitAll()
-                .antMatchers(ViewName.REGISTER).permitAll()
-                .antMatchers(ViewName.REGISTER_PROCESS).permitAll()
-                .antMatchers(ViewName.HOMEPAGE).permitAll().antMatchers(ViewName.HOME).permitAll().antMatchers("/").permitAll()
-                .antMatchers(ViewName.ABOUT).permitAll().antMatchers(ViewName.CONTACT).permitAll();
-//
+                .antMatchers(publicViews).permitAll()
+                .antMatchers(resourcePatterns).permitAll();
 
         http.authorizeRequests().anyRequest().hasAnyRole("ADMIN", "USER")
                 .and()

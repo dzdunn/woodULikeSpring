@@ -1,5 +1,6 @@
 package com.dunn.dao.user;
 
+import com.dunn.model.user.PasswordResetToken;
 import com.dunn.model.user.WoodulikeUser;
 import org.hibernate.NonUniqueObjectException;
 import org.hibernate.SessionFactory;
@@ -73,4 +74,23 @@ public class UserDAO  implements IUserDAO{
         }
         return foundUser;
     }
+
+    @Override
+    public WoodulikeUser findWoodulikeUserByEmailAddress(String emailAddress){
+        CriteriaBuilder builder = sessionFactory.getCriteriaBuilder();
+        CriteriaQuery<WoodulikeUser> query = builder.createQuery(WoodulikeUser.class);
+        Root<WoodulikeUser> root = query.from(WoodulikeUser.class);
+        query.select(root);
+        query.where(builder.equal(root.get("emailAddress"), emailAddress));
+        WoodulikeUser foundUser = null;
+        try {
+            foundUser = sessionFactory.getCurrentSession().createQuery(query).uniqueResult();
+        } catch(NonUniqueObjectException exception){
+
+        }
+        return foundUser;
+    }
+
+
+
 }

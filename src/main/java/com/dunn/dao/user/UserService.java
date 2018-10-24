@@ -1,5 +1,6 @@
 package com.dunn.dao.user;
 
+import com.dunn.model.user.PasswordResetToken;
 import com.dunn.model.user.WoodulikeUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Service
-@Qualifier("userSericeBean")
 public class UserService implements UserDetailsService {
 
     @Autowired
@@ -30,4 +30,9 @@ public class UserService implements UserDetailsService {
         userDAO.createWoodulikeUser(woodulikeUser);
         return true;
     }
+
+    public WoodulikeUser loadUserByEmailAddress(String emailAddress){
+        return userDAO.findWoodulikeUserByEmailAddress(emailAddress);
+    }
+
 }

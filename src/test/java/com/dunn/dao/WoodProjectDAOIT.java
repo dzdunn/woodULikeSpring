@@ -8,6 +8,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +34,9 @@ public class WoodProjectDAOIT {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private IWoodProjectDAO woodProjectDAO;
+
+    @Autowired
+    private JavaMailSenderImpl javaMailSender;
 
     private WoodProject woodProject;
 
@@ -137,6 +143,18 @@ public class WoodProjectDAOIT {
         List<WoodProject> result = woodProjectDAO.allWoodProjects();
 
         assertTrue(result.containsAll(Arrays.asList(woodProject, wp2, wp3)));
+    }
+
+    @Test
+    public void testEmail(){
+
+        assertNotNull(javaMailSender);
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo("dzdunn@gmail.com");
+        message.setSubject("test");
+        message.setText("TESTING");
+        javaMailSender.send(message);
+
     }
 
 //

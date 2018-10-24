@@ -18,6 +18,8 @@
 
 <a class="button" href="${ViewName.REGISTER}">Register</a>
 
+<a href="${ViewName.RESET_PASSWORD}">Forgot Password</a>
+
 <%@include file="../templates/footer.jsp"%>
 </body>
 </html>

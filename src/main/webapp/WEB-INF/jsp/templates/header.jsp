@@ -17,7 +17,9 @@
 <body>
 <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="${ViewName.HOMEPAGE}">
-        <spring:eval expression="@uiProperties.getProperty('brand')"/>
+
+
+        <spring:message code="ui.brand" />
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target=".dual-collapse2" aria-controls="dual-collapse2"

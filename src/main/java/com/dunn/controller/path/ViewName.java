@@ -29,15 +29,23 @@ public class ViewName {
 
 	public final static String LOGIN = USER + "/login";
 
-	public final static String LOGIN_PROCESS = LOGIN + "process";
+	public final static String LOGIN_PROCESS = LOGIN + "Process";
 
 	public final static String LOGOUT = "/logout";
 
-	public final static String LOGOUT_PROCESS = LOGOUT + "process";
-
 	public final static String REGISTER = USER + "/register";
 
-	public final static String REGISTER_PROCESS = REGISTER + "process";
+	public final static String REGISTER_PROCESS = REGISTER + "Process";
+
+	public final static String RESET_PASSWORD = USER + "/resetPassword";
+
+	public final static String RESET_PASSWORD_PROCESS = RESET_PASSWORD + "Process";
+
+	public final static String CHANGE_PASSWORD = USER + "/changePassword";
+
+	public final static String UPDATE_PASSWORD = USER + "/updatePassword";
+
+	public final static String SAVE_PASSWORD = USER + "/savePassword";
 
 
 }

@@ -58,11 +58,20 @@
                     <form:options cssClass="form-control" items="${countries}"/>
                 </form:select>
             </div>
+            <div class="form-group">
+                <form:label path="username">Security Question 1</form:label>
+                <form:input cssClass="form-control" path="username" type="text" id="username" name="username"/>
+            </div>
+            <div class="form-group">
+                <form:label path="username">Security Question 2</form:label>
+                <form:input cssClass="form-control" path="username" type="text" id="username" name="username"/>
+            </div>
+
+
 
             <div class="form-actions">
                 <button type="submit" class="btn">Register</button>
             </div>
-
 
         </form:form>
 
@@ -84,7 +93,6 @@
 
 
         $('#registerForm').submit(function(){
-            alert("works");
             var input = $(this).find('input[name=dateOfBirth]');
             var date = input.val();
             input.val(moment(date).format("YYYY-MM-DD"));

@@ -1,6 +1,7 @@
 package com.dunn.dao.user;
 
 import com.dunn.model.WoodProject;
+import com.dunn.model.user.PasswordResetToken;
 import com.dunn.model.user.WoodulikeUser;
 import org.hibernate.SessionFactory;
 
@@ -23,5 +24,8 @@ public interface IUserDAO {
     void setSessionFactory(SessionFactory sessionFactory);
 
     public WoodulikeUser findWoodulikeUserByUsername(String username);
+
+    public WoodulikeUser findWoodulikeUserByEmailAddress(String emailAddress);
+
 
 }

@@ -1,6 +1,7 @@
 package com.dunn.model.user;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-public class WoodulikeUser implements UserDetails {
+public class WoodulikeUser implements UserDetails, CredentialsContainer {
 
     private Long id;
     private String username;
@@ -174,5 +175,10 @@ public class WoodulikeUser implements UserDetails {
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    @Override
+    public void eraseCredentials() {
+        this.password = null;
     }
 }
