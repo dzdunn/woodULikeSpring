@@ -58,14 +58,14 @@
                     <form:options cssClass="form-control" items="${countries}"/>
                 </form:select>
             </div>
-            <div class="form-group">
-                <form:label path="username">Security Question 1</form:label>
-                <form:input cssClass="form-control" path="username" type="text" id="username" name="username"/>
-            </div>
-            <div class="form-group">
-                <form:label path="username">Security Question 2</form:label>
-                <form:input cssClass="form-control" path="username" type="text" id="username" name="username"/>
-            </div>
+            <%--<div class="form-group">--%>
+                <%--<form:label path="username">Security Question 1</form:label>--%>
+                <%--<form:input cssClass="form-control" path="username" type="text" id="username" name="username"/>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+                <%--<form:label path="username">Security Question 2</form:label>--%>
+                <%--<form:input cssClass="form-control" path="username" type="text" id="username" name="username"/>--%>
+            <%--</div>--%>
 
 
 
@@ -88,7 +88,7 @@
             format: "DD-MMM-YYYY",
             extraFormats: ['DD-MM-YYYY'],
             maxDate: moment(),
-            viewMode: "years"
+            viewMode: "decades"
         });
 
 

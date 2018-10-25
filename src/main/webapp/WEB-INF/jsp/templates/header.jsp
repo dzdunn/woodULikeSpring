@@ -36,7 +36,7 @@
             <li class="nav-item"><a class="nav-link" href="${ViewName.CONTACT}">Contact</a></li>
 
             <div class="dropdown-divider"></div>
-            <sec:authorize access="isAuthenticated()">
+            <sec:authorize access="hasAnyRole('ROLE_USER')">
                 <li class="nav-item dropdown"><a
                         class="nav-link dropdown-toggle" href="#" id="dropdown04"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My WoodProjects</a>

@@ -5,11 +5,11 @@
     <%@include file="../templates/header.jsp"%>
 </head>
 <body>
-<p>Enter your email address:</p>
-<form:form name="resetPasswordForm" action="${ViewName.RESET_PASSWORD_PROCESS}" method="POST" modelAttribute="emailAddress">
+
+<form:form name="resetPasswordForm" action="${ViewName.RESET_PASSWORD_PROCESS}" method="POST" modelAttribute="userEmailAddress">
     <div class="form-group">
-        <form:label path="emailAddress"></form:label>
-        <form:input path="emailAddress"></form:input>
+        <form:label path="message">Enter your email address:</form:label>
+        <form:input path="message" ></form:input>
     </div>
     <div class="form-actions">
         <button type="submit" class="btn">Reset Password</button>

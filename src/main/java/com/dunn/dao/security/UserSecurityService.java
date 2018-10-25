@@ -4,8 +4,10 @@ import com.dunn.model.user.PasswordResetToken;
 import com.dunn.model.user.UserRole;
 import com.dunn.model.user.WoodulikeUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,7 @@ public class UserSecurityService {
     private PasswordEncoder passwordEncoder;
 
     public void createPasswordResetTokenForUser(WoodulikeUser woodulikeUser, String token){
+
         PasswordResetToken passwordResetToken = new PasswordResetToken(woodulikeUser, token);
         userSecurityDAO.savePasswordResetToken(passwordResetToken);
     }
@@ -42,13 +45,16 @@ public class UserSecurityService {
         };
 
         final WoodulikeUser user = passwordResetToken.getWoodulikeUser();
-        final Authentication auth = new UsernamePasswordAuthenticationToken(user, null, Arrays.asList(new UserRole("CHANGE_PASSWORD_PRIVILEGE")));
-        SecurityContextHolder.getContext().setAuthentication(auth);
+
+    final Authentication auth = new UsernamePasswordAuthenticationToken(user, null, Arrays.asList(new UserRole("CHANGE_PASSWORD_PRIVILEGE")));
+
+//This needs changing - user should not be logged in prior to changing password
+     SecurityContextHolder.getContext().setAuthentication(auth);
         return null;
     }
 
     public void changePassword(WoodulikeUser woodulikeUser, String password){
-        woodulikeUser.setPassword(passwordEncoder.encode(password));
+        userSecurityDAO.changeUserPassword(woodulikeUser, passwordEncoder.encode(password));
 
     }
 

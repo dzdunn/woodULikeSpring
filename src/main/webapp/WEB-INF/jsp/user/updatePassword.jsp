@@ -7,9 +7,10 @@
 <body>
 
 <div sec:authorize="hasAuthority('CHANGE_PASSWORD_PRIVILEGE')">
-    <h1>Reset your password</h1>
-    <spring:form
-
+<form:form action="${ViewName.UPDATE_PASSWORD_PROCESS}" modelAttribute="newPassword">
+    <form:label path="message">Set a new password:</form:label>
+    <form:password path="message"></form:password>
+</form:form>
 
 </div>
 

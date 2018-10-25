@@ -11,11 +11,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.dunn.controller.path.ViewName;
 
 @Controller
-@RequestMapping
+@RequestMapping(value = {ViewName.HOME, "/", ViewName.HOMEPAGE})
 public class HomeController {
 
-	@RequestMapping(value = {ViewName.HOMEPAGE, "/"},
-			method=RequestMethod.GET)
+	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView home() {
 		ModelAndView mav = new ModelAndView(ViewName.HOMEPAGE);
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -36,7 +35,7 @@ public class HomeController {
 		return ViewName.CONTACT;
 	}
 
-	@RequestMapping(value="/inputData", method=RequestMethod.POST)
+	@RequestMapping(value=ViewName.HOME + "inputData", method=RequestMethod.POST)
 	public ModelAndView testDetails(@RequestParam("name") String name, @RequestParam("age") String age) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("name", name);

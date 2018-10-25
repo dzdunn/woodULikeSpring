@@ -65,27 +65,17 @@ public class LoginController {
     public ModelAndView showResetPassword(@RequestParam(value = "error", required = false)boolean error){
         ModelAndView mav = new ModelAndView(ViewName.RESET_PASSWORD);
 
-        mav.addObject("emailAddress", new Object(){
-            private String emailAddress;
-
-            public void setEmailAddress(String emailAddress){
-                this.emailAddress =  emailAddress;
-            }
-
-            public String getEmailAddress(){
-                return emailAddress;
-            }
-        });
+        mav.addObject("userEmailAddress", new GenericResponse());
         return mav;
     }
 
     @RequestMapping(value=ViewName.RESET_PASSWORD_PROCESS, method = RequestMethod.POST)
-    public GenericResponse resetPasswordProcess(@ModelAttribute("emailAddress") String emailAddress, HttpServletRequest request){
+    public String resetPasswordProcess(@ModelAttribute("emailAddress") GenericResponse emailAddress, HttpServletRequest request){
 
         //Find user by email address
-        WoodulikeUser woodulikeUser = userService.loadUserByEmailAddress(emailAddress);
+        WoodulikeUser woodulikeUser = userService.loadUserByEmailAddress(emailAddress.getMessage());
         if(woodulikeUser == null){
-            throw new UsernameNotFoundException(emailAddress);
+            throw new UsernameNotFoundException(emailAddress.getMessage());
         }
 
         //Generate token and save to database
@@ -95,7 +85,8 @@ public class LoginController {
         //send email containing token
         javaMailSender.send(constructResetTokenEmail(getAppUrl(request), request.getLocale(), token, woodulikeUser));
 
-    return new GenericResponse(messageSource.getMessage("message.resetPassword", null, request.getLocale()));
+    //return new GenericResponse(messageSource.getMessage("message.resetPassword", null, request.getLocale()));
+        return "redirect:" + ViewName.HOMEPAGE;
     }
 
 
@@ -106,14 +97,27 @@ public class LoginController {
             model.addAttribute("message", messageSource.getMessage("auth.message." + result, null, locale));
             return "redirect:" + ViewName.LOGIN + "?lang=" + locale.getLanguage();
         }
+
         return "redirect:" + ViewName.UPDATE_PASSWORD + "?lang=" + locale.getLanguage();
     }
 
-//    @RequestMapping(value = ViewName.SAVE_PASSWORD, method = RequestMethod.POST)
-//    public GenericResponse savePassword(Locale local, ){
-//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        userSecurityService.changePassword();
-//    }
+    @RequestMapping(value = ViewName.UPDATE_PASSWORD, method = RequestMethod.GET)
+    public ModelAndView updatePassword(){
+        ModelAndView mav = new ModelAndView(ViewName.UPDATE_PASSWORD);
+        mav.addObject("newPassword", new GenericResponse());
+        return mav;
+    }
+
+    @RequestMapping(value = ViewName.UPDATE_PASSWORD_PROCESS, method = RequestMethod.POST)
+    public ModelAndView updatePasswordProcess(@ModelAttribute("newPassword") GenericResponse newPassword){
+
+        ModelAndView mav = new ModelAndView("redirect:" + ViewName.LOGIN);
+        WoodulikeUser woodulikeUser = (WoodulikeUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        userSecurityService.changePassword(woodulikeUser, newPassword.getMessage());
+        return mav;
+    }
+
+
 
 
 

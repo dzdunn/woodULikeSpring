@@ -45,7 +45,7 @@ public class ViewName {
 
 	public final static String UPDATE_PASSWORD = USER + "/updatePassword";
 
-	public final static String SAVE_PASSWORD = USER + "/savePassword";
+	public final static String UPDATE_PASSWORD_PROCESS = UPDATE_PASSWORD + "Process";
 
 
 }

@@ -38,6 +38,6 @@ public class UserSecurityDAO implements IUserSecurityDAO {
     @Override
     public void changeUserPassword(WoodulikeUser woodulikeUser, String newPassword) {
         woodulikeUser.setPassword(newPassword);
-        sessionFactory.getCurrentSession().save(woodulikeUser);
+        sessionFactory.getCurrentSession().saveOrUpdate(woodulikeUser);
     }
 }

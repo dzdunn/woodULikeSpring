@@ -56,9 +56,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         String[] publicViews = {ViewName.HOMEPAGE, ViewName.LOGIN, ViewName.REGISTER, ViewName.REGISTER_PROCESS, ViewName.ABOUT, ViewName.CONTACT, ViewName.RESET_PASSWORD, ViewName.RESET_PASSWORD_PROCESS, ViewName.UPDATE_PASSWORD, ViewName.CHANGE_PASSWORD};
 
         String[] resourcePatterns = {"/static/**", "/img/**"};
+
         http.authorizeRequests()
                 .antMatchers(publicViews).permitAll()
                 .antMatchers(resourcePatterns).permitAll();
+        http.authorizeRequests().antMatchers(ViewName.UPDATE_PASSWORD_PROCESS).hasAuthority("CHANGE_PASSWORD_PRIVILEGE");
 
         http.authorizeRequests().anyRequest().hasAnyRole("ADMIN", "USER")
                 .and()
