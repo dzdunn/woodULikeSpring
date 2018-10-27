@@ -1,24 +1,30 @@
 package com.dunn.model.user;
 
+import com.dunn.validation.UsernameConstraint;
+import com.dunn.validation.WoodulikeUserConstraint;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 @Entity
+@WoodulikeUserConstraint
 public class WoodulikeUser implements UserDetails, CredentialsContainer {
 
     private Long id;
     private String username;
     private String password;
+    private String confirmPassword;
 
     private boolean isEnabled;
     private boolean isAccountNonExpired;
@@ -82,7 +88,9 @@ public class WoodulikeUser implements UserDetails, CredentialsContainer {
         this.id = id;
     }
 
-    @Column(unique = true, length = 20, nullable = false)
+    @Column(unique = true, nullable = false)
+    @NotNull
+    @UsernameConstraint
     public String getUsername() {
         return username;
     }
@@ -92,12 +100,22 @@ public class WoodulikeUser implements UserDetails, CredentialsContainer {
     }
 
 
+    @NotNull(message = "Please enter a password")
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password){
         this.password = password;
+    }
+
+    @Transient
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
     @OneToMany(targetEntity = UserRole.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -119,16 +137,8 @@ public class WoodulikeUser implements UserDetails, CredentialsContainer {
         isCredentialsNonExpired = credentialsNonExpired;
     }
 
-    @Override
-    @Transient
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        for(UserRole userRole : this.getUserRoles()){
-            authorities.add(userRole);
-        };
-        return authorities;
-    }
-
+    @Email(message = "This is not a valid email address")
+    @NotNull
     public String getEmailAddress() {
         return emailAddress;
     }
@@ -137,6 +147,7 @@ public class WoodulikeUser implements UserDetails, CredentialsContainer {
         this.emailAddress = emailAddress;
     }
 
+    @NotNull(message = "Please select a country")
     public String getCountry() {
         return country;
     }
@@ -145,6 +156,7 @@ public class WoodulikeUser implements UserDetails, CredentialsContainer {
         this.country = country;
     }
 
+    @NotNull(message = "Please enter your first name")
     public String getFirstName() {
         return firstName;
     }
@@ -161,6 +173,7 @@ public class WoodulikeUser implements UserDetails, CredentialsContainer {
         this.middleName = middleName;
     }
 
+    @NotNull(message = "Please enter your last name")
     public String getLastName() {
         return lastName;
     }
@@ -169,6 +182,7 @@ public class WoodulikeUser implements UserDetails, CredentialsContainer {
         this.lastName = lastName;
     }
 
+    @Past(message = "Must be a date in the past.")
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
@@ -180,5 +194,15 @@ public class WoodulikeUser implements UserDetails, CredentialsContainer {
     @Override
     public void eraseCredentials() {
         this.password = null;
+    }
+
+    @Override
+    @Transient
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for(UserRole userRole : this.getUserRoles()){
+            authorities.add(userRole);
+        };
+        return authorities;
     }
 }

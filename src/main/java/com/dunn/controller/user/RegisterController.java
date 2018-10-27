@@ -7,9 +7,11 @@ import com.dunn.model.user.WoodulikeUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -42,8 +44,13 @@ public class RegisterController {
     }
 
     @RequestMapping(value = ViewName.REGISTER_PROCESS, method = RequestMethod.POST)
-    public ModelAndView registerProcess(@ModelAttribute("woodulikeUser") WoodulikeUser woodulikeUser){
+    public ModelAndView registerProcess(@ModelAttribute("woodulikeUser") @Valid WoodulikeUser woodulikeUser, BindingResult bindingResult){
         ModelAndView mav = new ModelAndView();
+        if(bindingResult.hasErrors()){
+            mav.addObject("countries", COUNTRIES);
+            mav.setViewName(ViewName.REGISTER);
+            return mav;
+        }
         woodulikeUser.setUserRoles(Arrays.asList(new UserRole("ROLE_USER")));
         woodulikeUser.setPassword(passwordEncoder.encode(woodulikeUser.getPassword()));
         woodulikeUser.setEnabled(true);

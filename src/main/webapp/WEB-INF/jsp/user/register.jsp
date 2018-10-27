@@ -18,18 +18,27 @@
                 <form:label path="emailAddress">Email</form:label>
                 <form:input cssClass="form-control" path="emailAddress" type="text" id="emailAddress"
                             name="emailAddress"/>
+                <form:errors path="emailAddress"></form:errors>
+
             </div>
             <div class="form-group">
                 <form:label path="username">Username</form:label>
                 <form:input cssClass="form-control" path="username" type="text" id="username" name="username"/>
+                <form:errors path="username"></form:errors>
             </div>
             <div class="form-group">
                 <form:label path="password">Password</form:label>
                 <form:password cssClass="form-control" path="password" id="password" name="password"/>
             </div>
             <div class="form-group">
+                <form:label path="confirmPassword">Confirm Password</form:label>
+                <form:password cssClass="form-control" path="confirmPassword" id="confirmPassword" name="confirmPassword"/>
+                <form:errors path=""></form:errors>
+            </div>
+            <div class="form-group">
                 <form:label path="firstName">First Name</form:label>
                 <form:input cssClass="form-control" path="firstName" type="text" id="firstName" name="firstName"/>
+                <form:errors path="firstName"></form:errors>
             </div>
             <div class="form-group">
                 <form:label path="middleName">Middle Names</form:label>
@@ -39,6 +48,8 @@
             <div class="form-group">
                 <form:label path="lastName">Last Name</form:label>
                 <form:input cssClass="form-control" path="lastName" type="text" id="lastName" name="lastName"/>
+                <form:errors path="lastName"></form:errors>
+
             </div>
             <div class="form-group">
                 <form:label path="dateOfBirth">Date of Birth</form:label>
@@ -50,6 +61,7 @@
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
                 </div>
+                <form:errors path="dateOfBirth"></form:errors>
             </div>
             <div class="form-group">
                 <form:label path="country">Country location</form:label>
@@ -58,14 +70,6 @@
                     <form:options cssClass="form-control" items="${countries}"/>
                 </form:select>
             </div>
-            <%--<div class="form-group">--%>
-                <%--<form:label path="username">Security Question 1</form:label>--%>
-                <%--<form:input cssClass="form-control" path="username" type="text" id="username" name="username"/>--%>
-            <%--</div>--%>
-            <%--<div class="form-group">--%>
-                <%--<form:label path="username">Security Question 2</form:label>--%>
-                <%--<form:input cssClass="form-control" path="username" type="text" id="username" name="username"/>--%>
-            <%--</div>--%>
 
 
 
