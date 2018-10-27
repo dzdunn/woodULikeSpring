@@ -1,6 +1,7 @@
 package com.dunn.config;
 
 import com.dunn.controller.path.ViewName;
+import com.dunn.controller.path.ViewNameWrapper;
 import com.dunn.dao.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import javax.swing.text.View;
 
@@ -25,6 +27,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userService;
+
+    final String[] resourcePatterns = {"/static/**", "/img/**"};
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -53,12 +58,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        String[] publicViews = {ViewName.HOMEPAGE, ViewName.LOGIN, ViewName.REGISTER, ViewName.REGISTER_PROCESS, ViewName.ABOUT, ViewName.CONTACT, ViewName.RESET_PASSWORD, ViewName.RESET_PASSWORD_PROCESS, ViewName.UPDATE_PASSWORD, ViewName.CHANGE_PASSWORD};
-
-        String[] resourcePatterns = {"/static/**", "/img/**"};
 
         http.authorizeRequests()
-                .antMatchers(publicViews).permitAll()
+                .antMatchers(ViewNameWrapper.getPublicViewUrlsArray()).permitAll()
                 .antMatchers(resourcePatterns).permitAll();
         http.authorizeRequests().antMatchers(ViewName.UPDATE_PASSWORD_PROCESS).hasAuthority("CHANGE_PASSWORD_PRIVILEGE");
 
@@ -67,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().loginPage(ViewName.LOGIN)
                 .loginProcessingUrl(ViewName.LOGIN_PROCESS)
                 .defaultSuccessUrl(ViewName.HOMEPAGE).failureUrl(ViewName.LOGIN + "?error=true")
-                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher(ViewName.LOGOUT, "GET"))
                 .logoutSuccessUrl(ViewName.LOGIN).deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true).and().csrf().and().rememberMe();
 

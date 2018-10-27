@@ -1,6 +1,8 @@
 package com.dunn.dao;
 
 import com.dunn.config.WebMvcConfig;
+import com.dunn.controller.path.ViewName;
+import com.dunn.controller.path.ViewNameWrapper;
 import com.dunn.dao.woodproject.IWoodProjectDAO;
 import com.dunn.model.Image;
 import com.dunn.model.WoodProject;
@@ -17,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.io.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,6 +28,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import static org.apache.commons.lang3.ArrayUtils.toArray;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -150,33 +155,31 @@ public class WoodProjectDAOIT {
 
         assertNotNull(javaMailSender);
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo("dzdunn@gmail.com");
-        message.setSubject("test");
-        message.setText("TESTING");
+        message.setTo("ngdunn@gmail.com");
+        message.setSubject("Xmas Present");
+        message.setText("Can I have £2000 for a new PC please?");
         javaMailSender.send(message);
 
     }
 
+    @Test
+    public void testReflectionList() throws IllegalAccessException {
 //
-//    @Test
-//    public void testProfile() {
-//        for (String s : applicationContext.getEnvironment().getActiveProfiles()) {
-//            System.out.println(s);
+//        Field[] fields = ViewName.class.getDeclaredFields();
+//        List<String> urls = new ArrayList<>();
+//
+//        for(Field field : fields){
+//            if(Modifier.isPublic(field.getModifiers())){
+//                urls.add((String)field.get(String.class));
+//            }
 //        }
 //
-//
-//    }
+//        for(String url : urls){
+//            System.out.println(url);
+//        }
+        for(String url : ViewNameWrapper.getPublicViewUrls()){
+            System.out.println(url);
+        };
+    }
 
-//    private byte[] convertFileToByteArray(String path) {
-//        File imageFile = new File(path);
-//        byte[] blob = new byte[(int) imageFile.length()];
-//        try {
-//            FileOutputStream outputStream = new FileOutputStream(imageFile);
-//            outputStream.write(blob);
-//            return blob;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return blob;
-//    }
 }
