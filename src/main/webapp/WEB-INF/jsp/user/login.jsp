@@ -2,41 +2,51 @@
 <html>
 <head>
     <title>TemplateTitle</title>
-    <%@include file="../templates/header.jsp"%>
+    <%@include file="../templates/header.jsp" %>
 </head>
 <body>
-
-<form:form name="loginForm" action="${ViewName.LOGIN_PROCESS}" method="POST" modelAttribute="woodulikeUser">
-    <form:label path="username">Username</form:label>
-    <form:input path="username" type="text" id="username" name="username"/>
-    <form:label path="password">Password</form:label>
-    <form:password path="password" id="password" name="password"/>
-    <%--<%--%>
-        <%--int cnt = 0;--%>
-        <%--while (cnt < (int)request.getAttribute("errorCount")) {--%>
-            <%--cnt++;%>--%>
-            <%--<br/>--%>
-    <%--<%--%>
-        <%--}--%>
-
-    <%--%>--%>
+<div class="container-fluid">
+    <div class="row">
+        <form:form name="loginForm" action="${ViewName.LOGIN_PROCESS}" method="POST" modelAttribute="woodulikeUser">
+            <div class="form-group">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Username</span>
+                    </div>
+                    <form:input path="username" cssClass="form-control" type="text" id="username" name="username"/>
 
 
-    <form:errors path="username"/>
-    <br/>
-    <form:errors path="password"/>
-    <br/>
-    <form:errors path=""/>
-    <div class="form-actions">
-        <button type="submit" class="btn">Log in</button>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Password</span>
+                    </div>
+                    <form:password path="password" cssClass="form-control" id="password" name="password"/>
+                </div>
+
+            </div>
+            <form:errors path="username" cssClass="alert alert-danger" element="div"/>
+
+            <form:errors path="password" cssClass="alert alert-danger" element="div"/>
+
+            <form:errors path="" cssClass="alert alert-danger" element="div"/>
+
+
+            <div class="form-actions">
+                <button type="submit" class="btn">Log in</button>
+            </div>
+
+        </form:form>
     </div>
 
-</form:form>
-
-<a class="button" href="${ViewName.REGISTER}">Register</a>
-
-<a href="${ViewName.RESET_PASSWORD}">Forgot Password</a>
-
-<%@include file="../templates/footer.jsp"%>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <a class="button" href="${ViewName.REGISTER}">Register</a>
+        <a href="${ViewName.RESET_PASSWORD}">Forgot Password</a>
+    </div>
+</div>
+</div>
+<%@include file="../templates/footer.jsp" %>
 </body>
 </html>

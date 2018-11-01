@@ -16,35 +16,34 @@
         <form:form id="registerForm" name="registerForm" action="${ViewName.REGISTER_PROCESS}" method="POST"
                    modelAttribute="woodulikeUser">
             <div class="form-group">
-                <form:label path="emailAddress">Email</form:label>
+                <form:label path="emailAddress" cssClass="error">Email</form:label>
                 <form:input cssClass="form-control" path="emailAddress" type="text" id="emailAddress"
                             name="emailAddress"/>
-                <form:errors path="emailAddress"/>
+                <form:errors path="emailAddress" cssClass="alert alert-danger" element="div"/>
 
             </div>
             <div class="form-group">
                 <form:label path="username">Username</form:label>
                 <form:input cssClass="form-control" path="username" type="text" id="username" name="username"/>
-                <form:errors path="username"/>
+                <form:errors path="username" cssClass="alert alert-danger" element="div"/>
             </div>
             <div class="form-group">
                 <form:label path="password">Password</form:label>
                 <form:password cssClass="form-control" path="password" id="password" name="password"/>
-                <form:errors path="password"/>
+                <form:errors path="password" cssClass="alert alert-danger" element="div"/>
             </div>
             <div class="form-group">
                 <form:label path="confirmPassword">Confirm Password</form:label>
-                <form:password cssClass="form-control" path="confirmPassword" id="confirmPassword" name="confirmPassword"/>
-                <form:errors path="confirmPassword"></form:errors>
-                <c:if test="${breakRequired}">
-                    <br/>
-                </c:if>
-                <form:errors path=""/>
+                <form:password cssClass="form-control" path="confirmPassword" id="confirmPassword"
+                               name="confirmPassword"/>
+                <form:errors path="confirmPassword" cssClass="alert alert-danger" element="div"/>
+                <form:errors path="" cssClass="alert alert-danger" element="div"/>
+
             </div>
             <div class="form-group">
                 <form:label path="firstName">First Name</form:label>
                 <form:input cssClass="form-control" path="firstName" type="text" id="firstName" name="firstName"/>
-                <form:errors path="firstName"/>
+                <form:errors path="firstName" cssClass="alert alert-danger" element="div"/>
             </div>
             <div class="form-group">
                 <form:label path="middleName">Middle Names</form:label>
@@ -54,7 +53,7 @@
             <div class="form-group">
                 <form:label path="lastName">Last Name</form:label>
                 <form:input cssClass="form-control" path="lastName" type="text" id="lastName" name="lastName"/>
-                <form:errors path="lastName"/>
+                <form:errors path="lastName" cssClass="alert alert-danger" element="div"/>
 
 
             </div>
@@ -69,7 +68,7 @@
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
                 </div>
-                <form:errors path="dateOfBirth"/>
+                <form:errors path="dateOfBirth" cssClass="alert alert-danger" element="div"/>
             </div>
             <div class="form-group">
                 <form:label path="country">Country location</form:label>
@@ -77,9 +76,8 @@
                     <form:option cssClass="form-control" value="${null}" label="----"/>
                     <form:options cssClass="form-control" items="${countries}"/>
                 </form:select>
-                <form:errors path="country"/>
+                <form:errors path="country" cssClass="alert alert-danger" element="div"/>
             </div>
-
 
             <div class="form-actions">
                 <button type="submit" class="btn">Register</button>

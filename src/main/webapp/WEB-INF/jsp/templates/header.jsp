@@ -12,14 +12,15 @@
     <link href="../static/font-awesome/css/all.css" type="text/css"
           rel="stylesheet"/>
     <link href="../static/css/style.css" type="text/css" rel="stylesheet"/>
-    <link href="../static/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.css" type="text/css" rel="stylesheet"/>
+    <link href="../static/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.css" type="text/css"
+          rel="stylesheet"/>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="${ViewName.HOMEPAGE}">
 
 
-        <spring:message code="ui.brand" />
+        <spring:message code="ui.brand"/>
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target=".dual-collapse2" aria-controls="dual-collapse2"
@@ -56,7 +57,7 @@
     <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
         <ul class="navbar-nav ml-auto">
 
-            <sec:authorize access="isAnonymous()">
+            <sec:authorize access="isAnonymous()" var="isAnonymous">
                 <li class="nav-item">
                     <a class="nav-link" href="${ViewName.LOGIN}">Login</a>
                 </li>

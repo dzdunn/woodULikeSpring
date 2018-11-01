@@ -58,10 +58,6 @@ public class RegisterController {
     public ModelAndView registerProcess(@ModelAttribute("woodulikeUser") @Validated(IWoodulikeUserRegistrationValidationGroup.class) WoodulikeUser woodulikeUser, BindingResult bindingResult){
         ModelAndView mav = new ModelAndView();
         if(bindingResult.hasErrors()){
-
-            boolean breakRequired = bindingResult.getFieldErrorCount("password") >= 1 && bindingResult.getGlobalErrors().stream().filter(x -> x.getCode().equals("WoodulikePasswordValid")).count() >= 1;
-
-            mav.addObject("breakRequired", breakRequired);
             mav.addObject("countries", COUNTRIES);
             mav.setViewName(ViewName.REGISTER);
             return mav;

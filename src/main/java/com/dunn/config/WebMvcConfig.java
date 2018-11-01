@@ -38,6 +38,8 @@ import java.util.concurrent.TimeUnit;
 @EnableAspectJAutoProxy(proxyTargetClass=true)
 public class WebMvcConfig implements WebMvcConfigurer{
 
+	@Autowired
+	private AutowireCapableBeanFactory beanFactory;
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -61,6 +63,8 @@ public class WebMvcConfig implements WebMvcConfigurer{
 
 		return viewResolver;
 	}
+
+
 
 	@Bean(name = "multipartResolver")
 	public CommonsMultipartResolver multipartResolver() {
@@ -93,18 +97,6 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		messageSource.setDefaultEncoding("UTF-8");
 		return messageSource;
 	}
-
-	@Autowired
-	private AutowireCapableBeanFactory beanFactory;
-//
-//	@Bean
-//	public LocalValidatorFactoryBean validator(){
-//
-//		LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
-//		bean.setValidationMessageSource(messageSource());
-//		bean.setConstraintValidatorFactory(new SpringConstraintValidatorFactory(beanFactory));
-//		return bean;
-//	}
 
 	@Override
 	public Validator getValidator() {
