@@ -9,6 +9,7 @@ import org.springframework.dao.annotation.PersistenceExceptionTranslationPostPro
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.validation.Validator;
 
 
 import javax.sql.DataSource;
@@ -21,18 +22,21 @@ public class PersistenceJPAConfig {
     @Autowired
     private Environment env;
 
-    @Bean(name="sessionFactory")
-    public LocalSessionFactoryBean sessionFactory(){
+    @Autowired
+    private Validator validator;
+
+    @Bean(name = "sessionFactory")
+    public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(datasource());
         sessionFactory.setHibernateProperties(properties());
-        sessionFactory.setPackagesToScan(new String[] {"com.dunn.model"});
+        sessionFactory.setPackagesToScan(new String[]{"com.dunn.model"});
 
         return sessionFactory;
     }
 
     @Bean
-    public HibernateTransactionManager transactionManager(){
+    public HibernateTransactionManager transactionManager() {
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();
         transactionManager.setSessionFactory(sessionFactory().getObject());
         return transactionManager;
@@ -44,8 +48,8 @@ public class PersistenceJPAConfig {
     }
 
     @Bean
-    public DataSource datasource(){
-        switch(env.getProperty("spring.profiles.active")){
+    public DataSource datasource() {
+        switch (env.getProperty("spring.profiles.active")) {
             case "dev":
                 return new DevDatasourceConfig().dataSource();
             case "production":
@@ -55,16 +59,27 @@ public class PersistenceJPAConfig {
         }
     }
 
-   private Properties properties(){
-       switch(env.getProperty("spring.profiles.active")){
-           case "dev":
-               return new DevDatasourceConfig().hibernateProperties();
-           case "production":
-               return new ProductionDatasourceConfig().hibernateProperties();
-           default:
-               throw new IllegalArgumentException("No datasource set for current profile.");
-       }
-   }
+    private Properties properties() {
+        switch (env.getProperty("spring.profiles.active")) {
+            case "dev":
+                return globalHibernateProperties(new DevDatasourceConfig().hibernateProperties());
+            case "production":
+                return globalHibernateProperties(new ProductionDatasourceConfig().hibernateProperties());
+            default:
+                throw new IllegalArgumentException("No datasource set for current profile.");
+        }
+    }
+
+    private Properties globalHibernateProperties(Properties localProperties) {
+        localProperties.putAll(
+                new Properties() {
+                    {
+                        put("javax.persistence.validation.factory", validator);
+                    }
+                }
+        );
+        return localProperties;
+    }
 
 //    @Bean
 //    public PostgresqlDAO postgresqlDAO(){

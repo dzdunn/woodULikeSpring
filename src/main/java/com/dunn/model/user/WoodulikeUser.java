@@ -1,8 +1,13 @@
 package com.dunn.model.user;
 
-import com.dunn.validation.UsernameConstraint;
-import com.dunn.validation.WoodulikeUserConstraint;
-import org.hibernate.validator.constraints.Length;
+import com.dunn.validation.login.IWoodulikeUserLoginValidationGroup;
+import com.dunn.validation.login.LoginConstraint;
+import com.dunn.validation.registration.EmailUniqueConstraint;
+import com.dunn.validation.registration.IWoodulikeUserRegistrationValidationGroup;
+import com.dunn.validation.registration.UsernameConstraint;
+import com.dunn.validation.registration.WoodulikePasswordValid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Past;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,8 +23,12 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@WoodulikeUserConstraint
+@WoodulikePasswordValid(groups = {IWoodulikeUserRegistrationValidationGroup.class})
+@LoginConstraint(groups = IWoodulikeUserLoginValidationGroup.class)
 public class WoodulikeUser implements UserDetails, CredentialsContainer {
+
+    @Autowired
+    private MessageSource messageSource;
 
     private Long id;
     private String username;
@@ -43,40 +52,12 @@ public class WoodulikeUser implements UserDetails, CredentialsContainer {
 
     private String lastName;
 
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
 
     public WoodulikeUser() {
     }
-
-
-    public void setEnabled(boolean enabled) {
-        isEnabled = enabled;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return isEnabled;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return isAccountNonExpired;
-    }
-
-    public void setAccountNonExpired(boolean accountNonExpired) {
-        isAccountNonExpired = accountNonExpired;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return isAccountNonLocked;
-    }
-
-    public void setAccountNonLocked(boolean accountNonLocked) {
-        isAccountNonLocked = accountNonLocked;
-    }
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -89,8 +70,8 @@ public class WoodulikeUser implements UserDetails, CredentialsContainer {
     }
 
     @Column(unique = true, nullable = false)
-    @NotNull
-    @UsernameConstraint
+    @NotEmpty(message="{validation.woodulikeuser.username.notEmpty}", groups = {IWoodulikeUserRegistrationValidationGroup.class, IWoodulikeUserLoginValidationGroup.class})
+    @UsernameConstraint(groups = {IWoodulikeUserRegistrationValidationGroup.class})
     public String getUsername() {
         return username;
     }
@@ -100,7 +81,7 @@ public class WoodulikeUser implements UserDetails, CredentialsContainer {
     }
 
 
-    @NotNull(message = "Please enter a password")
+    @NotEmpty(message = "{validation.woodulikeuser.password.notEmpty}", groups = {IWoodulikeUserRegistrationValidationGroup.class, IWoodulikeUserLoginValidationGroup.class})
     public String getPassword() {
         return password;
     }
@@ -109,6 +90,8 @@ public class WoodulikeUser implements UserDetails, CredentialsContainer {
         this.password = password;
     }
 
+
+    @NotEmpty(message = "{validation.woodulikeuser.confirmPassword.notEmpty}", groups = {IWoodulikeUserRegistrationValidationGroup.class})
     @Transient
     public String getConfirmPassword() {
         return confirmPassword;
@@ -137,8 +120,9 @@ public class WoodulikeUser implements UserDetails, CredentialsContainer {
         isCredentialsNonExpired = credentialsNonExpired;
     }
 
-    @Email(message = "This is not a valid email address")
-    @NotNull
+    @Email(message = "{validation.woodulikeUser.emailAddress.invalid}", groups = {IWoodulikeUserRegistrationValidationGroup.class, IWoodulikeUserLoginValidationGroup.class})
+    @NotEmpty(message = "{validation.woodulikeuser.emailAddress.notEmpty}", groups = {IWoodulikeUserRegistrationValidationGroup.class, IWoodulikeUserLoginValidationGroup.class})
+    @EmailUniqueConstraint(groups = {IWoodulikeUserRegistrationValidationGroup.class})
     public String getEmailAddress() {
         return emailAddress;
     }
@@ -147,7 +131,7 @@ public class WoodulikeUser implements UserDetails, CredentialsContainer {
         this.emailAddress = emailAddress;
     }
 
-    @NotNull(message = "Please select a country")
+    @NotEmpty(message = "{validation.woodulikeuser.country.notEmpty}", groups = {IWoodulikeUserRegistrationValidationGroup.class})
     public String getCountry() {
         return country;
     }
@@ -156,7 +140,7 @@ public class WoodulikeUser implements UserDetails, CredentialsContainer {
         this.country = country;
     }
 
-    @NotNull(message = "Please enter your first name")
+    @NotEmpty(message = "{validation.woodulikeuser.firstName.notEmpty}", groups = {IWoodulikeUserRegistrationValidationGroup.class})
     public String getFirstName() {
         return firstName;
     }
@@ -173,7 +157,7 @@ public class WoodulikeUser implements UserDetails, CredentialsContainer {
         this.middleName = middleName;
     }
 
-    @NotNull(message = "Please enter your last name")
+    @NotEmpty(message = "{validation.woodulikeuser.lastName.notEmpty}", groups = {IWoodulikeUserRegistrationValidationGroup.class})
     public String getLastName() {
         return lastName;
     }
@@ -182,7 +166,7 @@ public class WoodulikeUser implements UserDetails, CredentialsContainer {
         this.lastName = lastName;
     }
 
-    @Past(message = "Must be a date in the past.")
+    @Past(message = "{validation.woodulikeuser.dateOfBirth.notInPast}", groups = {IWoodulikeUserRegistrationValidationGroup.class})
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
@@ -204,5 +188,33 @@ public class WoodulikeUser implements UserDetails, CredentialsContainer {
             authorities.add(userRole);
         };
         return authorities;
+    }
+
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return isAccountNonExpired;
+    }
+
+    public void setAccountNonExpired(boolean accountNonExpired) {
+        isAccountNonExpired = accountNonExpired;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return isAccountNonLocked;
+    }
+
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        isAccountNonLocked = accountNonLocked;
     }
 }

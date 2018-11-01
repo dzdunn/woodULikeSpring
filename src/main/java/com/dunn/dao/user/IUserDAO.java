@@ -27,5 +27,9 @@ public interface IUserDAO {
 
     public WoodulikeUser findWoodulikeUserByEmailAddress(String emailAddress);
 
+    public boolean isUsernameTaken(String username);
 
+    public boolean isEmailRegistered(String emailAddress);
+
+    public boolean isUsernameAndPasswordCorrect(String username, String password);
 }

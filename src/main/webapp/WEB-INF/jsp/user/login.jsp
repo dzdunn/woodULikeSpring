@@ -11,9 +11,26 @@
     <form:input path="username" type="text" id="username" name="username"/>
     <form:label path="password">Password</form:label>
     <form:password path="password" id="password" name="password"/>
+    <%--<%--%>
+        <%--int cnt = 0;--%>
+        <%--while (cnt < (int)request.getAttribute("errorCount")) {--%>
+            <%--cnt++;%>--%>
+            <%--<br/>--%>
+    <%--<%--%>
+        <%--}--%>
+
+    <%--%>--%>
+
+
+    <form:errors path="username"/>
+    <br/>
+    <form:errors path="password"/>
+    <br/>
+    <form:errors path=""/>
     <div class="form-actions">
         <button type="submit" class="btn">Log in</button>
     </div>
+
 </form:form>
 
 <a class="button" href="${ViewName.REGISTER}">Register</a>

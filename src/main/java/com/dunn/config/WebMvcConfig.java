@@ -1,14 +1,24 @@
 package com.dunn.config;
 
+import org.hibernate.Hibernate;
+import org.hibernate.validator.HibernateValidator;
+import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.CacheControl;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.validation.beanvalidation.MessageSourceResourceBundleLocator;
+import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
+import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -16,6 +26,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.WebJarsResourceResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 @Configuration
@@ -71,6 +84,36 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		props.put("mail.debug", "true");
 
 		return mailSender;
+	}
+
+	@Bean
+	public MessageSource messageSource(){
+		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+		messageSource.setBasename("classpath:i18n/messages");
+		messageSource.setDefaultEncoding("UTF-8");
+		return messageSource;
+	}
+
+	@Autowired
+	private AutowireCapableBeanFactory beanFactory;
+//
+//	@Bean
+//	public LocalValidatorFactoryBean validator(){
+//
+//		LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
+//		bean.setValidationMessageSource(messageSource());
+//		bean.setConstraintValidatorFactory(new SpringConstraintValidatorFactory(beanFactory));
+//		return bean;
+//	}
+
+	@Override
+	public Validator getValidator() {
+		ValidatorFactory validatorFactory = Validation
+				.byProvider(HibernateValidator.class).configure()
+				.constraintValidatorFactory(new SpringConstraintValidatorFactory(beanFactory))
+				.messageInterpolator(new ResourceBundleMessageInterpolator(new MessageSourceResourceBundleLocator(messageSource())))
+				.buildValidatorFactory();
+		return new SpringValidatorAdapter(validatorFactory.getValidator());
 	}
 
 }

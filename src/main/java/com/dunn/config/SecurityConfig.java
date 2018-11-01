@@ -68,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().loginPage(ViewName.LOGIN)
                 .loginProcessingUrl(ViewName.LOGIN_PROCESS)
-                .defaultSuccessUrl(ViewName.HOMEPAGE).failureUrl(ViewName.LOGIN + "?error=true")
+                .defaultSuccessUrl(ViewName.HOMEPAGE).failureForwardUrl(ViewName.LOGIN_PROCESS)
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher(ViewName.LOGOUT, "GET"))
                 .logoutSuccessUrl(ViewName.LOGIN).deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true).and().csrf().and().rememberMe();

@@ -1,5 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="for" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -18,27 +19,32 @@
                 <form:label path="emailAddress">Email</form:label>
                 <form:input cssClass="form-control" path="emailAddress" type="text" id="emailAddress"
                             name="emailAddress"/>
-                <form:errors path="emailAddress"></form:errors>
+                <form:errors path="emailAddress"/>
 
             </div>
             <div class="form-group">
                 <form:label path="username">Username</form:label>
                 <form:input cssClass="form-control" path="username" type="text" id="username" name="username"/>
-                <form:errors path="username"></form:errors>
+                <form:errors path="username"/>
             </div>
             <div class="form-group">
                 <form:label path="password">Password</form:label>
                 <form:password cssClass="form-control" path="password" id="password" name="password"/>
+                <form:errors path="password"/>
             </div>
             <div class="form-group">
                 <form:label path="confirmPassword">Confirm Password</form:label>
                 <form:password cssClass="form-control" path="confirmPassword" id="confirmPassword" name="confirmPassword"/>
-                <form:errors path=""></form:errors>
+                <form:errors path="confirmPassword"></form:errors>
+                <c:if test="${breakRequired}">
+                    <br/>
+                </c:if>
+                <form:errors path=""/>
             </div>
             <div class="form-group">
                 <form:label path="firstName">First Name</form:label>
                 <form:input cssClass="form-control" path="firstName" type="text" id="firstName" name="firstName"/>
-                <form:errors path="firstName"></form:errors>
+                <form:errors path="firstName"/>
             </div>
             <div class="form-group">
                 <form:label path="middleName">Middle Names</form:label>
@@ -48,29 +54,31 @@
             <div class="form-group">
                 <form:label path="lastName">Last Name</form:label>
                 <form:input cssClass="form-control" path="lastName" type="text" id="lastName" name="lastName"/>
-                <form:errors path="lastName"></form:errors>
+                <form:errors path="lastName"/>
+
 
             </div>
             <div class="form-group">
                 <form:label path="dateOfBirth">Date of Birth</form:label>
                 <div class="input-group date" id="dobCalendar" data-target-input="nearest">
-                    <form:input path="dateOfBirth" type="text" cssClass="form-control datetimepicker-input" data-target="#dobCalendar"
+                    <form:input path="dateOfBirth" type="text" cssClass="form-control datetimepicker-input"
+                                data-target="#dobCalendar"
                                 id="dateOfBirth"
                                 name="dateOfBirth"/>
                     <div class="input-group-append" data-target="#dobCalendar" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
                 </div>
-                <form:errors path="dateOfBirth"></form:errors>
+                <form:errors path="dateOfBirth"/>
             </div>
             <div class="form-group">
                 <form:label path="country">Country location</form:label>
                 <form:select cssClass="form-control" path="country" id="country" name="country">
-                    <form:option cssClass="form-control" value="" label="----"/>
+                    <form:option cssClass="form-control" value="${null}" label="----"/>
                     <form:options cssClass="form-control" items="${countries}"/>
                 </form:select>
+                <form:errors path="country"/>
             </div>
-
 
 
             <div class="form-actions">
@@ -84,7 +92,6 @@
 </div>
 
 
-
 <%@include file="../templates/footer.jsp" %>
 <script>
     $(document).ready(function () {
@@ -96,7 +103,7 @@
         });
 
 
-        $('#registerForm').submit(function(){
+        $('#registerForm').submit(function () {
             var input = $(this).find('input[name=dateOfBirth]');
             var date = input.val();
             input.val(moment(date).format("YYYY-MM-DD"));

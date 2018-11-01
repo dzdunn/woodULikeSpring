@@ -1,14 +1,18 @@
-package com.dunn.validation;
+package com.dunn.validation.registration;
 
 import com.dunn.model.user.WoodulikeUser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.regex.Pattern;
 
-public class WoodulikeUserValidator implements ConstraintValidator<WoodulikeUserConstraint, WoodulikeUser> {
 
-    //private static final String passwordPattern = "((?=.*[A-Za-z])(?=.*\\d)(?=.*[^A-Za-z0-9])(?=[\\S]+$).{8,16})";
+public class WoodulikePasswordValidator implements ConstraintValidator<WoodulikePasswordValid, WoodulikeUser> {
+
+    @Autowired
+    private MessageSource messageSource;
 
     private static final int MIN_PASSWORD_LENGTH = 8;
 
@@ -42,19 +46,24 @@ public class WoodulikeUserValidator implements ConstraintValidator<WoodulikeUser
 
         if(!value.getPassword().equals(value.getConfirmPassword())){
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("Passwords must match").addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("{validation.woodulikeuser.password.match}").addConstraintViolation();
             return false;
         }
-        if(value.getPassword().length() < 8 || value.getPassword().length() > 16){
+
+        if(value.getPassword().length() < MIN_PASSWORD_LENGTH || value.getPassword().length() > MAX_PASSWORD_LENGTH){
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("Password must be between 8 - 16 characters in length.").addConstraintViolation();
+
+            String lengthValidationMessage = messageSource.getMessage("validation.woodulikeuser.password.length", new Object[]{MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH}, LocaleContextHolder.getLocale());
+            context.buildConstraintViolationWithTemplate(lengthValidationMessage).addConstraintViolation();
             return false;
         }
+
         if(!value.getPassword().matches(passwordValidationPatternBuilder())){
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("Password must contain no spaces, and at least 1 letter, number and special symbol.").addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("{validation.woodulikeuser.password.mustinclude}").addConstraintViolation();
             return false;
         }
+
         return true;
     }
 }

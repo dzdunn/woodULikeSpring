@@ -1,9 +1,7 @@
 package com.dunn.dao.user;
 
-import com.dunn.model.user.PasswordResetToken;
 import com.dunn.model.user.WoodulikeUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-@Service
+@Service(value = "userService")
 public class UserService implements UserDetailsService {
 
     @Autowired
@@ -33,6 +31,18 @@ public class UserService implements UserDetailsService {
 
     public WoodulikeUser loadUserByEmailAddress(String emailAddress){
         return userDAO.findWoodulikeUserByEmailAddress(emailAddress);
+    }
+
+    public boolean isUsernameRegistered(String username){
+        return userDAO.isUsernameTaken(username);
+    }
+
+    public boolean isEmailRegistered(String emailAddress){
+        return userDAO.isEmailRegistered(emailAddress);
+    }
+
+    public boolean isUsernameAndPasswordValid(String username, String password){
+        return userDAO.isUsernameAndPasswordCorrect(username, password);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.dunn.validation;
+package com.dunn.validation.registration;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

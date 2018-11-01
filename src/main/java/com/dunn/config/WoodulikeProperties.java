@@ -1,12 +1,10 @@
 package com.dunn.config;
 
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
-import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.io.ClassPathResource;
 
 @Configuration
@@ -24,14 +22,6 @@ public class WoodulikeProperties {
 		PropertiesFactoryBean databaseProperties = new PropertiesFactoryBean();
 		databaseProperties.setLocation(new ClassPathResource("configuration/database.properties"));
 		return databaseProperties;
-	}
-
-	@Bean
-	public MessageSource messageSource(){
-		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-		messageSource.setBasename("i18n/messages");
-		messageSource.setUseCodeAsDefaultMessage(true);
-		return messageSource;
 	}
 
 }

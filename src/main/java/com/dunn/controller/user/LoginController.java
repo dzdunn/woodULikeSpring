@@ -5,6 +5,7 @@ import com.dunn.dao.security.UserSecurityService;
 import com.dunn.dao.user.UserService;
 import com.dunn.model.GenericResponse;
 import com.dunn.model.user.WoodulikeUser;
+import com.dunn.validation.login.IWoodulikeUserLoginValidationGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -14,6 +15,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,9 +54,22 @@ public class LoginController {
     }
 
     @RequestMapping(value = ViewName.LOGIN_PROCESS, method = RequestMethod.POST)
-    public ModelAndView loginProcess(@ModelAttribute("woodulikeUser") WoodulikeUser woodulikeUser){
+    public ModelAndView loginProcess(@ModelAttribute("woodulikeUser") @Validated(IWoodulikeUserLoginValidationGroup.class) WoodulikeUser woodulikeUser, BindingResult bindingResult){
         ModelAndView mav = new ModelAndView();
-        if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()){
+        if(bindingResult.hasErrors()){
+//            int errorCount = bindingResult.getErrorCount();
+//            for (ObjectError oe: bindingResult.getAllErrors()){
+//                System.out.println(oe.getObjectName());
+//                System.out.println(oe.getCode());
+//                System.out.println(oe.getArguments());
+//                System.out.println(oe.getDefaultMessage());
+//
+//            }
+//            mav.addObject("errorCount", errorCount);
+            mav.setViewName(ViewName.LOGIN);
+            return mav;
+        }
+        if(SecurityContextHolder.getContext().getAuthentication() != null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()){
             mav.setViewName("redirect:" + ViewName.HOMEPAGE);
         } else{
             mav.setViewName("redirect:" + ViewName.LOGIN);
@@ -118,15 +135,7 @@ public class LoginController {
 
 
 
-
-
-
-
-
-
-
-
-
+    ///PUT IN DIFFERENT CLASS
 
     private String getAppUrl(HttpServletRequest request) {
         return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();

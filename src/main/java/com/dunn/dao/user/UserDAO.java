@@ -5,6 +5,7 @@ import com.dunn.model.user.WoodulikeUser;
 import org.hibernate.NonUniqueObjectException;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,9 @@ public class UserDAO  implements IUserDAO{
 
     @Autowired
     private SessionFactory sessionFactory;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public WoodulikeUser createWoodulikeUser(WoodulikeUser woodulikeUser) {
@@ -91,6 +95,39 @@ public class UserDAO  implements IUserDAO{
         return foundUser;
     }
 
+    @Override
+    public boolean isUsernameTaken(String username){
+        CriteriaBuilder builder = sessionFactory.getCriteriaBuilder();
+        CriteriaQuery<WoodulikeUser> query = builder.createQuery(WoodulikeUser.class);
+        Root<WoodulikeUser> root = query.from(WoodulikeUser.class);
+        query.select(root.get("username"));
+        query.where(builder.equal(root.get("username"),username));
+        List<WoodulikeUser> results = sessionFactory.getCurrentSession().createQuery(query).list();
+        return results.size() > 0;
+    }
 
+    @Override
+    public boolean isEmailRegistered(String emailAddress){
+        CriteriaBuilder builder = sessionFactory.getCriteriaBuilder();
+        CriteriaQuery<WoodulikeUser> query = builder.createQuery(WoodulikeUser.class);
+        Root<WoodulikeUser> root = query.from(WoodulikeUser.class);
+        query.select(root.get("emailAddress"));
+        query.where(builder.equal(root.get("emailAddress"), emailAddress));
+        List<WoodulikeUser> results = sessionFactory.getCurrentSession().createQuery(query).list();
+        return results.size() > 0;
+    }
+
+    public boolean isUsernameAndPasswordCorrect(String username, String password){
+        CriteriaBuilder builder = sessionFactory.getCriteriaBuilder();
+        CriteriaQuery<WoodulikeUser> query = builder.createQuery(WoodulikeUser.class);
+        Root<WoodulikeUser> root = query.from(WoodulikeUser.class);
+        query.select(root.get("username").get("password"));
+        query.where(builder.equal(root.get("username"), username));
+        WoodulikeUser result = sessionFactory.getCurrentSession().createQuery(query).uniqueResult();
+        if(result != null && passwordEncoder.matches(password, result.getPassword())){
+            return true;
+        }
+        return false;
+    }
 
 }
