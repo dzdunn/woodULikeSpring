@@ -12,11 +12,11 @@
 <h1>Register</h1>
 
 <div class="row">
-    <div class="col-6 p-5">
+    <div class="col-md-8 p-5">
         <form:form id="registerForm" name="registerForm" action="${ViewName.REGISTER_PROCESS}" method="POST"
                    modelAttribute="woodulikeUser">
             <div class="form-group">
-                <form:label path="emailAddress" cssClass="error">Email</form:label>
+                <form:label path="emailAddress">Email</form:label>
                 <form:input cssClass="form-control" path="emailAddress" type="text" id="emailAddress"
                             name="emailAddress"/>
                 <form:errors path="emailAddress" cssClass="alert alert-danger" element="div"/>

@@ -105,4 +105,11 @@ button.navbar-toggler:focus { outline: 1px none; }
     background-color: var(--woodulike-green);
 }
 
+.input-group>.input-group-prepend {
+    flex: 0 0 20%;
+}
+.input-group .input-group-text {
+    width: 100%;
+}
+
 

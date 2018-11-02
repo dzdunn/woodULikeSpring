@@ -6,39 +6,41 @@
 </head>
 <body>
 <div class="container-fluid">
+    <h1>Login</h1>
     <div class="row">
-        <form:form name="loginForm" action="${ViewName.LOGIN_PROCESS}" method="POST" modelAttribute="woodulikeUser">
-            <div class="form-group">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Username</span>
-                    </div>
-                    <form:input path="username" cssClass="form-control" type="text" id="username" name="username"/>
+        <div class="col-md-8">
+            <form:form name="loginForm" action="${ViewName.LOGIN_PROCESS}" method="POST" modelAttribute="woodulikeUser">
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Username</span>
+                        </div>
+                        <form:input path="username" cssClass="form-control" type="text" id="username" name="username"/>
 
+
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Password</span>
+                        </div>
+                        <form:password path="password" cssClass="form-control" id="password" name="password"/>
+                    </div>
 
                 </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Password</span>
-                    </div>
-                    <form:password path="password" cssClass="form-control" id="password" name="password"/>
+                <form:errors path="username" cssClass="alert alert-danger" element="div"/>
+
+                <form:errors path="password" cssClass="alert alert-danger" element="div"/>
+
+                <form:errors path="" cssClass="alert alert-danger" element="div"/>
+
+
+                <div class="form-actions">
+                    <button type="submit" class="btn">Log in</button>
                 </div>
 
-            </div>
-            <form:errors path="username" cssClass="alert alert-danger" element="div"/>
-
-            <form:errors path="password" cssClass="alert alert-danger" element="div"/>
-
-            <form:errors path="" cssClass="alert alert-danger" element="div"/>
-
-
-            <div class="form-actions">
-                <button type="submit" class="btn">Log in</button>
-            </div>
-
-        </form:form>
+            </form:form>
+        </div>
     </div>
-
 </div>
 <div class="row">
     <div class="col-md-6">
