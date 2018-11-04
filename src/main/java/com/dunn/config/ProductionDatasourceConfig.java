@@ -26,7 +26,7 @@ public class ProductionDatasourceConfig {
         return new Properties() {
             {
                 setProperty("hibernate.hbm2ddl.auto",
-                        "update");
+                        "create-drop");
                 setProperty("hibernate.dialect",
                         "org.hibernate.dialect.PostgreSQL95Dialect");
                 setProperty("hibernate.globally_quoted_identifiers",
