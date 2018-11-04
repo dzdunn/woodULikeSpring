@@ -1,6 +1,5 @@
 package com.dunn.config;
 
-import com.dunn.config.webfilter.LoginErrorFilter;
 import com.dunn.controller.user.LoginController;
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 import org.springframework.web.bind.annotation.RequestMapping;

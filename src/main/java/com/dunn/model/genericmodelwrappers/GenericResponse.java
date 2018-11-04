@@ -1,4 +1,4 @@
-package com.dunn.model;
+package com.dunn.model.genericmodelwrappers;
 
 public class GenericResponse {
 

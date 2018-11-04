@@ -1,5 +1,6 @@
 package com.dunn.model.user;
 
+import com.dunn.validation.login.IForgotPasswordEmailValidationGroup;
 import com.dunn.validation.login.IResetPasswordValidationGroup;
 import com.dunn.validation.login.IWoodulikeUserLoginValidationGroup;
 import com.dunn.validation.login.LoginConstraint;

@@ -3,24 +3,20 @@ package com.dunn.controller.user;
 import com.dunn.controller.path.ViewName;
 import com.dunn.dao.security.UserSecurityService;
 import com.dunn.dao.user.UserService;
-import com.dunn.model.GenericResponse;
+import com.dunn.model.genericmodelwrappers.GenericEmailWrapper;
 import com.dunn.model.user.PasswordResetToken;
 import com.dunn.model.user.TmpUserWrapper;
-import com.dunn.model.user.UserRole;
 import com.dunn.model.user.WoodulikeUser;
+import com.dunn.validation.login.IForgotPasswordEmailValidationGroup;
 import com.dunn.validation.login.IResetPasswordValidationGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,17 +55,20 @@ public class ResetPasswordController {
     public ModelAndView showResetPassword() {
         ModelAndView mav = new ModelAndView(ViewName.RESET_PASSWORD);
 
-        mav.addObject("userEmailAddress", new GenericResponse());
+        mav.addObject("emailAddressWrapper", new GenericEmailWrapper());
         return mav;
     }
 
     @RequestMapping(value = ViewName.RESET_PASSWORD_PROCESS, method = RequestMethod.POST)
-    public String resetPasswordProcess(@ModelAttribute("emailAddress") GenericResponse emailAddress, HttpServletRequest request) {
+    public String resetPasswordProcess(@ModelAttribute("emailAddressWrapper") @Validated(IForgotPasswordEmailValidationGroup.class) GenericEmailWrapper emailAddressWrapper, BindingResult bindingResult, HttpServletRequest request) {
 
+        if (bindingResult.hasErrors()) {
+            return ViewName.RESET_PASSWORD;
+        }
         //Find user by email address
-        WoodulikeUser woodulikeUser = userService.loadUserByEmailAddress(emailAddress.getMessage());
+        WoodulikeUser woodulikeUser = userService.loadUserByEmailAddress(emailAddressWrapper.getEmailAddress());
         if (woodulikeUser == null) {
-            throw new UsernameNotFoundException(emailAddress.getMessage());
+            throw new UsernameNotFoundException(emailAddressWrapper.getEmailAddress());
         }
 
         //Generate token and save to database
