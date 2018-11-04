@@ -25,6 +25,12 @@ public class UsernameValidator implements ConstraintValidator<UsernameConstraint
     @Transactional
     public boolean isValid(String value, ConstraintValidatorContext context) {
 
+        if(value == null || value.isEmpty()){
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate("{validation.woodulikeuser.username.notEmpty}").addConstraintViolation();
+            return false;
+        }
+
         if(!value.matches("[a-zA-Z0-9]*")){
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate("Username contains invalid characters").addConstraintViolation();

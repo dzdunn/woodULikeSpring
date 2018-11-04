@@ -57,7 +57,7 @@
     <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
         <ul class="navbar-nav ml-auto">
 
-            <sec:authorize access="isAnonymous()" var="isAnonymous">
+            <sec:authorize access="isAnonymous() || (isAuthenticated() && hasAuthority('CHANGE_PASSWORD_PRIVILEGE'))" var="isAnonymous">
                 <li class="nav-item">
                     <a class="nav-link" href="${ViewName.LOGIN}">Login</a>
                 </li>
@@ -65,7 +65,7 @@
                     <a class="nav-link" href="${ViewName.REGISTER}">Register</a>
                 </li>
             </sec:authorize>
-            <sec:authorize access="isAuthenticated()" var="isAuthenticated">
+            <sec:authorize access="isAuthenticated() && hasRole('ROLE_USER')" var="isAuthenticated">
                 <li class="nav-item">
                     <a class="nav-link" href="#"><c:out value="${pageContext.request.remoteUser}"/></a>
                 </li>

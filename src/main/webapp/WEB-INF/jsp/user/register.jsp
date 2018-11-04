@@ -60,10 +60,10 @@
             <div class="form-group">
                 <form:label path="dateOfBirth">Date of Birth</form:label>
                 <div class="input-group date" id="dobCalendar" data-target-input="nearest">
-                    <form:input path="dateOfBirth" type="text" cssClass="form-control datetimepicker-input"
+                    <input type="text" class="form-control datetimepicker-input"
                                 data-target="#dobCalendar"
-                                id="dateOfBirth"
-                                name="dateOfBirth"/>
+                                id="visibleDateOfBirth"/>
+                    <form:input path="dateOfBirth" type="hidden" id="hiddenDateOfBirth"/>
                     <div class="input-group-append" data-target="#dobCalendar" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>
@@ -103,7 +103,10 @@
 
         $('#registerForm').submit(function () {
             var input = $(this).find('input[name=dateOfBirth]');
+            var hiddenInput = $(this).find('input[name=hiddenDateOfBirth]');
             var date = input.val();
+            hiddenInput.val(moment(date).format("YYYY-MM-DD"));
+
             input.val(moment(date).format("YYYY-MM-DD"));
         });
     })

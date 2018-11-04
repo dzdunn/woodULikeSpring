@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -27,35 +28,31 @@ public class UserSecurityService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void createPasswordResetTokenForUser(WoodulikeUser woodulikeUser, String token){
-
+    public void createPasswordResetTokenForUser(WoodulikeUser woodulikeUser, String token) {
+        userSecurityDAO.deletePasswordResetTokensForUser(woodulikeUser.getId());
         PasswordResetToken passwordResetToken = new PasswordResetToken(woodulikeUser, token);
         userSecurityDAO.savePasswordResetToken(passwordResetToken);
     }
 
-    public String validatePasswordResetToken(Long id, String token){
+    public boolean validatePasswordResetToken(Long id, String token) {
         final PasswordResetToken passwordResetToken = userSecurityDAO.findByToken(token);
 
-        if(passwordResetToken == null || !passwordResetToken.getWoodulikeUser().getId().equals(id)){
-            return "invalidToken";
+        if (passwordResetToken == null ||
+                !passwordResetToken.getWoodulikeUser().getId().equals(id) ||
+                LocalDate.now().isAfter(passwordResetToken.getExpiryDate())) {
+            return false;
         }
 
-        if(LocalDate.now().isAfter(passwordResetToken.getExpiryDate())){
-            return "expired";
-        };
-
-        final WoodulikeUser user = passwordResetToken.getWoodulikeUser();
-
-    final Authentication auth = new UsernamePasswordAuthenticationToken(user, null, Arrays.asList(new UserRole("CHANGE_PASSWORD_PRIVILEGE")));
-
-//This needs changing - user should not be logged in prior to changing password
-     SecurityContextHolder.getContext().setAuthentication(auth);
-        return null;
+        return true;
     }
 
-    public void changePassword(WoodulikeUser woodulikeUser, String password){
+    public void changePassword(WoodulikeUser woodulikeUser, String password) {
         userSecurityDAO.changeUserPassword(woodulikeUser, passwordEncoder.encode(password));
 
+    }
+
+    public PasswordResetToken findByToken(String token){
+        return userSecurityDAO.findByToken(token);
     }
 
 }

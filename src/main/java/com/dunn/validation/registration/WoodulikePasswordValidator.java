@@ -28,7 +28,7 @@ public class WoodulikePasswordValidator implements ConstraintValidator<Woodulike
 
     private static final String passwordLengthPattern = "{" + MIN_PASSWORD_LENGTH + "," + MAX_PASSWORD_LENGTH + "}";
 
-    private String passwordValidationPatternBuilder(){
+    private String passwordValidationPatternBuilder() {
         StringBuilder builder = new StringBuilder();
         builder.append("(");
         builder.append(atLeastOneLetterPattern);
@@ -44,26 +44,35 @@ public class WoodulikePasswordValidator implements ConstraintValidator<Woodulike
     @Override
     public boolean isValid(WoodulikeUser value, ConstraintValidatorContext context) {
 
-        if(!value.getPassword().equals(value.getConfirmPassword())){
-            context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("{validation.woodulikeuser.password.match}").addConstraintViolation();
-            return false;
+
+        if (value.getPassword() != null && !value.getPassword().isEmpty()) {
+
+            if(value.getConfirmPassword() == null || value.getConfirmPassword().isEmpty()) {
+                context.disableDefaultConstraintViolation();
+                context.buildConstraintViolationWithTemplate("{validation.woodulikeuser.confirmPassword.notEmpty}").addConstraintViolation();
+                return false;
+            }
+
+            if (!value.getPassword().equals(value.getConfirmPassword())) {
+                context.disableDefaultConstraintViolation();
+                context.buildConstraintViolationWithTemplate("{validation.woodulikeuser.password.match}").addConstraintViolation();
+                return false;
+            }
+
+            if (value.getPassword().length() < MIN_PASSWORD_LENGTH || value.getPassword().length() > MAX_PASSWORD_LENGTH) {
+                context.disableDefaultConstraintViolation();
+
+                String lengthValidationMessage = messageSource.getMessage("validation.woodulikeuser.password.length", new Object[]{MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH}, LocaleContextHolder.getLocale());
+                context.buildConstraintViolationWithTemplate(lengthValidationMessage).addConstraintViolation();
+                return false;
+            }
+
+            if (!value.getPassword().matches(passwordValidationPatternBuilder())) {
+                context.disableDefaultConstraintViolation();
+                context.buildConstraintViolationWithTemplate("{validation.woodulikeuser.password.mustinclude}").addConstraintViolation();
+                return false;
+            }
         }
-
-        if(value.getPassword().length() < MIN_PASSWORD_LENGTH || value.getPassword().length() > MAX_PASSWORD_LENGTH){
-            context.disableDefaultConstraintViolation();
-
-            String lengthValidationMessage = messageSource.getMessage("validation.woodulikeuser.password.length", new Object[]{MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH}, LocaleContextHolder.getLocale());
-            context.buildConstraintViolationWithTemplate(lengthValidationMessage).addConstraintViolation();
-            return false;
-        }
-
-        if(!value.getPassword().matches(passwordValidationPatternBuilder())){
-            context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("{validation.woodulikeuser.password.mustinclude}").addConstraintViolation();
-            return false;
-        }
-
         return true;
     }
 }

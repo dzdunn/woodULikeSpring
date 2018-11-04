@@ -121,7 +121,7 @@ public class UserDAO  implements IUserDAO{
         CriteriaBuilder builder = sessionFactory.getCriteriaBuilder();
         CriteriaQuery<WoodulikeUser> query = builder.createQuery(WoodulikeUser.class);
         Root<WoodulikeUser> root = query.from(WoodulikeUser.class);
-        query.select(root.get("username").get("password"));
+        query.select(root);
         query.where(builder.equal(root.get("username"), username));
         WoodulikeUser result = sessionFactory.getCurrentSession().createQuery(query).uniqueResult();
         if(result != null && passwordEncoder.matches(password, result.getPassword())){

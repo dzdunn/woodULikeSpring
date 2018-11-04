@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = WoodulikePasswordValidator.class)
 public @interface WoodulikePasswordValid {
 
-    String message() default "Invalid password";
+    String message() default "";
     Class<?>[] groups() default{};
     Class<?>[] payload() default {};
 }

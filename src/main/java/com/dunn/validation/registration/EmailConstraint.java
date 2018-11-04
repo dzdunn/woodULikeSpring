@@ -7,8 +7,8 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.METHOD})
-@Constraint(validatedBy = EmailUniqueValidator.class)
-public @interface EmailUniqueConstraint {
+@Constraint(validatedBy = EmailValidator.class)
+public @interface EmailConstraint {
 
     String message() default "";
     Class<?>[] groups() default {};

@@ -16,18 +16,19 @@ public class LoginValidator implements ConstraintValidator<LoginConstraint, Wood
 
     @Override
     public boolean isValid(WoodulikeUser value, ConstraintValidatorContext context) {
-        if(!userService.isUsernameRegistered(value.getUsername())){
-            context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("{validation.login.woodulikeuser.username.notfound}").addConstraintViolation();
-            return false;
-        }
+        if(value.getUsername() == null || !value.getUsername().isEmpty()) {
+            if (!userService.isUsernameRegistered(value.getUsername())) {
+                context.disableDefaultConstraintViolation();
+                context.buildConstraintViolationWithTemplate("{validation.login.woodulikeuser.username.notfound}").addConstraintViolation();
+                return false;
+            }
 
-        if(!userService.isUsernameAndPasswordValid(value.getUsername(), value.getPassword())){
-            context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("{validation.login.woodulikeuser.password.incorrect}").addConstraintViolation();
-            return false;
+            if (value.getPassword() != null & !value.getPassword().isEmpty() && !userService.isUsernameAndPasswordValid(value.getUsername(), value.getPassword())) {
+                context.disableDefaultConstraintViolation();
+                context.buildConstraintViolationWithTemplate("{validation.login.woodulikeuser.password.incorrect}").addConstraintViolation();
+                return false;
+            }
         }
-
-        return false;
+        return true;
     }
 }
