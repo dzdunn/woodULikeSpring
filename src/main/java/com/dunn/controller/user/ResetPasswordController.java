@@ -7,8 +7,8 @@ import com.dunn.model.genericmodelwrappers.GenericEmailWrapper;
 import com.dunn.model.user.PasswordResetToken;
 import com.dunn.model.user.TmpUserWrapper;
 import com.dunn.model.user.WoodulikeUser;
-import com.dunn.validation.login.IForgotPasswordEmailValidationGroup;
-import com.dunn.validation.login.IResetPasswordValidationGroup;
+import com.dunn.validation.resetpassword.IForgotPasswordEmailValidationGroup;
+import com.dunn.validation.resetpassword.IResetPasswordValidationGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -20,7 +20,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.MapBindingResult;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -89,16 +93,27 @@ public class ResetPasswordController {
 
 
     @RequestMapping(value = ViewName.CHANGE_PASSWORD, method = RequestMethod.GET)
-    public String showChangePassword(Locale locale, Model model, @RequestParam("id") Long id, @RequestParam("token") String token) {
-        boolean isTokenValid = userSecurityService.validatePasswordResetToken(id, token);
-        if (isTokenValid) {
+    public ModelAndView showChangePassword(Locale locale, @RequestParam("id") Long id, @RequestParam("token") String token) {
+
+        String validationErrorMessage = userSecurityService.validatePasswordResetToken(id, token);
+        ModelAndView mav = new ModelAndView();
+        if (validationErrorMessage == null) {
             PasswordResetToken passwordResetToken = userSecurityService.findByToken(token);
             giveUserChangePasswordPrivilege(passwordResetToken);
-
-            return "redirect:" + ViewName.UPDATE_PASSWORD + "?lang=" + locale.getLanguage();
+            mav.setViewName("redirect:" + ViewName.UPDATE_PASSWORD + "?lang=" + locale.getLanguage());
+            return mav;
         }
         // model.addAttribute("message", messageSource.getMessage("auth.message." + result, null, locale));
-        return "redirect:" + ViewName.LOGIN + "?lang=" + locale.getLanguage();
+
+        mav.setViewName("redirect:" + ViewName.RESET_PASSWORD_TOKEN_INVALID + "?lang=" + locale.getLanguage() + "&errorMessage=" + validationErrorMessage);
+        return mav;
+    }
+
+    @RequestMapping(value = ViewName.RESET_PASSWORD_TOKEN_INVALID, method = RequestMethod.GET)
+    public ModelAndView showResetPasswordTokenInvalid(@RequestParam("errorMessage") String errorMessage){
+        ModelAndView mav = new ModelAndView(ViewName.RESET_PASSWORD_TOKEN_INVALID);
+        mav.addObject("errorMessage", errorMessage);
+        return mav;
     }
 
     @RequestMapping(value = ViewName.UPDATE_PASSWORD, method = {RequestMethod.POST, RequestMethod.GET})

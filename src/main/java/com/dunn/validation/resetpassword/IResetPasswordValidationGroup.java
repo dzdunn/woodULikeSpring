@@ -1,4 +1,4 @@
-package com.dunn.validation.login;
+package com.dunn.validation.resetpassword;
 
 public interface IResetPasswordValidationGroup {
 }

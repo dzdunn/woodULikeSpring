@@ -4,6 +4,8 @@ import com.dunn.model.user.PasswordResetToken;
 import com.dunn.model.user.UserRole;
 import com.dunn.model.user.WoodulikeUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,11 +14,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Transactional
@@ -28,22 +31,29 @@ public class UserSecurityService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private MessageSource messageSource;
+
     public void createPasswordResetTokenForUser(WoodulikeUser woodulikeUser, String token) {
         userSecurityDAO.deletePasswordResetTokensForUser(woodulikeUser.getId());
         PasswordResetToken passwordResetToken = new PasswordResetToken(woodulikeUser, token);
         userSecurityDAO.savePasswordResetToken(passwordResetToken);
     }
 
-    public boolean validatePasswordResetToken(Long id, String token) {
+    public String validatePasswordResetToken(Long id, String token) {
         final PasswordResetToken passwordResetToken = userSecurityDAO.findByToken(token);
 
-        if (passwordResetToken == null ||
-                !passwordResetToken.getWoodulikeUser().getId().equals(id) ||
-                LocalDate.now().isAfter(passwordResetToken.getExpiryDate())) {
-            return false;
-        }
+        if(passwordResetToken == null){
+           return messageSource.getMessage("validation.passwordresettoken.tokenIsNull", null, LocaleContextHolder.getLocale());
 
-        return true;
+        }
+        if(!passwordResetToken.getWoodulikeUser().getId().equals(id)){
+            return messageSource.getMessage("validation.passwordresettoken.woodulikeuser.notEmpty", null, LocaleContextHolder.getLocale());
+        }
+        if(LocalDate.now().isAfter(passwordResetToken.getExpiryDate())){
+            return messageSource.getMessage("validation.passwordresettoken.expirydate.expired", null, LocaleContextHolder.getLocale());
+        }
+        return null;
     }
 
     public void changePassword(WoodulikeUser woodulikeUser, String password) {

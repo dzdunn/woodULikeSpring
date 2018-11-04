@@ -69,6 +69,9 @@ public final class ViewName {
 	public final static String RESET_PASSWORD_EMAIL_SENT = USER + "/resetPasswordEmailSent";
 	public final static ViewNameWrapper RESET_PASSWORD_EMAIL_SENT_WRAPPER = new ViewNameWrapper(RESET_PASSWORD_EMAIL_SENT, true);
 
+	public final static String RESET_PASSWORD_TOKEN_INVALID = USER + "/resetPasswordTokenInvalid";
+	public final static ViewNameWrapper RESET_PASSWORD_TOKEN_INVALID_WRAPPER = new ViewNameWrapper(RESET_PASSWORD_TOKEN_INVALID, true);
+
 	public final static String CHANGE_PASSWORD = USER + "/changePassword";
 	public final static ViewNameWrapper CHANGE_PASSWORD_WRAPPER = new ViewNameWrapper(CHANGE_PASSWORD, true);
 
