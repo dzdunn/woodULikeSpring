@@ -27,8 +27,8 @@ public class RegisterController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
 
 //    @Autowired
 //    private Validator passwordMatchValidator;
@@ -50,7 +50,7 @@ public class RegisterController {
         mav.addObject("countries", COUNTRIES);
 
 
-        mav.addObject("woodulikeUser", new WoodulikeUser());
+        mav.addObject("woodulikeUser", userService.constructNewWoodulikeUser());
         return mav;
     }
 
@@ -62,12 +62,12 @@ public class RegisterController {
             mav.setViewName(ViewName.REGISTER);
             return mav;
         }
-        woodulikeUser.setUserRoles(Arrays.asList(new UserRole("ROLE_USER")));
-        woodulikeUser.setPassword(passwordEncoder.encode(woodulikeUser.getPassword()));
-        woodulikeUser.setEnabled(true);
-        woodulikeUser.setAccountNonExpired(true);
-        woodulikeUser.setCredentialsNonExpired(true);
-        woodulikeUser.setAccountNonLocked(true);
+//        woodulikeUser.setUserRoles(Arrays.asList(new UserRole("ROLE_USER")));
+//        woodulikeUser.setPassword(passwordEncoder.encode(woodulikeUser.getPassword()));
+//        woodulikeUser.setEnabled(true);
+//        woodulikeUser.setAccountNonExpired(true);
+//        woodulikeUser.setCredentialsNonExpired(true);
+//        woodulikeUser.setAccountNonLocked(true);
         boolean isRegistered = userService.registerUser(woodulikeUser);
         if(isRegistered) {
            mav.setViewName("redirect:" + ViewName.LOGIN);

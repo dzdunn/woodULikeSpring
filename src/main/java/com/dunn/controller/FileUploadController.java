@@ -49,10 +49,12 @@ public class FileUploadController {
     public String fileUploadProcess(@RequestParam("imageFile") MultipartFile imageFile, @ModelAttribute("woodProjectDTO") WoodProjectDTO woodProjectDTO, RedirectAttributes redirectAttributes){
         WoodulikeUser woodulikeUser = (WoodulikeUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        fileSystemStorageService.generateUniqueTempImageDirectory(woodulikeUser.getUsername());
-        fileSystemStorageService.store(imageFile);
+        Path tempDirectory = fileSystemStorageService.storeToTempDirectory(imageFile, woodulikeUser.getUsername());
+        File folder = new File(tempDirectory.toString());
+        File[] files = folder.listFiles();
+        List<String> uploadedImagePaths = Arrays.stream(files).map(x -> "../userUploadedImages/" + tempDirectory.toString() + x.getName()).collect(Collectors.toList());
 
-        List<String> uploadedImagePaths = fileSystemStorageService.loadAll().map(x -> "../userUploadedImages/" + x.getFileName()).collect(Collectors.toList());
+//        List<String> uploadedImagePaths = fileSystemStorageService.loadAll().map(x -> "../userUploadedImages/" + x.getFileName()).collect(Collectors.toList());
 
         redirectAttributes.addFlashAttribute("uploadedImagePaths", uploadedImagePaths);
         redirectAttributes.addFlashAttribute("message", "File uploaded successfully");

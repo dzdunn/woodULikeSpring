@@ -50,21 +50,28 @@ public class FileSystemStorageService implements IStorageService {
 
 
     @Override
-    public void store(MultipartFile file) {
-        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+    public void store(MultipartFile file, Path targetDirectory) {
+        //String filename = StringUtils.cleanPath(file.getOriginalFilename());
         try{
             if(file.isEmpty()){
-                throw new StorageException("Failed to store empty file: " + filename);
+                throw new StorageException("Failed to store empty file: " + targetDirectory.getFileName());
             }
-            if(filename.contains("..")){
-                throw new StorageException("Cannot store file with relative path outside current directory: " + filename);
+            if(targetDirectory.toString().contains("..")){
+                throw new StorageException("Cannot store file with relative path outside current directory: " + targetDirectory.toString());
             }
             try(InputStream inputStream = file.getInputStream()){
-                Files.copy(inputStream, this.rootLocation.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(inputStream, targetDirectory, StandardCopyOption.REPLACE_EXISTING);
             }
         } catch(IOException e){
-            throw new StorageException("Failed to store file: " + filename, e);
+            throw new StorageException("Failed to store file: " + targetDirectory.toString(), e);
         }
+    }
+
+    @Override
+    public Path storeToTempDirectory(MultipartFile file, String username){
+        Path targetDirectory = generateUniqueTempImageDirectory(username);
+        store(file, targetDirectory.resolve(file.getOriginalFilename()));
+        return targetDirectory;
     }
 
     //MAKE THIS RETURN UNIQUE PATH I.E USER, PROJECT, IMAGE
@@ -121,6 +128,11 @@ public class FileSystemStorageService implements IStorageService {
 
         return usernameSubFolder;
     }
+
+    @Override
+    public void transferToUserProjectDirectory(){
+
+    };
 
     @Override
     public Path getRootLocation() {

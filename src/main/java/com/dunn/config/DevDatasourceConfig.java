@@ -1,13 +1,19 @@
 package com.dunn.config;
 
 
+import com.dunn.dao.user.UserService;
+import com.dunn.model.user.UserRole;
+import com.dunn.model.user.WoodulikeUser;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Properties;
 
 
@@ -37,4 +43,6 @@ public class DevDatasourceConfig {
             }
         };
     }
+
+
 }

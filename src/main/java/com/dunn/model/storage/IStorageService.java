@@ -10,7 +10,7 @@ public interface IStorageService {
 
     void init();
 
-    void store(MultipartFile file);
+    void store(MultipartFile file, Path targetDirectory);
 
     Stream<Path> loadAll();
 
@@ -23,4 +23,8 @@ public interface IStorageService {
     Path getRootLocation();
 
     Path generateUniqueTempImageDirectory(String username);
+
+    Path storeToTempDirectory(MultipartFile file, String username);
+
+    void transferToUserProjectDirectory();
 }

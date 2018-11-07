@@ -27,6 +27,7 @@ public class UserDAO  implements IUserDAO{
     @Override
     public WoodulikeUser createWoodulikeUser(WoodulikeUser woodulikeUser) {
         if(findWoodulikeUserByUsername(woodulikeUser.getUsername()) == null){
+            woodulikeUser.setPassword(passwordEncoder.encode(woodulikeUser.getPassword()));
             sessionFactory.getCurrentSession().save(woodulikeUser);
         }
         //should throw exception if user exists
