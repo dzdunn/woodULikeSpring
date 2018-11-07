@@ -1,6 +1,8 @@
 package com.dunn.model;
 
 import org.hibernate.annotations.Type;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import javax.persistence.*;
 import java.io.ByteArrayInputStream;
@@ -9,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
 
 @Entity
 public class Image {
@@ -20,11 +23,7 @@ public class Image {
     private Long id;
     private String imageName;
     private String path;
-
-    private byte[] blob;
-
     private WoodProject woodProject;
-
 
     public Long getId() {
         return id;
@@ -32,6 +31,15 @@ public class Image {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @ManyToOne(targetEntity = WoodProject.class, fetch = FetchType.LAZY)
+    public WoodProject getWoodProject() {
+        return woodProject;
+    }
+
+    public void setWoodProject(WoodProject woodProject) {
+        this.woodProject = woodProject;
     }
 
     public String getImageName() {
@@ -50,37 +58,23 @@ public class Image {
         this.path = path;
     }
 
-    public byte[] getBlob() {
-        return blob;
-    }
 
-    public void setBlob(byte[] blob) {
-        this.blob = blob;
-    }
 
-    public static Image createImageFromPath(String path){
-        Image image = new Image();
-        image.setPath(path);
+//    public static Image createImageFromPath(String path){
+//        Image image = new Image();
+//        image.setPath(path);
+//
+//        File file = new File(path);
+//        image.setImageName(file.getName());
+//
+//        try {
+//            byte[] data = Files.readAllBytes(file.toPath());
+//            image.setBlob(data);
+//        } catch(IOException e){
+//            e.printStackTrace();
+//        }
+//        return image;
+//    }
 
-        File file = new File(path);
-        image.setImageName(file.getName());
 
-        try {
-            byte[] data = Files.readAllBytes(file.toPath());
-            image.setBlob(data);
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-        return image;
-    }
-
-    @ManyToOne(targetEntity = WoodProject.class, fetch = FetchType.LAZY)
-   // @JoinColumn(name = "image_id")
-    public WoodProject getWoodProject() {
-        return woodProject;
-    }
-
-    public void setWoodProject(WoodProject woodProject) {
-        this.woodProject = woodProject;
-    }
 }

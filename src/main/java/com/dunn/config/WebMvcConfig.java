@@ -1,5 +1,7 @@
 package com.dunn.config;
 
+import com.dunn.controller.FileUploadController;
+import com.dunn.model.storage.IStorageService;
 import org.hibernate.Hibernate;
 import org.hibernate.validator.HibernateValidator;
 import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
@@ -41,6 +43,9 @@ public class WebMvcConfig implements WebMvcConfigurer{
 	@Autowired
 	private AutowireCapableBeanFactory beanFactory;
 
+	@Autowired
+	private IStorageService fileSystemStorageService;
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/static/**")
@@ -51,6 +56,8 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		.addResolver(new WebJarsResourceResolver());
 
 		registry.addResourceHandler("/img/**").addResourceLocations("/resources/img/");
+
+		registry.addResourceHandler("userUploadedImages/**").addResourceLocations(fileSystemStorageService.getRootLocation().toUri().toString());
 
 	}
 

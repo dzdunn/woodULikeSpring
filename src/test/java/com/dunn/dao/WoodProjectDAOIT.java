@@ -6,6 +6,7 @@ import com.dunn.controller.path.ViewNameWrapper;
 import com.dunn.dao.woodproject.IWoodProjectDAO;
 import com.dunn.model.Image;
 import com.dunn.model.WoodProject;
+import com.dunn.model.storage.FileSystemStorageService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,9 @@ public class WoodProjectDAOIT {
     @Autowired
     private JavaMailSenderImpl javaMailSender;
 
+    @Autowired
+    private FileSystemStorageService fileSystemStorageService;
+
     private WoodProject woodProject;
 
     private List<Image> images;
@@ -67,10 +71,10 @@ public class WoodProjectDAOIT {
         woodProject.setDate(date);
         woodProject.setDescription("Test description");
         images = new ArrayList<Image>();
-
-        Image image1 = Image.createImageFromPath("C:\\Users\\dzdun\\Pictures\\graduation.jpg");
-
-        Image image2 = Image.createImageFromPath(image1.getPath());
+//
+//        Image image1 = Image.createImageFromPath("C:\\Users\\dzdun\\Pictures\\graduation.jpg");
+//
+//        Image image2 = Image.createImageFromPath(image1.getPath());
 
         images.add(image1);
         images.add(image2);
@@ -126,9 +130,9 @@ public class WoodProjectDAOIT {
         woodProject.setDate(newDate);
 
 
-       Image updatedImage = Image.createImageFromPath(image1.getPath());
+       //Image updatedImage = Image.createImageFromPath(image1.getPath());
 
-       woodProject.setImages(Arrays.asList(updatedImage));
+       //woodProject.setImages(Arrays.asList(updatedImage));
 
         woodProjectDAO.updateWoodProject(woodProject);
 
@@ -179,7 +183,13 @@ public class WoodProjectDAOIT {
 //        }
         for(String url : ViewNameWrapper.getPublicViewUrls()){
             System.out.println(url);
-        };
+        }
+    }
+
+    @Test
+    public void testDirectory(){
+        assertNotNull(fileSystemStorageService);
+        fileSystemStorageService.init();
     }
 
 }

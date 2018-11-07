@@ -9,19 +9,27 @@ import org.springframework.core.io.ClassPathResource;
 
 @Configuration
 @PropertySources({
-	@PropertySource("classpath:configuration/database.properties"),
-	@PropertySource("classpath:configuration/mailsender.properties"),
-	@PropertySource("classpath:i18n/messages.properties"),
-		@PropertySource(value = "classpath:configuration/local.properties", ignoreResourceNotFound = true)
+        @PropertySource("classpath:configuration/database.properties"),
+        @PropertySource("classpath:configuration/mailsender.properties"),
+        @PropertySource("classpath:configuration/storage.properties"),
+        @PropertySource("classpath:i18n/messages.properties"),
+        @PropertySource(value = "classpath:configuration/local.properties", ignoreResourceNotFound = true)
 })
 public class WoodulikeProperties {
 
 
-	@Bean
-	public PropertiesFactoryBean databaseProperties() {
-		PropertiesFactoryBean databaseProperties = new PropertiesFactoryBean();
-		databaseProperties.setLocation(new ClassPathResource("configuration/database.properties"));
-		return databaseProperties;
-	}
+    @Bean
+    public PropertiesFactoryBean databaseProperties() {
+        PropertiesFactoryBean databaseProperties = new PropertiesFactoryBean();
+        databaseProperties.setLocation(new ClassPathResource("configuration/database.properties"));
+        return databaseProperties;
+    }
+
+    @Bean(name = "storageServiceProperties")
+    public PropertiesFactoryBean storageServiceProperties(){
+        PropertiesFactoryBean storageServiceProperties = new PropertiesFactoryBean();
+        storageServiceProperties.setLocation(new ClassPathResource("configuration/storage.properties"));
+        return storageServiceProperties;
+    }
 
 }

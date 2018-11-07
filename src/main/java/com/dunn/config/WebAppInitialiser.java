@@ -6,13 +6,12 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
 public class WebAppInitialiser implements WebApplicationInitializer {
 
 	@Override
-	public void onStartup(ServletContext servletContext) throws ServletException {
+	public void onStartup(ServletContext servletContext) {
 		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
 		rootContext.register(WebMvcConfig.class);
 		rootContext.setServletContext(servletContext);
@@ -24,8 +23,6 @@ public class WebAppInitialiser implements WebApplicationInitializer {
 		         
 		        dispatcher.setLoadOnStartup(1);
 		        dispatcher.addMapping("/");
-
-
 
 	}
 
