@@ -3,31 +3,21 @@ package com.dunn.config;
 import com.dunn.dao.user.UserService;
 import com.dunn.model.user.UserRole;
 import com.dunn.model.user.WoodulikeUser;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.util.Arrays;
 
 @Component
-@Profile("dev")
+
 public class DevDataSetup implements ApplicationListener<ContextRefreshedEvent> {
 
-
-
     private UserService userService;
-
-
 
     @Autowired
     public DevDataSetup(@Lazy UserService userService){

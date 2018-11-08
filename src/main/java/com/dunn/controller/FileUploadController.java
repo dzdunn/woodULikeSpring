@@ -25,7 +25,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 import java.io.*;
+import java.net.URI;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -50,11 +52,19 @@ public class FileUploadController {
         WoodulikeUser woodulikeUser = (WoodulikeUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         Path tempDirectory = fileSystemStorageService.storeToTempDirectory(imageFile, woodulikeUser.getUsername());
+
+
         File folder = new File(tempDirectory.toString());
         File[] files = folder.listFiles();
-        List<String> uploadedImagePaths = Arrays.stream(files).map(x -> "../userUploadedImages/" + tempDirectory.toString() + x.getName()).collect(Collectors.toList());
+//        List<String> uploadedImagePaths = Arrays.stream(files).map(x -> x.getPath().replace("upload-dir", "/userUploadedImages").replace("\\", "/")).collect(Collectors.toList());
 
-//        List<String> uploadedImagePaths = fileSystemStorageService.loadAll().map(x -> "../userUploadedImages/" + x.getFileName()).collect(Collectors.toList());
+        //THIS WORKS
+
+//        List<String> uploadedImagePaths = Arrays.stream(files).map(x -> x.toURI().toString().replaceAll(".*upload-dir", ("/userUploadedImages"))).collect(Collectors.toList());
+
+        //TRY URI MORE
+
+        List<String> uploadedImagePaths = Arrays.stream(files).map(x -> fileSystemStorageService.getRootLocation().relativize(Paths.get(x.toURI().toString())).toString()).collect(Collectors.toList());
 
         redirectAttributes.addFlashAttribute("uploadedImagePaths", uploadedImagePaths);
         redirectAttributes.addFlashAttribute("message", "File uploaded successfully");

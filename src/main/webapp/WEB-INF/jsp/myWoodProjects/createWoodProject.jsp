@@ -69,6 +69,8 @@
     </c:forEach>
 </c:if>
 
+<img src="../userUploadedImages/tester-7c3b8571-bbe3-4fc8-9b80-b1e865797fe6/graduation.jpg"/>
+
 
     <%@include file="../templates/footer.jsp" %>
 </body>

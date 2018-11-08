@@ -71,6 +71,7 @@ public class FileSystemStorageService implements IStorageService {
     public Path storeToTempDirectory(MultipartFile file, String username){
         Path targetDirectory = generateUniqueTempImageDirectory(username);
         store(file, targetDirectory.resolve(file.getOriginalFilename()));
+
         return targetDirectory;
     }
 
