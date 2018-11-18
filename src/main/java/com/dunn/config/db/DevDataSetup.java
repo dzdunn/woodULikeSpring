@@ -1,4 +1,4 @@
-package com.dunn.config;
+package com.dunn.config.db;
 
 import com.dunn.dao.user.UserService;
 import com.dunn.model.user.UserRole;

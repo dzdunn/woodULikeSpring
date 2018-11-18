@@ -1,8 +1,6 @@
-package com.dunn.config;
+package com.dunn.config.webapp;
 
-import com.dunn.controller.FileUploadController;
 import com.dunn.model.storage.IStorageService;
-import org.hibernate.Hibernate;
 import org.hibernate.validator.HibernateValidator;
 import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,6 @@ import org.springframework.http.CacheControl;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.Validator;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MessageSourceResourceBundleLocator;
 import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
 import org.springframework.validation.beanvalidation.SpringValidatorAdapter;

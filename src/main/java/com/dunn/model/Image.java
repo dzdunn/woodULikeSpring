@@ -60,7 +60,7 @@ public class Image {
 
 
 
-//    public static Image createImageFromPath(String path){
+//    public static Image createImageFromPath(ViewName path){
 //        Image image = new Image();
 //        image.setPath(path);
 //

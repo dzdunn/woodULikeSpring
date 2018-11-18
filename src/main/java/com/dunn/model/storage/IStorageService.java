@@ -24,7 +24,7 @@ public interface IStorageService {
 
     Path generateUniqueTempImageDirectory(String username);
 
-    Path storeToTempDirectory(MultipartFile file, String username);
+    Path storeToTempDirectory(MultipartFile file, String username, Path tempTargetDirectory);
 
     void transferToUserProjectDirectory();
 }

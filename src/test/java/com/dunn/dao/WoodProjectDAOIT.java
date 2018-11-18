@@ -1,7 +1,6 @@
 package com.dunn.dao;
 
-import com.dunn.config.WebMvcConfig;
-import com.dunn.controller.path.ViewName;
+import com.dunn.config.webapp.WebMvcConfig;
 import com.dunn.controller.path.ViewNameWrapper;
 import com.dunn.dao.woodproject.IWoodProjectDAO;
 import com.dunn.model.Image;
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
@@ -20,8 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.io.*;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,7 +25,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static org.apache.commons.lang3.ArrayUtils.toArray;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -170,15 +165,15 @@ public class WoodProjectDAOIT {
     public void testReflectionList() throws IllegalAccessException {
 //
 //        Field[] fields = ViewName.class.getDeclaredFields();
-//        List<String> urls = new ArrayList<>();
+//        List<ViewName> urls = new ArrayList<>();
 //
 //        for(Field field : fields){
 //            if(Modifier.isPublic(field.getModifiers())){
-//                urls.add((String)field.get(String.class));
+//                urls.add((ViewName)field.get(ViewName.class));
 //            }
 //        }
 //
-//        for(String url : urls){
+//        for(ViewName url : urls){
 //            System.out.println(url);
 //        }
         for(String url : ViewNameWrapper.getPublicViewUrls()){

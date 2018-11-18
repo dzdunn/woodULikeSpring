@@ -7,6 +7,7 @@ import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
@@ -51,7 +52,7 @@ public class FileSystemStorageService implements IStorageService {
 
     @Override
     public void store(MultipartFile file, Path targetDirectory) {
-        //String filename = StringUtils.cleanPath(file.getOriginalFilename());
+        //ViewName filename = StringUtils.cleanPath(file.getOriginalFilename());
         try{
             if(file.isEmpty()){
                 throw new StorageException("Failed to store empty file: " + targetDirectory.getFileName());
@@ -68,11 +69,13 @@ public class FileSystemStorageService implements IStorageService {
     }
 
     @Override
-    public Path storeToTempDirectory(MultipartFile file, String username){
-        Path targetDirectory = generateUniqueTempImageDirectory(username);
-        store(file, targetDirectory.resolve(file.getOriginalFilename()));
+    public Path storeToTempDirectory(MultipartFile file, String username, @Nullable Path tempDirectoryTarget){
+        if(tempDirectoryTarget == null){ tempDirectoryTarget = generateUniqueTempImageDirectory(username);
+        }
 
-        return targetDirectory;
+        store(file, tempDirectoryTarget.resolve(file.getOriginalFilename()));
+
+        return tempDirectoryTarget;
     }
 
     //MAKE THIS RETURN UNIQUE PATH I.E USER, PROJECT, IMAGE

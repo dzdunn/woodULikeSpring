@@ -2,21 +2,14 @@ package com.dunn.controller.user;
 
 import com.dunn.controller.path.ViewName;
 import com.dunn.dao.user.UserService;
-import com.dunn.model.user.UserRole;
 import com.dunn.model.user.WoodulikeUser;
 import com.dunn.validation.registration.IWoodulikeUserRegistrationValidationGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.validation.Valid;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -38,7 +31,7 @@ public class RegisterController {
 //        binder.setValidator(passwordMatchValidator);
 //    }
 
-    private static final List<String> COUNTRIES = Arrays.stream(Locale.getISOCountries())
+    private static final List<java.lang.String> COUNTRIES = Arrays.stream(Locale.getISOCountries())
                                                     .map(x -> new Locale("", x)
                                                     .getDisplayCountry()).sorted(Comparator.naturalOrder())
                                                     .collect(Collectors.toList());

@@ -1,40 +1,18 @@
-package com.dunn.controller;
+package com.dunn.controller.woodproject;
 
 import com.dunn.controller.path.ViewName;
-import com.dunn.dao.woodproject.IWoodProjectDAO;
-import com.dunn.model.Image;
-import com.dunn.model.WoodProject;
 import com.dunn.model.storage.IStorageService;
 import com.dunn.model.storage.StorageFileNotFoundException;
 import com.dunn.model.user.WoodProjectDTO;
 import com.dunn.model.user.WoodulikeUser;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.sql.rowset.serial.SerialBlob;
-import javax.sql.rowset.serial.SerialException;
-import java.io.*;
-import java.net.URI;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.Blob;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class FileUploadController {
@@ -43,35 +21,37 @@ public class FileUploadController {
     private final IStorageService fileSystemStorageService;
 
     @Autowired
-    public FileUploadController(IStorageService fileSystemStorageService){
+    public FileUploadController(IStorageService fileSystemStorageService) {
         this.fileSystemStorageService = fileSystemStorageService;
     }
 
-    @RequestMapping(value="/fileUploadProcess", method=RequestMethod.POST)
-    public String fileUploadProcess(@RequestParam("imageFile") MultipartFile imageFile, @ModelAttribute("woodProjectDTO") WoodProjectDTO woodProjectDTO, RedirectAttributes redirectAttributes){
+
+    @RequestMapping(value = "/fileUploadProcess", method = RequestMethod.POST)
+    public java.lang.String fileUploadProcess(@ModelAttribute("woodProjectDTO") WoodProjectDTO woodProjectDTO, @SessionAttribute("woodProjectDTO") WoodProjectDTO sessionWoodProjectDTO, HttpSession httpSession, RedirectAttributes redirectAttributes) {
+
+
         WoodulikeUser woodulikeUser = (WoodulikeUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        woodProjectDTO.setTempDirectory(sessionWoodProjectDTO.getTempDirectory());
 
-        Path tempDirectory = fileSystemStorageService.storeToTempDirectory(imageFile, woodulikeUser.getUsername());
+        woodProjectDTO.setTempDirectory(
+                fileSystemStorageService.storeToTempDirectory(
+                        woodProjectDTO.getImageHolder(), woodulikeUser.getUsername(), woodProjectDTO.getTempDirectory()
+                )
+        );
+
+        woodProjectDTO.addImageDirectory(
+                woodProjectDTO.getTempDirectory().resolve(
+                        woodProjectDTO.getImageHolder().getOriginalFilename()).toUri().toString().replaceAll(".*upload-dir", ("/userUploadedImages")
+                )
+        );
 
 
-        File folder = new File(tempDirectory.toString());
-        File[] files = folder.listFiles();
-//        List<String> uploadedImagePaths = Arrays.stream(files).map(x -> x.getPath().replace("upload-dir", "/userUploadedImages").replace("\\", "/")).collect(Collectors.toList());
-
-        //THIS WORKS
-
-//        List<String> uploadedImagePaths = Arrays.stream(files).map(x -> x.toURI().toString().replaceAll(".*upload-dir", ("/userUploadedImages"))).collect(Collectors.toList());
-
-        //TRY URI MORE
-
-        List<String> uploadedImagePaths = Arrays.stream(files).map(x -> fileSystemStorageService.getRootLocation().relativize(Paths.get(x.toURI().toString())).toString()).collect(Collectors.toList());
-
-        redirectAttributes.addFlashAttribute("uploadedImagePaths", uploadedImagePaths);
         redirectAttributes.addFlashAttribute("message", "File uploaded successfully");
         redirectAttributes.addFlashAttribute("woodProjectDTO", woodProjectDTO);
-        return "redirect:" + ViewName.CREATE_WOOD_PROJECT;
-    }
+        //  sessionStatus.setComplete();
 
+        return "redirect:" + ViewName.CREATE_WOOD_PROJECT + "?edit";
+    }
 
 
     @ExceptionHandler(StorageFileNotFoundException.class)
@@ -80,15 +60,14 @@ public class FileUploadController {
     }
 
 
-
 //    @Autowired
 //    private IWoodProjectDAO woodProjectDAO;
 //
 //    @Value("${upload.location}")
-//    private String uploadLocation;
+//    private ViewName uploadLocation;
 //
 //    @RequestMapping(value="/uploadFile", method=RequestMethod.GET)
-//    public String uploadFile(MultipartFile multipartFile){
+//    public ViewName uploadFile(MultipartFile multipartFile){
 //
 //        return "uploadFile";
 //    }
@@ -107,7 +86,7 @@ public class FileUploadController {
 //            wp.setTitle("TESTING IMAGE");
 //            wp.setDescription("TESTING IMAGE DESC");
 //            SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
-//            String date = "2001-05-24";
+//            ViewName date = "2001-05-24";
 //            try {
 //                wp.setDate(sdf.parse(date));
 //            }catch(ParseException e){
@@ -152,7 +131,7 @@ public class FileUploadController {
 //    }
 //
 //    @RequestMapping(value="/fileUploadView", method = RequestMethod.GET)
-//    public String fileUploadView(ModelMap modelMap){
+//    public ViewName fileUploadView(ModelMap modelMap){
 //        return "fileUploadView";
 //    }
 //
@@ -168,7 +147,6 @@ public class FileUploadController {
 ////        IOUtils.copy(in, response.getOutputStream());
 ////
 ////    }
-
 
 
 }

@@ -14,55 +14,39 @@
 <body>
 
 <c:out value="${message}"/>
+<form:form method="POST"  modelAttribute="woodProjectDTO" enctype="multipart/form-data">
 
-<form:form method="POST" action="${ViewName.CREATE_WOOD_PROJECT}" modelAttribute="woodProjectDTO">
-    <table>
+<table>
 
-        <tr>
-            <td><form:label path="woodProject.title">Title</form:label></td>
-            <td><form:input path="woodProject.title"/></td>
-        </tr>
-        <tr>
-            <td><form:label path="woodProject.description">Description</form:label></td>
-            <td><form:input path="woodProject.description"/></td>
-        </tr>
-        <tr>
-            <td><label>Image:</label></td>
-            <td><input type="file" name="imageFile"/></td>
-                <%--<td><form:label path="imageFile">Files</form:label></td>--%>
-                <%--<td><form:input path="imageFile" type="file"/></td>--%>
-        </tr>
+    <tr>
+        <td><form:label path="woodProject.title">Title</form:label></td>
+        <td><form:input path="woodProject.title"/></td>
+    </tr>
+    <tr>
+        <td><form:label path="woodProject.description">Description</form:label></td>
+        <td><form:input path="woodProject.description"/></td>
+    </tr>
+    <tr>
+        <td><form:label path="imageHolder">Image</form:label> </td>
+        <td><input type="file" name="imageHolder"></td>
+    </tr>
+    <tr>
+        <td><input type="submit" value="Add image" class="btn btn-primary" formaction="/fileUploadProcess?${_csrf.parameterName}=${_csrf.token}"/></td>
+    </tr>
+    <tr>
+        <td><input type="submit" value="Submit" class="btn btn-primary" formaction="${ViewName.CREATE_WOOD_PROJECT}"/></td>
+    </tr>
+    <%--<input type="hidden" name="imageDirectories" value="${woodProjectDTO.imageDirectories}"/>--%>
+    <%--<input type="hidden" name="tempDirectory" value="${woodProjectDTO.tempDirectory}"/>--%>
 
-
-        <tr>
-            <td><input type="submit" value="Submit" class="btn btn-primary"/></td>
-        </tr>
-
-    </table>
-
-</form:form>
-
-<form:form method="POST" action="/fileUploadProcess?${_csrf.parameterName}=${_csrf.token}" enctype="multipart/form-data"
-           methodParam="imageFile">
-    <table>
-
-        <tr>
-            <td><label>Image:</label></td>
-            <td><input type="file" name="imageFile"/></td>
-                <%--<td><form:label path="imageFile">Files</form:label></td>--%>
-                <%--<td><form:input path="imageFile" type="file"/></td>--%>
-        </tr>
-
-        <tr>
-            <td><input type="submit" value="Add image" class="btn btn-primary"/></td>
-        </tr>
-
-    </table>
-
+</table>
 
 </form:form>
-<c:if test="${uploadedImagePaths != null && !uploadedImagePaths.isEmpty()}">
-    <c:forEach var="image" items="${uploadedImagePaths}">
+
+
+
+<c:if test="${woodProjectDTO.imageDirectories != null && !woodProjectDTO.imageDirectories.isEmpty()}">
+    <c:forEach var="image" items="${woodProjectDTO.imageDirectories}">
         <c:out value="${image}"/>
         <img src="${image}"/>
 

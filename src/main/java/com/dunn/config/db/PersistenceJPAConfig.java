@@ -1,9 +1,5 @@
-package com.dunn.config;
+package com.dunn.config.db;
 
-import com.dunn.dao.user.UserService;
-import com.dunn.model.user.UserRole;
-import com.dunn.model.user.WoodulikeUser;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,10 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.Validator;
 
 
-import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
-import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Properties;
 
 @Configuration

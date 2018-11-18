@@ -1,6 +1,6 @@
 package com.dunn.dao;
 
-import com.dunn.config.WebMvcConfig;
+import com.dunn.config.webapp.WebMvcConfig;
 import com.dunn.model.storage.IStorageService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +8,7 @@ import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 

@@ -1,14 +1,11 @@
 package com.dunn.dao;
 
-import com.dunn.config.WebMvcConfig;
+import com.dunn.config.webapp.WebMvcConfig;
 import com.dunn.model.Photo;
 
 
-import com.dunn.model.user.UserRole;
-import com.dunn.model.user.WoodulikeUser;
 import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.hibernate.SessionFactory;
-import org.hibernate.metadata.ClassMetadata;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Commit;
@@ -36,8 +33,8 @@ public class PhotoTest {
 
     @Test
     public void testCountryList(){
-//        String[] locales = Locale.getISOCountries();
-//        for(String locale : locales){
+//        ViewName[] locales = Locale.getISOCountries();
+//        for(ViewName locale : locales){
 //            System.out.println(locale);
 //
 //            Locale country = new Locale("", locale);

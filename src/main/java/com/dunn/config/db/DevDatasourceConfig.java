@@ -1,24 +1,33 @@
-package com.dunn.config;
+package com.dunn.config.db;
 
+
+import com.dunn.dao.user.UserService;
+import com.dunn.model.user.UserRole;
+import com.dunn.model.user.WoodulikeUser;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Properties;
 
+
 @Component
-@Profile("production")
-public class ProductionDatasourceConfig {
+@Profile("dev")
+public class DevDatasourceConfig {
 
     @Bean
     public DataSource dataSource(){
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUsername("etoblatmlgqsea");
-        dataSource.setPassword("ff6cf781c700a9b4c6640ebb6744ba7e7ad14d3c3b02cee055844389b5a685b8");
-        dataSource.setUrl("jdbc:postgresql://ec2-23-21-171-249.compute-1.amazonaws.com:5432/dfhie9hmsobu6b");
+        dataSource.setUsername("postgres");
+        dataSource.setPassword("root");
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/woodulike-local");
         return dataSource;
     }
 
@@ -34,5 +43,6 @@ public class ProductionDatasourceConfig {
             }
         };
     }
+
 
 }

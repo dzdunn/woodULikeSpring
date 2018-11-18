@@ -1,4 +1,4 @@
-package com.dunn.config;
+package com.dunn.config.security;
 
 import com.dunn.controller.user.LoginController;
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
