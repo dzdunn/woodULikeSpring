@@ -50,7 +50,8 @@ public class FileUploadController {
         redirectAttributes.addFlashAttribute("woodProjectDTO", woodProjectDTO);
         //  sessionStatus.setComplete();
 
-        return "redirect:" + ViewName.CREATE_WOOD_PROJECT + "?edit";
+       // return "redirect:" + ViewName.CREATE_WOOD_PROJECT + "?edit";
+        return "redirect:" + ViewName.CREATE_WOOD_PROJECT;
     }
 
 

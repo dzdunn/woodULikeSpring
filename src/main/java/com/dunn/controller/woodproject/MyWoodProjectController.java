@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.bind.support.SimpleSessionStatus;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,59 +32,24 @@ public class MyWoodProjectController {
     }
 
 
-    @ManageCreateWoodProjectSession
+    @ManageCreateWoodProjectSession(sessionStatus = "status", allowedViewNames = {"redirect:" + ViewName.CREATE_WOOD_PROJECT})
     @RequestMapping(value = ViewName.CREATE_WOOD_PROJECT, method = RequestMethod.GET)
     public ModelAndView showCreateWoodProject(Model model, SessionStatus status) {
-        if(RequestContextHolder.getRequestAttributes().getAttribute("woodProjectDTO", RequestAttributes.SCOPE_SESSION)!= null){
-            RequestContextHolder.getRequestAttributes().removeAttribute("woodProjectDTO", RequestAttributes.SCOPE_SESSION);
+       // status.setComplete();
+        //createWoodProjectDTO();
 
-            status.setComplete();
-        }
-        if(model.containsAttribute("woodProjectDTO")){
-            model.asMap().remove("woodProjectDTO");
-            model.addAttribute(createWoodProjectDTO());
-        }
 
-        //WoodProjectDTO wp = (WoodProjectDTO) httpSession.getAttribute("woodProjectDTO");
-
+        //ModelAndView mav = new ModelAndView("redirect:" +ViewName.CREATE_WOOD_PROJECT + "?edit");
         ModelAndView mav = new ModelAndView(ViewName.CREATE_WOOD_PROJECT);
-
-
-        //mav.addObject("woodProjectDTO", woodProjectDTO);
-//
-//        while(request.getSession().getAttributeNames().hasMoreElements()){
-//            System.out.println(request.getSession().getAttribute("woodProjectDTO").toString());
-//        };
-
-//        if(!model.containsAttribute("woodProjectDTO")) {
-//            mav.addObject("woodProjectDTO", new WoodProjectDTO());
-//        } else{
-//            mav.addAllObjects(model.asMap());
-//        }
 
         return mav;
     }
 
     @RequestMapping(value = ViewName.CREATE_WOOD_PROJECT, method = RequestMethod.GET, params = {"edit"})
-    public ModelAndView editCreateWoodProject(@ModelAttribute("woodProjectDTO") WoodProjectDTO woodProjectDTO) {
+    public ModelAndView editCreateWoodProject() {
 
-
-       // WoodProjectDTO wp = (WoodProjectDTO) httpSession.getAttribute("woodProjectDTO");
 
         ModelAndView mav = new ModelAndView(ViewName.CREATE_WOOD_PROJECT);
-
-
-        //mav.addObject("woodProjectDTO", woodProjectDTO);
-//
-//        while(request.getSession().getAttributeNames().hasMoreElements()){
-//            System.out.println(request.getSession().getAttribute("woodProjectDTO").toString());
-//        };
-
-//        if(!model.containsAttribute("woodProjectDTO")) {
-//            mav.addObject("woodProjectDTO", new WoodProjectDTO());
-//        } else{
-//            mav.addAllObjects(model.asMap());
-//        }
 
         return mav;
     }
@@ -94,7 +60,6 @@ public class MyWoodProjectController {
         ModelAndView mav = new ModelAndView();
 
         WoodProject woodProject = woodProjectDTO.getWoodProject();
-        //woodProject.set
 
         woodProjectDAO.createWoodProject(woodProject);
         mav.setViewName(ViewName.CREATE_WOOD_PROJECT);
