@@ -12,12 +12,14 @@ import java.lang.annotation.*;
 @Documented
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ManageCreateWoodProjectSession {
+public @interface ScopeSessionAttributesToViews {
 
    String sessionStatus();
 
    Class<? extends SessionStatus> sessionStatusType() default SessionStatus.class;
 
    String[] allowedViewNames() default {};
+
+   String[] sessionAttribute();
 
 }

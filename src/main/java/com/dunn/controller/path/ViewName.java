@@ -36,6 +36,12 @@ public final class ViewName {
 	public final static java.lang.String CREATE_WOOD_PROJECT = MY_WOOD_PROJECTS + "/createWoodProject";
 	public final static ViewNameWrapper CREATE_WOOD_PROJECT_WRAPPER = new ViewNameWrapper(CREATE_WOOD_PROJECT);
 
+	public final static java.lang.String EDIT_WOOD_PROJECT = MY_WOOD_PROJECTS + "/editWoodProject";
+	public final static ViewNameWrapper EDIT_WOOD_PROJECT_WRAPPER = new ViewNameWrapper(EDIT_WOOD_PROJECT);
+
+	public final static java.lang.String SAVE_WOOD_PROJECT = MY_WOOD_PROJECTS + "/saveWoodProject";
+	public final static ViewNameWrapper SAVE_WOOD_PROJECT_WRAPPER = new ViewNameWrapper(SAVE_WOOD_PROJECT);
+
 	public final static java.lang.String MANAGE_WOOD_PROJECTS = MY_WOOD_PROJECTS + "/manageWoodProjects";
 	public final static ViewNameWrapper MANAGE_WOOD_PROJECTS_WRAPPER = new ViewNameWrapper(MANAGE_WOOD_PROJECTS);
 

@@ -5,6 +5,7 @@ import com.dunn.model.user.WoodulikeUser;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -61,6 +62,9 @@ public class WoodProject implements Serializable {
     }
 
     public List<Image> getImages() {
+        if(images == null){
+            images = new ArrayList<>();
+        }
         return images;
     }
 

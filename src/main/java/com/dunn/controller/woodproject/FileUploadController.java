@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.stream.Collectors;
 
 @Controller
 public class FileUploadController {
@@ -27,31 +32,21 @@ public class FileUploadController {
 
 
     @RequestMapping(value = "/fileUploadProcess", method = RequestMethod.POST)
-    public java.lang.String fileUploadProcess(@ModelAttribute("woodProjectDTO") WoodProjectDTO woodProjectDTO, @SessionAttribute("woodProjectDTO") WoodProjectDTO sessionWoodProjectDTO, HttpSession httpSession, RedirectAttributes redirectAttributes) {
+    public java.lang.String fileUploadProcess(@ModelAttribute("woodProjectDTO") WoodProjectDTO woodProjectDTO, @SessionAttribute("woodProjectDTO") WoodProjectDTO sessionWoodProjectDTO, @RequestParam(value = "save", required = false) boolean isSave, RedirectAttributes redirectAttributes) {
 
+        updateModelFromSessionModel(woodProjectDTO, sessionWoodProjectDTO);
 
-        WoodulikeUser woodulikeUser = (WoodulikeUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        woodProjectDTO.setTempDirectory(sessionWoodProjectDTO.getTempDirectory());
+        storeImageToSessionDirectory(woodProjectDTO);
 
-        woodProjectDTO.setTempDirectory(
-                fileSystemStorageService.storeToTempDirectory(
-                        woodProjectDTO.getImageHolder(), woodulikeUser.getUsername(), woodProjectDTO.getTempDirectory()
-                )
-        );
-
-        woodProjectDTO.addImageDirectory(
-                woodProjectDTO.getTempDirectory().resolve(
-                        woodProjectDTO.getImageHolder().getOriginalFilename()).toUri().toString().replaceAll(".*upload-dir", ("/userUploadedImages")
-                )
-        );
-
+        addImageDirectoryToWoodProjectSession(woodProjectDTO);
 
         redirectAttributes.addFlashAttribute("message", "File uploaded successfully");
         redirectAttributes.addFlashAttribute("woodProjectDTO", woodProjectDTO);
-        //  sessionStatus.setComplete();
 
-       // return "redirect:" + ViewName.CREATE_WOOD_PROJECT + "?edit";
-        return "redirect:" + ViewName.CREATE_WOOD_PROJECT;
+        if(isSave){
+            return "redirect:" + ViewName.SAVE_WOOD_PROJECT;
+        }
+        return "redirect:" + ViewName.EDIT_WOOD_PROJECT;
     }
 
 
@@ -60,94 +55,46 @@ public class FileUploadController {
         return ResponseEntity.notFound().build();
     }
 
+    private WoodProjectDTO updateModelFromSessionModel(WoodProjectDTO modelAttribute, WoodProjectDTO sessionAttribute) {
+        modelAttribute.setTempDirectory(sessionAttribute.getTempDirectory());
 
-//    @Autowired
-//    private IWoodProjectDAO woodProjectDAO;
-//
-//    @Value("${upload.location}")
-//    private ViewName uploadLocation;
-//
-//    @RequestMapping(value="/uploadFile", method=RequestMethod.GET)
-//    public ViewName uploadFile(MultipartFile multipartFile){
-//
-//        return "uploadFile";
-//    }
-//
-//    @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-//    public ModelAndView submit(@RequestParam("file") MultipartFile file, ModelMap modelMap) {
-//
-//        ModelAndView mav = new ModelAndView();
-//        mav.setViewName("fileUploadView");
-//        mav.addObject("file", file);
-//
-//
-//
-//        try {
-//            WoodProject wp = new WoodProject();
-//            wp.setTitle("TESTING IMAGE");
-//            wp.setDescription("TESTING IMAGE DESC");
-//            SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
-//            ViewName date = "2001-05-24";
-//            try {
-//                wp.setDate(sdf.parse(date));
-//            }catch(ParseException e){
-//                e.printStackTrace();
-//            }
-//            Image i = new Image();
-//            i.setImageName(file.getName());
-//
-//            i.setPath("test path");
-//
-//            Blob blob = new SerialBlob(file.getBytes());
-//         //   i.setFile(blob);
-//
-//            wp.setImages(Arrays.asList(i));
-//
-//            woodProjectDAO.createWoodProject(wp);
-////////////////////////////////////////////////
-////            File testFile = new File(uploadLocation + "resources/test.jpg");
-////
-////            testFile.createNewFile();
-////
-////
-////
-////
-////            OutputStream outstream = new FileOutputStream(testFile);
-////            outstream.write(file.getBytes());
-////            outstream.close();
-////            mav.addObject("fileDirectory", "resources/img/test.jpg");
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (SerialException e) {
-//            e.printStackTrace();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//
-//        return mav;
-//    }
-//
-//    @RequestMapping(value="/fileUploadView", method = RequestMethod.GET)
-//    public ViewName fileUploadView(ModelMap modelMap){
-//        return "fileUploadView";
-//    }
-//
-////    @RequestMapping(value="/image")
-////    public void getImage(HttpServletResponse response, ModelAndView mav) throws IOException{
-////
-////        WoodProject wp = woodProjectDAO.allWoodProjects().get(1);
-////        Image image = wp.getImages().get(0);
-////
-////        byte[] data = image.getBlob();
-////        InputStream in = new ByteArrayInputStream(data);
-////        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-////        IOUtils.copy(in, response.getOutputStream());
-////
-////    }
+        if(sessionAttribute.getTempDirectory() != null) {
+            Path root = Paths.get("../bin/");
+            try {
+                modelAttribute.setImageDirectories(Files.list(sessionAttribute.getTempDirectory()).map(x -> resolveRelativeUserUploadTempDirectory(sessionAttribute.getTempDirectory(), x.getFileName())).collect(Collectors.toList()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
+        return modelAttribute;
+    }
 
+    private WoodProjectDTO storeImageToSessionDirectory(WoodProjectDTO woodProjectDTO) {
+        if(woodProjectDTO.getImageHolder() != null & !woodProjectDTO.getImageHolder().isEmpty()) {
+            WoodulikeUser woodulikeUser = (WoodulikeUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+            woodProjectDTO.setTempDirectory(
+                    fileSystemStorageService.storeToTempDirectory(
+                            woodProjectDTO.getImageHolder(), woodulikeUser.getUsername(), woodProjectDTO.getTempDirectory()
+                    )
+            );
+        }
+    //Add validation and error message if empty
+        return woodProjectDTO;
+    }
+
+    private WoodProjectDTO addImageDirectoryToWoodProjectSession(WoodProjectDTO woodProjectDTO) {
+        String newPath = resolveRelativeUserUploadTempDirectory(woodProjectDTO.getTempDirectory(), Paths.get(woodProjectDTO.getImageHolder().getOriginalFilename()));
+
+        if(!woodProjectDTO.getImageDirectories().contains(newPath)){
+            woodProjectDTO.addImageDirectory(newPath);
+        }
+
+        return woodProjectDTO;
+    }
+
+    private String resolveRelativeUserUploadTempDirectory(Path tempDirectory, Path fileName){
+        return tempDirectory.resolve(fileName).toUri().toString().replaceAll(".*upload-dir", ("/userUploadedImages"));
+    }
 }

@@ -34,7 +34,7 @@
         <td><input type="submit" value="Add image" class="btn btn-primary" formaction="/fileUploadProcess?${_csrf.parameterName}=${_csrf.token}"/></td>
     </tr>
     <tr>
-        <td><input type="submit" value="Submit" class="btn btn-primary" formaction="${ViewName.CREATE_WOOD_PROJECT}"/></td>
+        <td><input type="submit" value="Submit" class="btn btn-primary" formaction="/fileUploadProcess?${_csrf.parameterName}=${_csrf.token}&save=true"/></td>
     </tr>
     <%--<input type="hidden" name="imageDirectories" value="${woodProjectDTO.imageDirectories}"/>--%>
     <%--<input type="hidden" name="tempDirectory" value="${woodProjectDTO.tempDirectory}"/>--%>
@@ -53,7 +53,6 @@
     </c:forEach>
 </c:if>
 
-<img src="../userUploadedImages/tester-7c3b8571-bbe3-4fc8-9b80-b1e865797fe6/graduation.jpg"/>
 
 
     <%@include file="../templates/footer.jsp" %>

@@ -5,10 +5,16 @@ import com.dunn.config.session.SessionNavigation;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.RequestContextListener;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.RequestDispatcher;
 
 @Component
 @Aspect
@@ -22,10 +28,13 @@ public class NavigationHistoryAspect {
 
     }
 
-//    @Before("beanAnnotatedWithController()")
-//    public void beforeControllerMethod(JoinPoint joinPoint) {
-//
-//    }
+    @Before("beanAnnotatedWithController()")
+    public void beforeControllerMethod(JoinPoint joinPoint) {
+        NavigationAction navigationAction = new NavigationAction();
+        navigationAction.setViewName(((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest().getRequestURI());
+        System.out.println("BEFORE: " + navigationAction.getViewName());
+        sessionNavigation.addNavigationActionToNavigationHistory(navigationAction);
+    }
 
     @AfterReturning(pointcut = "beanAnnotatedWithController()", returning = "returnValue")
     public void afterReturningControllerMethod(JoinPoint joinPoint, Object returnValue) {
@@ -44,6 +53,7 @@ public class NavigationHistoryAspect {
 
         if(navigationAction.getViewName() != null) {
             sessionNavigation.addNavigationActionToNavigationHistory(navigationAction);
+            System.out.println(navigationAction.getViewName());
         }
     }
 }
