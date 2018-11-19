@@ -59,7 +59,7 @@ public class FileUploadController {
         modelAttribute.setTempDirectory(sessionAttribute.getTempDirectory());
 
         if(sessionAttribute.getTempDirectory() != null) {
-            Path root = Paths.get("../bin/");
+
             try {
                 modelAttribute.setImageDirectories(Files.list(sessionAttribute.getTempDirectory()).map(x -> resolveRelativeUserUploadTempDirectory(sessionAttribute.getTempDirectory(), x.getFileName())).collect(Collectors.toList()));
             } catch (IOException e) {
@@ -85,12 +85,12 @@ public class FileUploadController {
     }
 
     private WoodProjectDTO addImageDirectoryToWoodProjectSession(WoodProjectDTO woodProjectDTO) {
-        String newPath = resolveRelativeUserUploadTempDirectory(woodProjectDTO.getTempDirectory(), Paths.get(woodProjectDTO.getImageHolder().getOriginalFilename()));
-
-        if(!woodProjectDTO.getImageDirectories().contains(newPath)){
-            woodProjectDTO.addImageDirectory(newPath);
+        if(woodProjectDTO.getImageHolder().getOriginalFilename() != null && !woodProjectDTO.getImageHolder().getOriginalFilename().equals("")) {
+            String newPath = resolveRelativeUserUploadTempDirectory(woodProjectDTO.getTempDirectory(), Paths.get(woodProjectDTO.getImageHolder().getOriginalFilename()));
+            if (!woodProjectDTO.getImageDirectories().contains(newPath)) {
+                woodProjectDTO.addImageDirectory(newPath);
+            }
         }
-
         return woodProjectDTO;
     }
 
