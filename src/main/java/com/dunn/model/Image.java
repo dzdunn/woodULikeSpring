@@ -14,14 +14,15 @@ import java.util.Collection;
 public class Image implements Serializable {
 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="IMAGE_ID", unique = true, nullable = false)
+
     private Long id;
     private String imageName;
     private String path;
     private WoodProject woodProject;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Column(name="IMAGE_ID", unique = true, nullable = false)
     public Long getId() {
         return id;
     }
@@ -30,7 +31,8 @@ public class Image implements Serializable {
         this.id = id;
     }
 
-    @ManyToOne(targetEntity = WoodProject.class, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "woodProject_id")
     public WoodProject getWoodProject() {
         return woodProject;
     }

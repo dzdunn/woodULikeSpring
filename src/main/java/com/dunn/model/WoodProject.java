@@ -3,6 +3,7 @@ package com.dunn.model;
 
 import com.dunn.model.user.WoodulikeUser;
 
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,11 +13,7 @@ import java.util.List;
 @Entity
 public class WoodProject implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@Column(name="WOODPROJECT_ID", unique = true, nullable = false)
     private Long id;
-
 
     private WoodulikeUser woodulikeUser;
 
@@ -24,11 +21,10 @@ public class WoodProject implements Serializable {
     private String description;
     private Date date;
 
-    @OneToMany(targetEntity = Image.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "woodProject")
-    //@JoinColumn(name="woodproject_id")
     private List<Image> images;
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
@@ -61,6 +57,7 @@ public class WoodProject implements Serializable {
         this.date = date;
     }
 
+    @OneToMany(targetEntity = Image.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "woodProject")
     public List<Image> getImages() {
         if(images == null){
             images = new ArrayList<>();

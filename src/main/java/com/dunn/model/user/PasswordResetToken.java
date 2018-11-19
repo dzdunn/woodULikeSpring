@@ -20,18 +20,17 @@ public class PasswordResetToken {
         this.expiryDate = LocalDate.now().plusDays(1);
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private Long id;
 
     private String token;
 
-    @OneToOne(targetEntity = WoodulikeUser.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "user_id")
     private WoodulikeUser woodulikeUser;
 
     private LocalDate expiryDate;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return id;
     }
@@ -48,6 +47,8 @@ public class PasswordResetToken {
         this.token = token;
     }
 
+    @OneToOne(targetEntity = WoodulikeUser.class, fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false, name = "woodulikeUser_id")
     public WoodulikeUser getWoodulikeUser() {
         return woodulikeUser;
     }

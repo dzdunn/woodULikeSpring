@@ -5,13 +5,21 @@ import javax.persistence.*;
 @Entity
 public class UserProfile {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private WoodulikeUser woodulikeUser;
 
     private String aboutMe;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getAboutMe() {
         return aboutMe;
@@ -30,11 +38,4 @@ public class UserProfile {
         this.woodulikeUser = woodulikeUser;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 }

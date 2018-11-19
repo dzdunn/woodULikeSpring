@@ -1,15 +1,12 @@
 package com.dunn.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@Entity
+//@Entity
 public class Photo {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+   // @Id
+    ///@GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;
@@ -17,6 +14,18 @@ public class Photo {
     private byte[] image;
 
     private int threadValue;
+
+    private WoodProject woodProject;
+
+    //@ManyToOne(targetEntity = WoodProject.class)
+    //@JoinColumn(name = "woodProject_id")
+    public WoodProject getWoodProject() {
+        return woodProject;
+    }
+
+    public void setWoodProject(WoodProject woodProject) {
+        this.woodProject = woodProject;
+    }
 
     public Long getId() {
         return id;
