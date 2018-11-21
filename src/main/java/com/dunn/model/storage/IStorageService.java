@@ -22,9 +22,9 @@ public interface IStorageService {
 
     Path getRootLocation();
 
-    Path generateUniqueTempImageDirectory(String username);
+    Path generateUniqueDirectory(String username);
 
-    Path storeToTempDirectory(MultipartFile file, String username, Path tempTargetDirectory);
+    Path storeToUniqueDirectory(MultipartFile file, String username, Path targetDirectory);
 
     void transferToUserProjectDirectory();
 }

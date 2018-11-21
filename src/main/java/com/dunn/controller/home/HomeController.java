@@ -1,6 +1,6 @@
 package com.dunn.controller.home;
 
-import com.dunn.controller.path.ViewName;
+import com.dunn.controller.path.views.ViewName;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -25,12 +25,12 @@ public class HomeController {
 
 
 	@RequestMapping(value= ViewName.ABOUT, method=RequestMethod.GET)
-	public java.lang.String about(){
+	public String about(){
 		return ViewName.ABOUT;
 	}
 
 	@RequestMapping(value= ViewName.CONTACT, method = RequestMethod.GET)
-	public java.lang.String contact(){
+	public String contact(){
 		return ViewName.CONTACT;
 	}
 

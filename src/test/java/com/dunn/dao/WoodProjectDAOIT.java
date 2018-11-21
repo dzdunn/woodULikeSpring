@@ -1,11 +1,11 @@
 package com.dunn.dao;
 
 import com.dunn.config.webapp.WebMvcConfig;
-import com.dunn.controller.path.ViewNameWrapper;
+import com.dunn.controller.path.views.ViewNameWrapper;
 import com.dunn.dao.woodproject.IWoodProjectDAO;
 import com.dunn.model.Image;
 import com.dunn.model.WoodProject;
-import com.dunn.model.storage.FileSystemStorageService;
+import com.dunn.model.storage.CreateWoodProjectTempImageStorageService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class WoodProjectDAOIT {
     private JavaMailSenderImpl javaMailSender;
 
     @Autowired
-    private FileSystemStorageService fileSystemStorageService;
+    private CreateWoodProjectTempImageStorageService createWoodProjectTempImageStorageService;
 
     private WoodProject woodProject;
 
@@ -183,8 +183,8 @@ public class WoodProjectDAOIT {
 
     @Test
     public void testDirectory(){
-        assertNotNull(fileSystemStorageService);
-        fileSystemStorageService.init();
+        assertNotNull(createWoodProjectTempImageStorageService);
+        createWoodProjectTempImageStorageService.init();
     }
 
 }

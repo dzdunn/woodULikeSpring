@@ -1,6 +1,6 @@
 package com.dunn.controller.user;
 
-import com.dunn.controller.path.ViewName;
+import com.dunn.controller.path.views.ViewName;
 import com.dunn.dao.security.UserSecurityService;
 import com.dunn.dao.user.UserService;
 import com.dunn.model.genericmodelwrappers.GenericEmailWrapper;

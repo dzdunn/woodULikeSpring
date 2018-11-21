@@ -5,7 +5,7 @@
 
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.dunn.controller.path.ViewName" %>
+<%@ page import="com.dunn.controller.path.views.ViewName" %>
 <head>
     <link href="../static/bootstrap/css/bootstrap.min.css" type="text/css"
           rel="stylesheet"/>

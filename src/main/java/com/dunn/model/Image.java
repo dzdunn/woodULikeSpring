@@ -18,6 +18,10 @@ public class Image implements Serializable {
     private Long id;
     private String imageName;
     private String path;
+
+
+
+    private String storedDirectory;
     private WoodProject woodProject;
 
     @Id
@@ -57,23 +61,12 @@ public class Image implements Serializable {
         this.path = path;
     }
 
+    public String getStoredDirectory() {
+        return storedDirectory;
+    }
 
-
-//    public static Image createImageFromPath(ViewName path){
-//        Image image = new Image();
-//        image.setPath(path);
-//
-//        File file = new File(path);
-//        image.setImageName(file.getName());
-//
-//        try {
-//            byte[] data = Files.readAllBytes(file.toPath());
-//            image.setBlob(data);
-//        } catch(IOException e){
-//            e.printStackTrace();
-//        }
-//        return image;
-//    }
-
+    public void setStoredDirectory(String storedDirectory) {
+        this.storedDirectory = storedDirectory;
+    }
 
 }

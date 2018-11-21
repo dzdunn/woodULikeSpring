@@ -1,6 +1,6 @@
 package com.dunn.controller.woodproject;
 
-import com.dunn.controller.path.ViewName;
+import com.dunn.controller.path.views.ViewName;
 import com.dunn.model.storage.IStorageService;
 import com.dunn.model.storage.StorageFileNotFoundException;
 import com.dunn.model.user.WoodProjectDTO;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,15 +22,15 @@ import java.util.stream.Collectors;
 public class FileUploadController {
 
 
-    private final IStorageService fileSystemStorageService;
+    private final IStorageService createWoodProjectTempImageStorageService;
 
     @Autowired
-    public FileUploadController(IStorageService fileSystemStorageService) {
-        this.fileSystemStorageService = fileSystemStorageService;
+    public FileUploadController(IStorageService createWoodProjectTempImageStorageService) {
+        this.createWoodProjectTempImageStorageService = createWoodProjectTempImageStorageService;
     }
 
 
-    @RequestMapping(value = "/fileUploadProcess", method = RequestMethod.POST)
+    @RequestMapping(value = ViewName.FILE_UPLOAD_PROCESS, method = RequestMethod.POST)
     public java.lang.String fileUploadProcess(@ModelAttribute("woodProjectDTO") WoodProjectDTO woodProjectDTO, @SessionAttribute("woodProjectDTO") WoodProjectDTO sessionWoodProjectDTO, @RequestParam(value = "save", required = false) boolean isSave, RedirectAttributes redirectAttributes) {
 
         updateModelFromSessionModel(woodProjectDTO, sessionWoodProjectDTO);
@@ -75,7 +74,7 @@ public class FileUploadController {
             WoodulikeUser woodulikeUser = (WoodulikeUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
             woodProjectDTO.setTempDirectory(
-                    fileSystemStorageService.storeToTempDirectory(
+                    createWoodProjectTempImageStorageService.storeToUniqueDirectory(
                             woodProjectDTO.getImageHolder(), woodulikeUser.getUsername(), woodProjectDTO.getTempDirectory()
                     )
             );
@@ -87,6 +86,8 @@ public class FileUploadController {
     private WoodProjectDTO addImageDirectoryToWoodProjectSession(WoodProjectDTO woodProjectDTO) {
         if(woodProjectDTO.getImageHolder().getOriginalFilename() != null && !woodProjectDTO.getImageHolder().getOriginalFilename().equals("")) {
             String newPath = resolveRelativeUserUploadTempDirectory(woodProjectDTO.getTempDirectory(), Paths.get(woodProjectDTO.getImageHolder().getOriginalFilename()));
+
+//            String newPath = StorageServiceHelper.resolveRelativeUserUploadTempDirectory(woodProjectDTO.getTempDirectory(), Paths.get(woodProjectDTO.getImageHolder().getOriginalFilename()), "createWoodProjectTempImageStorageService",ResourceHandler.CREATE_WOOD_PROJECT_TEMP);
             if (!woodProjectDTO.getImageDirectories().contains(newPath)) {
                 woodProjectDTO.addImageDirectory(newPath);
             }
@@ -97,4 +98,6 @@ public class FileUploadController {
     private String resolveRelativeUserUploadTempDirectory(Path tempDirectory, Path fileName){
         return tempDirectory.resolve(fileName).toUri().toString().replaceAll(".*upload-dir", ("/userUploadedImages"));
     }
+
+
 }

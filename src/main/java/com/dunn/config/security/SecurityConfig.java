@@ -1,7 +1,7 @@
 package com.dunn.config.security;
 
-import com.dunn.controller.path.ViewName;
-import com.dunn.controller.path.ViewNameWrapper;
+import com.dunn.controller.path.views.ViewName;
+import com.dunn.controller.path.views.ViewNameWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;

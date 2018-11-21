@@ -1,6 +1,6 @@
 package com.dunn.config.webapp;
 
-import com.dunn.model.storage.IStorageService;
+import com.dunn.controller.path.resources.ResourceProperties;
 import org.hibernate.validator.HibernateValidator;
 import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.WebJarsResourceResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-
 import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
 import java.util.Properties;
@@ -41,22 +40,26 @@ public class WebMvcConfig implements WebMvcConfigurer{
 	private AutowireCapableBeanFactory beanFactory;
 
 	@Autowired
-	private IStorageService fileSystemStorageService;
+	private ResourceProperties resourceProperties;
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/static/**")
-		.addResourceLocations("/resources/", "/webjars/")
+
+		registry.addResourceHandler(ResourceProperties.STATIC_PROPERTIES.getResourceHandler().getResourceHandlerString())
+		.addResourceLocations(ResourceProperties.STATIC_PROPERTIES.getMappedDirectories())
 		.setCacheControl(
 				CacheControl.maxAge(30L, TimeUnit.MILLISECONDS).cachePublic()) //Change back to minutes
 		.resourceChain(true)
 		.addResolver(new WebJarsResourceResolver());
 
-		registry.addResourceHandler("/img/**").addResourceLocations("/resources/img/");
+		registry.addResourceHandler(ResourceProperties.IMG_PROPERTIES.getResourceHandler().getResourceHandlerString()).addResourceLocations(ResourceProperties.IMG_PROPERTIES.getMappedDirectories());
 
-		registry.addResourceHandler("userUploadedImages/**").addResourceLocations(fileSystemStorageService.getRootLocation().toUri().toString());
+		registry.addResourceHandler(ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getResourceHandler().getResourceHandlerString()).addResourceLocations(ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getMappedDirectories());
+
+		registry.addResourceHandler(ResourceProperties.WOOD_PROJECT_IMAGE_PROPERTIES.getResourceHandler().getResourceHandlerString()).addResourceLocations(ResourceProperties.WOOD_PROJECT_IMAGE_PROPERTIES.getMappedDirectories());
 
 	}
+
 
 	@Bean
 	public InternalResourceViewResolver viewResolver() {

@@ -1,8 +1,7 @@
 package com.dunn.controller.woodproject;
 
 
-import com.dunn.aspects.sessionmanagement.ScopeSessionAttributesToViews;
-import com.dunn.controller.path.ViewName;
+import com.dunn.controller.path.views.ViewName;
 import com.dunn.dao.woodproject.IWoodProjectDAO;
 import com.dunn.model.Image;
 import com.dunn.model.WoodProject;
@@ -60,11 +59,13 @@ public class MyWoodProjectController {
             Image image = new Image();
             Path path = Paths.get(x);
             image.setImageName(path.getFileName().toString());
-            image.setPath(path.toAbsolutePath().toString());
+            image.setPath(path.toString());
+
             image.setWoodProject(woodProject);
             woodProject.getImages().add(image);
 
         });
+
         woodProject.setWoodulikeUser((WoodulikeUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         woodProject.setDate(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
 
