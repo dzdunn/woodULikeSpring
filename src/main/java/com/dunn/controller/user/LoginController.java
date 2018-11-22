@@ -33,7 +33,7 @@ public class LoginController {
         ModelAndView mav = new ModelAndView();
 
         if(bindingResult.hasErrors()){
-            java.lang.String key = UUID.randomUUID().toString();
+            String key = UUID.randomUUID().toString();
             //Should find a better way of enforcing this role for failed login attempts
             if(SecurityContextHolder.getContext().getAuthentication() == null){
                 SecurityContextHolder.getContext().setAuthentication( new AnonymousAuthenticationToken(key, "anonymousUser", Collections.singletonList(new UserRole("ROLE_ANONYMOUS"))));

@@ -6,10 +6,7 @@ import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpo
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.CacheControl;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -39,8 +36,8 @@ public class WebMvcConfig implements WebMvcConfigurer{
 	@Autowired
 	private AutowireCapableBeanFactory beanFactory;
 
-	@Autowired
-	private ResourceProperties resourceProperties;
+//	@Autowired
+//	private ResourceProperties resourceProperties;
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -54,9 +51,9 @@ public class WebMvcConfig implements WebMvcConfigurer{
 
 		registry.addResourceHandler(ResourceProperties.IMG_PROPERTIES.getResourceHandler().getResourceHandlerString()).addResourceLocations(ResourceProperties.IMG_PROPERTIES.getMappedDirectories());
 
-		registry.addResourceHandler(ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getResourceHandler().getResourceHandlerString()).addResourceLocations(ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getMappedDirectories());
+		registry.addResourceHandler(ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getResourceHandler().getResourceHandlerString()).addResourceLocations(new ResourceProperties().CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getMappedDirectories());
 
-		registry.addResourceHandler(ResourceProperties.WOOD_PROJECT_IMAGE_PROPERTIES.getResourceHandler().getResourceHandlerString()).addResourceLocations(ResourceProperties.WOOD_PROJECT_IMAGE_PROPERTIES.getMappedDirectories());
+		registry.addResourceHandler(ResourceProperties.WOOD_PROJECT_IMAGE_PROPERTIES.getResourceHandler().getResourceHandlerString()).addResourceLocations(new ResourceProperties().WOOD_PROJECT_IMAGE_PROPERTIES.getMappedDirectories());
 
 	}
 

@@ -1,23 +1,42 @@
 package com.dunn.controller.path.resources;
 
-import com.dunn.model.storage.IStorageService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ResourceProperties {
+public class ResourceProperties implements InitializingBean {
 
-    @Autowired
-    private static IStorageService createWoodProjectTempImageStorageService;
+    @Value("${storage.location.createwoodproject.temp}")
+    private String[] createWoodProjectTempImageDirectory;
 
-    @Autowired
-    private static IStorageService woodProjectImageStorageService;
+    @Value("${storage.location.createwoodproject.permanent}")
+    private String[] createWoodProjectPermanentImageDirectory;
 
-    public static final ResourcePropertiesHolder STATIC_PROPERTIES = new ResourcePropertiesHolder(ResourceHandler.STATIC, "/resources/", "/webjars/");
+    @Value("${resources.location.static}")
+    private String[] staticWebResourcesDirectory;
 
-    public static final ResourcePropertiesHolder IMG_PROPERTIES = new ResourcePropertiesHolder(ResourceHandler.IMG, "/resources/img/");
+    @Value("${resources.location.img}")
+    private String[] staticImageWebResourcesDirectory;
 
-    public static final ResourcePropertiesHolder CREATE_WOOD_PROJECT_TEMP_PROPERTIES = new ResourcePropertiesHolder(ResourceHandler.CREATE_WOOD_PROJECT_TEMP, "");
 
-    public static final ResourcePropertiesHolder WOOD_PROJECT_IMAGE_PROPERTIES = new ResourcePropertiesHolder(ResourceHandler.WOOD_PROJECT_IMAGES, "");
+    public static ResourcePropertiesHolder STATIC_PROPERTIES;
+
+    public static ResourcePropertiesHolder IMG_PROPERTIES;
+
+    public static ResourcePropertiesHolder CREATE_WOOD_PROJECT_TEMP_PROPERTIES;
+
+    public static ResourcePropertiesHolder WOOD_PROJECT_IMAGE_PROPERTIES;
+
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        STATIC_PROPERTIES = new ResourcePropertiesHolder(ResourceHandler.STATIC, staticWebResourcesDirectory);
+        IMG_PROPERTIES = new ResourcePropertiesHolder(ResourceHandler.IMG, staticImageWebResourcesDirectory);
+
+
+        WOOD_PROJECT_IMAGE_PROPERTIES = new ResourcePropertiesHolder(ResourceHandler.WOOD_PROJECT_IMAGES, createWoodProjectPermanentImageDirectory);
+        CREATE_WOOD_PROJECT_TEMP_PROPERTIES = new ResourcePropertiesHolder(ResourceHandler.CREATE_WOOD_PROJECT_TEMP, createWoodProjectTempImageDirectory);
+
+    }
 }

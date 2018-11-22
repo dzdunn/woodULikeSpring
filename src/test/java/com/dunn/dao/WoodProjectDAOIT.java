@@ -187,4 +187,13 @@ public class WoodProjectDAOIT {
         createWoodProjectTempImageStorageService.init();
     }
 
+    @Value("${storage.location.createwoodproject.temp}")
+    private String testTempDir;
+
+    @Test
+    public void testDirectoryPropertyNotNull(){
+        assertNotNull(testTempDir);
+        System.out.println(testTempDir);
+    }
+
 }

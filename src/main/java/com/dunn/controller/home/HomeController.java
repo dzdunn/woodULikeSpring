@@ -35,7 +35,7 @@ public class HomeController {
 	}
 
 	@RequestMapping(value= ViewName.HOME + "inputData", method=RequestMethod.POST)
-	public ModelAndView testDetails(@RequestParam("name") java.lang.String name, @RequestParam("age") java.lang.String age) {
+	public ModelAndView testDetails(@RequestParam("name") String name, @RequestParam("age") String age) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("name", name);
 		mav.addObject("age", age);

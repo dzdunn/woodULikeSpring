@@ -31,7 +31,7 @@ public class RegisterController {
 //        binder.setValidator(passwordMatchValidator);
 //    }
 
-    private static final List<java.lang.String> COUNTRIES = Arrays.stream(Locale.getISOCountries())
+    private static final List<String> COUNTRIES = Arrays.stream(Locale.getISOCountries())
                                                     .map(x -> new Locale("", x)
                                                     .getDisplayCountry()).sorted(Comparator.naturalOrder())
                                                     .collect(Collectors.toList());

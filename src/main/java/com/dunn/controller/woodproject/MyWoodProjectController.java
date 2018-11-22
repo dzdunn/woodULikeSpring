@@ -75,12 +75,12 @@ public class MyWoodProjectController {
     }
 
     @RequestMapping(value = ViewName.MANAGE_WOOD_PROJECTS, method = RequestMethod.GET)
-    public java.lang.String manageWoodProjects() {
+    public String manageWoodProjects() {
         return ViewName.MANAGE_WOOD_PROJECTS;
     }
 
     @RequestMapping(value = ViewName.MY_PROFILE, method = RequestMethod.GET)
-    public java.lang.String myProfile() {
+    public String myProfile() {
         return ViewName.MY_PROFILE;
     }
 

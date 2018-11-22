@@ -1,9 +1,12 @@
 package com.dunn.dao;
 
+import com.dunn.config.properties.WoodulikeProperties;
 import com.dunn.config.webapp.WebMvcConfig;
+import com.dunn.controller.path.resources.ResourceProperties;
 import com.dunn.model.storage.IStorageService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
 
@@ -14,16 +17,14 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringJUnitWebConfig(classes = WebMvcConfig.class)
+@SpringJUnitWebConfig(classes = {WebMvcConfig.class})
 public class StorageServiceIT {
 
-    @Autowired
-    private IStorageService fileSystemStorageService;
 
     @Test
     public void testDirectory() {
         //fileSystemStorageService.init();
-        assertNotNull(fileSystemStorageService);
+        //assertNotNull(fileSystemStorageService);
 
     }
 
@@ -36,6 +37,18 @@ public class StorageServiceIT {
         Path rootlocation = Paths.get("upload-dir");
 
         System.out.println(rootlocation.relativize(Paths.get(imagePath.toString())).toString());
+
+    }
+
+    @Value("${storage.location.createwoodproject.permanent}")
+    private String test;
+
+    @Test
+    public void resourcePropertiesTest(){
+        //assertNotNull(resourceProperties);
+        System.out.println(ResourceProperties.WOOD_PROJECT_IMAGE_PROPERTIES.getMappedDirectories()[0]);
+        System.out.println(ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getMappedDirectories()[0]);
+        System.out.println(test);
 
     }
 }

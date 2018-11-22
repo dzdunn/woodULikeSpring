@@ -46,7 +46,7 @@ public class ResetPasswordController {
     private UserSecurityService userSecurityService;
 
     @Value("${support.email}")
-    private java.lang.String supportEmail;
+    private String supportEmail;
 
 
 
@@ -59,7 +59,7 @@ public class ResetPasswordController {
     }
 
     @RequestMapping(value = ViewName.RESET_PASSWORD_PROCESS, method = RequestMethod.POST)
-    public java.lang.String resetPasswordProcess(@ModelAttribute("emailAddressWrapper") @Validated(IForgotPasswordEmailValidationGroup.class) GenericEmailWrapper emailAddressWrapper, BindingResult bindingResult, HttpServletRequest request) {
+    public String resetPasswordProcess(@ModelAttribute("emailAddressWrapper") @Validated(IForgotPasswordEmailValidationGroup.class) GenericEmailWrapper emailAddressWrapper, BindingResult bindingResult, HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
             return ViewName.RESET_PASSWORD;
@@ -71,7 +71,7 @@ public class ResetPasswordController {
         }
 
         //Generate token and save to database
-        java.lang.String token = UUID.randomUUID().toString();
+        String token = UUID.randomUUID().toString();
         userSecurityService.createPasswordResetTokenForUser(woodulikeUser, token);
 
         //send email containing token
@@ -82,15 +82,15 @@ public class ResetPasswordController {
     }
 
     @RequestMapping(value = ViewName.RESET_PASSWORD_EMAIL_SENT, method = RequestMethod.GET)
-    public java.lang.String showResetPasswordEmailSent() {
+    public String showResetPasswordEmailSent() {
         return ViewName.RESET_PASSWORD_EMAIL_SENT;
     }
 
 
     @RequestMapping(value = ViewName.CHANGE_PASSWORD, method = RequestMethod.GET)
-    public ModelAndView showChangePassword(Locale locale, @RequestParam("id") Long id, @RequestParam("token") java.lang.String token) {
+    public ModelAndView showChangePassword(Locale locale, @RequestParam("id") Long id, @RequestParam("token") String token) {
 
-        java.lang.String validationErrorMessage = userSecurityService.validatePasswordResetToken(id, token);
+        String validationErrorMessage = userSecurityService.validatePasswordResetToken(id, token);
         ModelAndView mav = new ModelAndView();
         if (validationErrorMessage == null) {
             PasswordResetToken passwordResetToken = userSecurityService.findByToken(token);
@@ -105,7 +105,7 @@ public class ResetPasswordController {
     }
 
     @RequestMapping(value = ViewName.RESET_PASSWORD_TOKEN_INVALID, method = RequestMethod.GET)
-    public ModelAndView showResetPasswordTokenInvalid(@RequestParam("errorMessage") java.lang.String errorMessage){
+    public ModelAndView showResetPasswordTokenInvalid(@RequestParam("errorMessage") String errorMessage){
         ModelAndView mav = new ModelAndView(ViewName.RESET_PASSWORD_TOKEN_INVALID);
         mav.addObject("errorMessage", errorMessage);
         return mav;
@@ -122,7 +122,7 @@ public class ResetPasswordController {
     }
 
     @RequestMapping(value = ViewName.UPDATE_PASSWORD_PROCESS, method = RequestMethod.POST)
-    public java.lang.String updatePasswordProcess(@ModelAttribute("tmpWoodulikeUser") @Validated(IResetPasswordValidationGroup.class) WoodulikeUser tmpWoodulikeUser, BindingResult bindingResult) {
+    public String updatePasswordProcess(@ModelAttribute("tmpWoodulikeUser") @Validated(IResetPasswordValidationGroup.class) WoodulikeUser tmpWoodulikeUser, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()){
             return ViewName.UPDATE_PASSWORD;
@@ -138,20 +138,20 @@ public class ResetPasswordController {
 
     ///PUT IN DIFFERENT CLASS
 
-    private java.lang.String getAppUrl(HttpServletRequest request) {
+    private String getAppUrl(HttpServletRequest request) {
         return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
     }
 
     private SimpleMailMessage constructResetTokenEmail(
-            java.lang.String contextPath, Locale locale, java.lang.String token, WoodulikeUser user) {
-        java.lang.String url = contextPath + "/user/changePassword?id=" +
+            String contextPath, Locale locale, String token, WoodulikeUser user) {
+        String url = contextPath + "/user/changePassword?id=" +
                 user.getId() + "&token=" + token;
-        java.lang.String message = messageSource.getMessage("message.resetPassword",
+        String message = messageSource.getMessage("message.resetPassword",
                 null, locale);
         return constructEmail("Reset Password", message + " \r\n" + url, user);
     }
 
-    private SimpleMailMessage constructEmail(java.lang.String subject, java.lang.String body,
+    private SimpleMailMessage constructEmail(String subject, String body,
                                              WoodulikeUser woodulikeUser) {
         SimpleMailMessage email = new SimpleMailMessage();
         email.setSubject(subject);

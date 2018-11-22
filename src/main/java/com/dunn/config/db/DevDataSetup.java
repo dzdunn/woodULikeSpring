@@ -5,6 +5,7 @@ import com.dunn.model.user.UserRole;
 import com.dunn.model.user.WoodulikeUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -14,16 +15,11 @@ import java.time.LocalDate;
 import java.util.Arrays;
 
 @Component
-
+@DependsOn("securityConfig")
 public class DevDataSetup implements ApplicationListener<ContextRefreshedEvent> {
 
-    private UserService userService;
-
     @Autowired
-    public DevDataSetup(@Lazy UserService userService){
-        this.userService = userService;
-    }
-
+    private UserService userService;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {

@@ -23,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userService;
 
-    final java.lang.String[] resourcePatterns = {"/static/**", "/img/**"};
+    final String[] resourcePatterns = {"/static/**", "/img/**"};
 
 
     @Override
