@@ -15,7 +15,6 @@ import java.time.LocalDate;
 import java.util.Arrays;
 
 @Component
-@DependsOn("securityConfig")
 public class DevDataSetup implements ApplicationListener<ContextRefreshedEvent> {
 
     @Autowired

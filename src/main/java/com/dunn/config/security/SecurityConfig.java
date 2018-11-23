@@ -1,9 +1,12 @@
 package com.dunn.config.security;
 
+import com.dunn.controller.path.resources.ResourceHandler;
+import com.dunn.controller.path.resources.ResourceProperties;
 import com.dunn.controller.path.views.ViewName;
 import com.dunn.controller.path.views.ViewNameWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,7 +26,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userService;
 
-    final String[] resourcePatterns = {"/static/**", "/img/**"};
+    private final String[] resourcePatterns = {
+            ResourceHandler.STATIC.getResourceHandlerString(),
+            ResourceHandler.IMG.getResourceHandlerString()};
 
 
     @Override
@@ -36,11 +41,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         auth.authenticationProvider(authenticationProvider());
 
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
     @Bean

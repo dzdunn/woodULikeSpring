@@ -10,6 +10,8 @@ import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.CacheControl;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.MessageSourceResourceBundleLocator;
@@ -35,9 +37,6 @@ public class WebMvcConfig implements WebMvcConfigurer{
 
 	@Autowired
 	private AutowireCapableBeanFactory beanFactory;
-
-//	@Autowired
-//	private ResourceProperties resourceProperties;
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -112,4 +111,8 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		return new SpringValidatorAdapter(validatorFactory.getValidator());
 	}
 
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 }
