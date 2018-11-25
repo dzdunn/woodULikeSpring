@@ -1,11 +1,8 @@
 package com.dunn.dao;
 
-import com.dunn.config.properties.WoodulikeProperties;
 import com.dunn.config.webapp.WebMvcConfig;
 import com.dunn.controller.path.resources.ResourceProperties;
-import com.dunn.model.storage.IStorageService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
@@ -46,8 +43,8 @@ public class StorageServiceIT {
     @Test
     public void resourcePropertiesTest(){
         //assertNotNull(resourceProperties);
-        System.out.println(ResourceProperties.WOOD_PROJECT_IMAGE_PROPERTIES.getMappedDirectories()[0]);
-        System.out.println(ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getMappedDirectories()[0]);
+        System.out.println(ResourceProperties.WOOD_PROJECT_IMAGE_PROPERTIES.getResourceLocations()[0]);
+        System.out.println(ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getResourceLocations()[0]);
         System.out.println(test);
 
     }

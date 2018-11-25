@@ -19,22 +19,22 @@ import org.springframework.core.io.ClassPathResource;
 public class WoodulikeProperties {
 
 
-    @Bean
-    public PropertiesFactoryBean databaseProperties() {
-        PropertiesFactoryBean databaseProperties = new PropertiesFactoryBean();
-        databaseProperties.setLocation(new ClassPathResource("configuration/database.properties"));
-        return databaseProperties;
-    }
-
+//    @Bean
+//    public PropertiesFactoryBean databaseProperties() {
+//        PropertiesFactoryBean databaseProperties = new PropertiesFactoryBean();
+//        databaseProperties.setLocation(new ClassPathResource("configuration/database.properties"));
+//        return databaseProperties;
+//    }
+//
     @Bean(name = "storageServiceProperties")
     public PropertiesFactoryBean storageServiceProperties(){
         PropertiesFactoryBean storageServiceProperties = new PropertiesFactoryBean();
         storageServiceProperties.setLocation(new ClassPathResource("configuration/storage.properties"));
         return storageServiceProperties;
     }
-
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
+//
+//    @Bean
+//    public static PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() {
+//        return new PropertySourcesPlaceholderConfigurer();
+//    }
 }

@@ -1,21 +1,172 @@
 package com.dunn.dao;
 
+import com.dunn.config.webapp.WebMvcConfig;
+import com.dunn.controller.path.resources.ResourceHandler;
+import com.dunn.controller.path.resources.ResourceProperties;
+import com.dunn.controller.path.resources.ResourcePropertiesHolder;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
-@ExtendWith(SpringExtension.class)
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+//@RunWith(BlockJUnit4ClassRunner.class)
+@SpringJUnitWebConfig(classes = {WebMvcConfig.class})
 public class ViewNameConstantTest {
 
-    @Test
-    public void testViewNameTest(){
-       // ViewNameTest vnt = new ViewNameTest(ViewName)
+    private final Path tempDirectory = Paths.get("createWoodProjectTemp");
 
-        //ViewNameTestEnum vnt = ViewNameTestEnum.VIEW_ONE;
-      //  vnt.getViewName();
+    private final Path tempCreate = Paths.get("tempCreate/resources");
+
+    private final Path tempWebjars = Paths.get("tempCreate/webjars");
+
+    @Test
+    public void testResource() throws IOException {
+
+        Path resourcesPath = getFileNamePath("test1.jpg", tempCreate);
+
+        Path webjarsPath = getFileNamePath("test1.jpg", tempWebjars);
+
+        Path createWebProjectTempPath = getFileNamePath("test1.jpg", tempDirectory);
+
+        System.out.println(replaceRootWithResourceHandler(resourcesPath, ResourceProperties.STATIC_PROPERTIES.getResourcePropertiesHolder()));
+
+        System.out.println(replaceRootWithResourceHandler(webjarsPath, ResourceProperties.STATIC_PROPERTIES.getResourcePropertiesHolder()));
+
+        System.out.println(
+                replacebackSlashWithForwardSlash(
+                        replaceRootWithResourceHandler(createWebProjectTempPath, ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getResourcePropertiesHolder())
+                )
+        );
+
+        File f = getFileNamePath("test2.jpg", tempCreate).toFile();
+        System.out.println(f.toURI());
 
 
     }
 
 
+    private Path getFileNamePath(String fileName, Path rootPath){
+        return rootPath.resolve(fileName);
+    }
+
+    private Path replaceRootWithResourceHandler(Path pathToReplace, ResourcePropertiesHolder resourcePropertiesHolder){
+
+        String[] resourceLocations = resourcePropertiesHolder.getResourceLocations();
+
+        StringBuilder regexBuilder = new StringBuilder();
+        regexBuilder.append(".*");
+
+        for(int i = 0; i < resourceLocations.length; i++){
+            String location = resourceLocations[i].replaceAll("/", "");
+            regexBuilder.append(location);
+            if(resourceLocations.length > 1 && i != resourceLocations.length-1){
+                regexBuilder.append("|.*");
+            }
+        }
+        //System.out.println("Regex: " + regexBuilder.toString());
+        String resourceHandlerReplacement = resourcePropertiesHolder.getResourceHandler().getResourceHandlerString().replaceAll("/|\\*", "");
+        String path = pathToReplace.toString().replaceAll(regexBuilder.toString(), resourceHandlerReplacement);
+
+        System.out.println(path);
+
+        return Paths.get(pathToReplace.toString().replaceAll(regexBuilder.toString(), resourceHandlerReplacement));
+    }
+
+    public static String replacebackSlashWithForwardSlash(Path pathToReplace){
+        return pathToReplace.toString().replaceAll("\\\\", "/");
+    }
+
+    //1) Given a filename and a root directory - make a full directory
+
+    //2) Given a (root directory + filename), replace
+
+
+//    @Test
+//    public void testViewNameTest() throws IOException {
+//
+//       // Path tmpPath = Paths.get(tempDirectory);
+//
+//       // getDirectories(tmpPath, tempCreate);
+//
+//        System.out.println(ResourceProperties.WOOD_PROJECT_IMAGE_PROPERTIES.getResourceHandler().getResourceHandlerString());
+//        System.out.println(ResourceProperties.STATIC_PROPERTIES.getResourceHandler().getResourceHandlerString());
+//
+//        //resolveDirectory("test.jpg", tempDirectory, ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getResourcePropertiesHolder());
+//
+//        resolveDirectory("test2.jpg", "", ResourceProperties.STATIC_PROPERTIES.getResourcePropertiesHolder());
+//
+//    }
+//
+//    private void getDirectories(Path path, Path tempCreate) throws IOException {
+////        System.out.println("Raw path: " + path);
+////        System.out.println("Absolute path: " + path.toAbsolutePath());
+////        System.out.println("URI: " + path.toUri());
+////        System.out.println("Parent: " + path.getParent());
+////        System.out.println("Root: " + path.getRoot());
+////        System.out.println("Filename: " + path.getFileName());
+////        System.out.println();
+////        System.out.println("******************************************************");
+////        Files.walk(path.toAbsolutePath()).forEach(x -> System.out.println("Files.walk: " + x));
+////        System.out.println();
+////        System.out.println("******************************************************");
+////        Files.walk(path).forEach(x -> System.out.println("FILES.WALK: " + x));
+////
+////        System.out.println("******************************************************");
+//
+////        Arrays.stream(ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getResourceLocations()).forEach(x -> System.out.println(x));
+//
+//        for(String x : ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getResourceLocations()){
+//            Path tmpPath = Paths.get(x);
+//            System.out.println("tmpPath: " + tmpPath);
+//            System.out.println("tmpPath URI: " + tmpPath.toUri());
+//            System.out.println("tmpPath Absolute: " + tmpPath.toAbsolutePath());
+//
+//        }
+//
+//    }
+//
+//    private String resolveDirectory(String fileName, String rootDirectory, ResourcePropertiesHolder resourcePropertiesHolder){
+//        StringBuilder regexBuilder = new StringBuilder();
+//        regexBuilder.append(".*");
+//        String[] directories = resourcePropertiesHolder.getResourceLocations();
+//
+//        for (int i = 0; i < directories.length; i++){
+//            regexBuilder.append(directories[i]);
+//            if (directories.length > 1 && i != directories.length-1){
+//
+//                regexBuilder.append("|");
+//                regexBuilder.append(".*");
+//            }
+//        }
+//
+//        System.out.println("Regex: " + regexBuilder.toString());
+//
+//        String root = removePatternMatcher(resourcePropertiesHolder.getResourceHandler());
+//
+//        System.out.println("Root: " + root);
+//
+//
+//        System.out.println(Paths.get(root).resolve(fileName).toUri().toString());
+//
+//        String result = Paths.get(root).resolve(fileName).toUri().toString().replaceAll(regexBuilder.toString(), root);
+//
+//        System.out.println("Result: " + result);
+//
+//
+//        return Paths.get(rootDirectory).resolve(fileName).toUri().toString().replaceAll(".*upload-dir", ("/" + root));
+//    }
+//
+//    private String removePatternMatcher(ResourceHandler resourceHandler){
+//        return resourceHandler.getResourceHandlerString().replaceAll("/\\*\\*", "");
+//    }
+//
+//    //Step 1) Resolve full directory given Mapped resource and filename
+//
+//    private String resolveFullDirectory(ResourceProperties resourceProperties, String fileName){
+//        String[] resourceLocations = resourceProperties.getResourcePropertiesHolder().getResourceLocations();
+//        return resourceLocations.toString();
+//    }
 }

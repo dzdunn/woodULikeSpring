@@ -42,17 +42,18 @@ public class WebMvcConfig implements WebMvcConfigurer{
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
 		registry.addResourceHandler(ResourceProperties.STATIC_PROPERTIES.getResourceHandler().getResourceHandlerString())
-		.addResourceLocations(ResourceProperties.STATIC_PROPERTIES.getMappedDirectories())
+		.addResourceLocations(ResourceProperties.STATIC_PROPERTIES.getResourceLocations())
 		.setCacheControl(
 				CacheControl.maxAge(30L, TimeUnit.MILLISECONDS).cachePublic()) //Change back to minutes
 		.resourceChain(true)
 		.addResolver(new WebJarsResourceResolver());
 
-		registry.addResourceHandler(ResourceProperties.IMG_PROPERTIES.getResourceHandler().getResourceHandlerString()).addResourceLocations(ResourceProperties.IMG_PROPERTIES.getMappedDirectories());
+		registry.addResourceHandler(ResourceProperties.IMG_PROPERTIES.getResourceHandler().getResourceHandlerString()).addResourceLocations(ResourceProperties.IMG_PROPERTIES.getResourceLocations());
 
-		registry.addResourceHandler(ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getResourceHandler().getResourceHandlerString()).addResourceLocations(new ResourceProperties().CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getMappedDirectories());
 
-		registry.addResourceHandler(ResourceProperties.WOOD_PROJECT_IMAGE_PROPERTIES.getResourceHandler().getResourceHandlerString()).addResourceLocations(new ResourceProperties().WOOD_PROJECT_IMAGE_PROPERTIES.getMappedDirectories());
+		registry.addResourceHandler(ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getResourceHandler().getResourceHandlerString()).addResourceLocations(ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getResourceLocationsAsUriFormattedString());
+
+		registry.addResourceHandler(ResourceProperties.WOOD_PROJECT_IMAGE_PROPERTIES.getResourceHandler().getResourceHandlerString()).addResourceLocations(ResourceProperties.WOOD_PROJECT_IMAGE_PROPERTIES.getResourceLocationsAsUriFormattedString());
 
 	}
 

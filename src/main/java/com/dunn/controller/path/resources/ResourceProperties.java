@@ -1,6 +1,7 @@
 package com.dunn.controller.path.resources;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +28,10 @@ public class ResourceProperties implements InitializingBean {
     public static ResourcePropertiesHolder CREATE_WOOD_PROJECT_TEMP_PROPERTIES;
 
     public static ResourcePropertiesHolder WOOD_PROJECT_IMAGE_PROPERTIES;
+
+    public ResourcePropertiesHolder getResourcePropertiesHolder(){
+        return this.getResourcePropertiesHolder();
+    }
 
 
     @Override
