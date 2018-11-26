@@ -53,8 +53,8 @@
     </c:forEach>
 </c:if>
 
-<img src="../createWoodProjectTemp/tester-34853fe9-f15d-4938-9afe-33b5052ec380/outputtedGraduation.jpg"/>
-<img src="../createWoodProjectTemp/tester-5bf7b78c-74dc-42ff-a383-98de51a4d3b4/graduation.jpg"/>
+<%--<img src="../createWoodProjectTemp/tester-34853fe9-f15d-4938-9afe-33b5052ec380/outputtedGraduation.jpg"/>--%>
+<%--<img src="../createWoodProjectTemp/tester-5bf7b78c-74dc-42ff-a383-98de51a4d3b4/graduation.jpg"/>--%>
 
 
     <%@include file="../templates/footer.jsp" %>

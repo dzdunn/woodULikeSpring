@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 public class FileUploadController {
@@ -61,15 +62,14 @@ public class FileUploadController {
 
         if (sessionAttribute.getTempDirectory() != null) {
 
-            try {
+            try (Stream<Path> paths = Files.list(sessionAttribute.getTempDirectory())) {
                 modelAttribute.setImageDirectories(
-                        Files.list(sessionAttribute.getTempDirectory())
-                                .map(x -> PathHelper
-                                        .replaceRootWithResourceHandlerWithForwardSlash(
-                                                x,
-                                                ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getResourcePropertiesHolder()).toString())
+                        paths.map(x -> PathHelper
+                                .replaceRootWithResourceHandlerWithForwardSlash(
+                                        x,
+                                        ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getResourcePropertiesHolder()).toString())
                                 .collect(Collectors.toList()
-                        )
+                                )
                 );
             } catch (IOException e) {
                 e.printStackTrace();
@@ -98,10 +98,9 @@ public class FileUploadController {
     private WoodProjectDTO addImageDirectoryToWoodProjectSession(WoodProjectDTO woodProjectDTO) {
         if (woodProjectDTO.getImageHolder().getOriginalFilename() != null
                 && !woodProjectDTO.getImageHolder().getOriginalFilename().equals("")) {
-            //String newPath = resolveRelativeUserUploadTempDirectory(woodProjectDTO.getTempDirectory(), Paths.get(woodProjectDTO.getImageHolder().getOriginalFilename()));
 
             Path imagePath = PathHelper.getFileNamePath(woodProjectDTO.getImageHolder().getOriginalFilename(), woodProjectDTO.getTempDirectory());
-            String newRelativePath = PathHelper.replaceRootWithResourceHandlerWithForwardSlash(imagePath, ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getResourcePropertiesHolder()).toString();
+            String newRelativePath = PathHelper.replaceRootWithResourceHandlerWithForwardSlash(imagePath, ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getResourcePropertiesHolder());
 
             if (!woodProjectDTO.getImageDirectories().contains(newRelativePath)) {
                 woodProjectDTO.addImageDirectory(newRelativePath);
@@ -109,10 +108,6 @@ public class FileUploadController {
         }
         return woodProjectDTO;
     }
-//
-//    private String resolveRelativeUserUploadTempDirectory(Path tempDirectory, Path fileName) {
-//        return tempDirectory.resolve(fileName).toUri().toString().replaceAll(".*upload-dir", ("/userUploadedImages"));
-//    }
 
 
     @ExceptionHandler(StorageFileNotFoundException.class)

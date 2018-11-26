@@ -7,6 +7,10 @@ import java.nio.file.Paths;
 
 public class PathHelper {
 
+    private PathHelper(){
+
+    }
+
     public static Path replaceRootWithResourceHandler(Path pathToReplace, ResourcePropertiesHolder resourcePropertiesHolder){
 
         String[] resourceLocations = resourcePropertiesHolder.getResourceLocations();

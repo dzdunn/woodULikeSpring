@@ -57,6 +57,11 @@ public class WoodProjectImageStorageService implements IStorageService{
     }
 
     @Override
+    public void deleteDirectory(Path directoryToDelete) {
+        StorageServiceHelper.deleteDirectory(directoryToDelete);
+    }
+
+    @Override
     public Path getRootLocation() {
         return this.rootLocation;
     }

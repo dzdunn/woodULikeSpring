@@ -9,6 +9,7 @@ import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -21,6 +22,8 @@ public class ViewNameConstantTest {
     private final Path tempCreate = Paths.get("tempCreate/resources");
 
     private final Path tempWebjars = Paths.get("tempCreate/webjars");
+
+    private final Path testPath = Paths.get("C:\\Users\\dzdun\\JAVA_RESOURCES\\apache-tomcat-9.0.12\\bin\\TEST");
 
     @Test
     public void testResource() throws IOException {
@@ -79,27 +82,17 @@ public class ViewNameConstantTest {
         return pathToReplace.toString().replaceAll("\\\\", "/");
     }
 
-    //1) Given a filename and a root directory - make a full directory
+    @Test
+    public void testDirectoryDelete() throws IOException, InterruptedException {
+        Path path = Files.createDirectories(testPath);
+        System.out.println(path.toAbsolutePath());
 
-    //2) Given a (root directory + filename), replace
+      //  Thread.sleep(3000);
 
+        Files.delete(path);
 
-//    @Test
-//    public void testViewNameTest() throws IOException {
-//
-//       // Path tmpPath = Paths.get(tempDirectory);
-//
-//       // getDirectories(tmpPath, tempCreate);
-//
-//        System.out.println(ResourceProperties.WOOD_PROJECT_IMAGE_PROPERTIES.getResourceHandler().getResourceHandlerString());
-//        System.out.println(ResourceProperties.STATIC_PROPERTIES.getResourceHandler().getResourceHandlerString());
-//
-//        //resolveDirectory("test.jpg", tempDirectory, ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getResourcePropertiesHolder());
-//
-//        resolveDirectory("test2.jpg", "", ResourceProperties.STATIC_PROPERTIES.getResourcePropertiesHolder());
-//
-//    }
-//
+    }
+
 //    private void getDirectories(Path path, Path tempCreate) throws IOException {
 ////        System.out.println("Raw path: " + path);
 ////        System.out.println("Absolute path: " + path.toAbsolutePath());

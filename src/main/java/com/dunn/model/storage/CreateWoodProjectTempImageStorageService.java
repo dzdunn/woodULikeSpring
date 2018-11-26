@@ -83,7 +83,8 @@ public class CreateWoodProjectTempImageStorageService implements IStorageService
         return rootLocation;
     }
 
-    public String resolveRelativeUserUploadTempDirectory(Path tempDirectory, Path fileName){
-        return tempDirectory.resolve(fileName).toUri().toString().replaceAll(".*" + rootLocation.toString(), ("/userUploadedImages"));
+    @Override
+    public void deleteDirectory(Path directoryToDelete) {
+        StorageServiceHelper.deleteDirectory(directoryToDelete);
     }
 }

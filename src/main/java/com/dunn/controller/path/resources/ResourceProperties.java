@@ -20,6 +20,9 @@ public class ResourceProperties implements InitializingBean {
     @Value("${resources.location.img}")
     private String[] staticImageWebResourcesDirectory;
 
+    private ResourceProperties(){
+
+    }
 
     public static ResourcePropertiesHolder STATIC_PROPERTIES;
 

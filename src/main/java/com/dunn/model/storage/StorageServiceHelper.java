@@ -1,11 +1,13 @@
 package com.dunn.model.storage;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.lang.Nullable;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -13,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.UUID;
+import java.util.logging.FileHandler;
 import java.util.stream.Stream;
 
 public class StorageServiceHelper {
@@ -46,14 +49,14 @@ public class StorageServiceHelper {
      * Pass null tempDirectory to automatically generate a unique tempDirectory, then store file to that directory.
      * Otherwise, file will be stored to the tempDirectory explicitly passed.
      *
-     * @param file - the file to be stored
+     * @param file                - the file to be stored
      * @param tempDirectoryPrefix - the prefix to the unique temp directory
-     * @param directoryTarget - the tempDirectory in which to store the file
+     * @param directoryTarget     - the tempDirectory in which to store the file
      * @return
      */
-    public static Path storeToUniqueDirectory(Path rootLocation, MultipartFile file, String tempDirectoryPrefix, Path directoryTarget){
+    public static Path storeToUniqueDirectory(Path rootLocation, MultipartFile file, String tempDirectoryPrefix, Path directoryTarget) {
 
-        if(directoryTarget == null){
+        if (directoryTarget == null) {
             directoryTarget = generateUniqueDirectory(rootLocation, tempDirectoryPrefix);
         }
 
@@ -63,9 +66,9 @@ public class StorageServiceHelper {
     }
 
     public static Stream<Path> loadAll(Path rootLocation) {
-        try{
+        try {
             return Files.walk(rootLocation, 1).filter(path -> !path.equals(rootLocation)).map(rootLocation::relativize);
-        } catch (IOException e){
+        } catch (IOException e) {
             throw new StorageException("Failed to read stored files: ", e);
         }
     }
@@ -75,28 +78,35 @@ public class StorageServiceHelper {
     }
 
     public static Resource loadAsResource(Path rootLocation, String filename) {
-        try{
+        try {
             Path file = load(rootLocation, filename);
             Resource resource = new UrlResource(file.toUri());
-            if(resource.exists() || resource.isReadable()){
+            if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
                 throw new StorageFileNotFoundException("Could not read filename: " + filename);
             }
-        } catch(MalformedURLException e){
+        } catch (MalformedURLException e) {
             throw new StorageFileNotFoundException("Could not read filename: " + filename, e);
         }
     }
 
     public static void deleteAll(Path rootLocation) {
-        FileSystemUtils.deleteRecursively(rootLocation.toFile());
+
+        try {
+            if(Files.exists(rootLocation)) {
+                FileSystemUtils.deleteRecursively(rootLocation);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static Path generateUniqueDirectory(Path rootLocation, String directoryPrefix){
+    public static Path generateUniqueDirectory(Path rootLocation, String directoryPrefix) {
 
         Path tempFolder = rootLocation.resolve(directoryPrefix + "-" + UUID.randomUUID());
         System.out.println(tempFolder.toAbsolutePath().toString());
-        if(!Files.exists(tempFolder)) {
+        if (!Files.exists(tempFolder)) {
             try {
                 Files.createDirectories(tempFolder);
             } catch (IOException e) {
@@ -106,7 +116,29 @@ public class StorageServiceHelper {
         return tempFolder;
     }
 
-    public static String resolveRelativeUserUploadTempDirectory(Path tempDirectory, Path fileName, String directoryPartToReplaceWithResourceHandler, String resourceHandleFolder){
-        return tempDirectory.resolve(fileName).toUri().toString().replaceAll(".*" + directoryPartToReplaceWithResourceHandler, ("/" + resourceHandleFolder));
+    public static void deleteDirectory(Path directoryToDelete) {
+
+        try {
+           if(Files.exists(directoryToDelete)) {
+               FileSystemUtils.deleteRecursively(directoryToDelete);
+           }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
+
+//    static public boolean deleteDirectory(File path) {
+//        if (path.exists()) {
+//            File[] files = path.listFiles();
+//            for (int i = 0; i < files.length; i++) {
+//                if (files[i].isDirectory()) {
+//                    deleteDirectory(files[i]);
+//                } else {
+//                    files[i].delete();
+//                }
+//            }
+//        }
+//        return (path.delete());
+//    }
 }

@@ -20,6 +20,8 @@ public interface IStorageService {
 
     void deleteAll();
 
+    void deleteDirectory(Path directoryToDelete);
+
     Path getRootLocation();
 
     Path generateUniqueDirectory(String username);
