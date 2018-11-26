@@ -24,8 +24,6 @@ public interface IStorageService {
 
     Path getRootLocation();
 
-    Path generateUniqueDirectory(String username);
-
     Path storeToUniqueDirectory(MultipartFile file, String username, Path targetDirectory);
 
     void transferToUserProjectDirectory();

@@ -10,8 +10,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 @Service
@@ -68,9 +70,19 @@ public class CreateWoodProjectTempImageStorageService implements IStorageService
         StorageServiceHelper.deleteAll(rootLocation);
     }
 
-    @Override
-    public Path generateUniqueDirectory(String username){
-       return StorageServiceHelper.generateUniqueDirectory(rootLocation, username);
+
+    public Path generateUniqueDirectory(String directoryPrefix){
+        Path tempFolder = rootLocation.resolve(directoryPrefix + "-" + UUID.randomUUID());
+        System.out.println(tempFolder.toAbsolutePath().toString());
+        if (!Files.exists(tempFolder)) {
+            try {
+                Files.createDirectories(tempFolder);
+            } catch (IOException e) {
+                throw new StorageException("Could not create user temp directory for gallery: ", e);
+            }
+        }
+        return tempFolder;
+       //return StorageServiceHelper.generateUniqueDirectory(rootLocation, username);
     }
 
     @Override

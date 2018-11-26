@@ -11,11 +11,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.logging.FileHandler;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class StorageServiceHelper {
@@ -125,6 +130,35 @@ public class StorageServiceHelper {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public static boolean copy(Path source, Path target){
+        boolean result = false;
+
+        try {
+            FileSystemUtils.copyRecursively(source, target);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        try(Stream<Path> sourceFiles = Files.walk(source);
+            Stream<Path> targetFiles = Files.walk(target)){
+            List<String> sourceFileNames = sourceFiles.filter(x -> !Files.isDirectory(x)).map(x -> x.getFileName().toString()).collect(Collectors.toList());
+            List<String> targetFileNames = targetFiles.filter(x -> !Files.isDirectory(x)).map(x -> x.getFileName().toString()).collect(Collectors.toList());
+
+            for(String sourceFileName: sourceFileNames){
+                result = targetFileNames.contains(sourceFileName);
+                if(!result){
+                    return result;
+                }
+            }
+
+
+        } catch (IOException e){
+
+        }
+        return result;
 
     }
 

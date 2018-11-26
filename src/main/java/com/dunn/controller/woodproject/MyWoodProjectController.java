@@ -5,29 +5,24 @@ import com.dunn.controller.path.views.ViewName;
 import com.dunn.dao.woodproject.IWoodProjectDAO;
 import com.dunn.model.Image;
 import com.dunn.model.WoodProject;
-import com.dunn.model.storage.IStorageService;
+import com.dunn.model.storage.CreateWoodProjectTempImageStorageService;
+import com.dunn.model.storage.WoodProjectImageStorageService;
 import com.dunn.model.user.WoodProjectDTO;
 import com.dunn.model.user.WoodulikeUser;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileSystemUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @SessionAttributes("woodProjectDTO")
@@ -37,10 +32,10 @@ public class MyWoodProjectController {
     private IWoodProjectDAO woodProjectDAO;
 
     @Autowired
-    private IStorageService woodProjectImageStorageService;
+    private WoodProjectImageStorageService woodProjectImageStorageService;
 
     @Autowired
-    private IStorageService createWoodProjectTempImageStorageService;
+    private CreateWoodProjectTempImageStorageService createWoodProjectTempImageStorageService;
 
     @ModelAttribute("woodProjectDTO")
     public WoodProjectDTO createWoodProjectDTO() {
@@ -87,18 +82,27 @@ public class MyWoodProjectController {
 
         woodProjectDAO.createWoodProject(woodProject);
 
-        //redirectAttributes.addFlashAttribute("tempDir", woodProjectDTO.getTempDirectory());
 
         return "redirect:/saveCleanup";
     }
 
     @RequestMapping(value = "/saveCleanup", method = RequestMethod.GET)
-    public String cleanUp(SessionStatus status, Model model, @SessionAttribute WoodProjectDTO woodProjectDTO){
+    public String cleanUp(SessionStatus status, @SessionAttribute WoodProjectDTO woodProjectDTO){
 
-//        Path tmpDir = (Path)model.asMap().get("tempDir");
-        woodProjectImageStorageService.deleteDirectory(woodProjectDTO.getTempDirectory());
-        status.setComplete();
-        return "redirect:" + ViewName.CREATE_WOOD_PROJECT;
+        String username = woodProjectDTO.getWoodProject().getWoodulikeUser().getUsername();
+        String projectTitle = woodProjectDTO.getWoodProject().getTitle();
+
+        Path targetDirectory = woodProjectImageStorageService.generateWoodProjectPath(username, projectTitle);
+        boolean isCopySuccessful = woodProjectImageStorageService.copy(woodProjectDTO.getTempDirectory(), targetDirectory);
+        if(isCopySuccessful){
+            createWoodProjectTempImageStorageService.deleteDirectory(woodProjectDTO.getTempDirectory());
+            status.setComplete();
+            return "redirect:" + ViewName.CREATE_WOOD_PROJECT;
+        } else{
+                //SHOULD IMPLEMENT REDIRECT TO RESUBMIT PROJECT WITH INFORMATION IF UNSUCCESFUL
+            status.setComplete();
+            return "redirect:" + ViewName.CREATE_WOOD_PROJECT;
+        }
 
     }
 
@@ -109,22 +113,7 @@ public class MyWoodProjectController {
     }
 
     @RequestMapping(value = ViewName.MY_PROFILE, method = RequestMethod.GET)
-    public String myProfile(@RequestParam(value = "delete", required = false) boolean delete) {
-        createWoodProjectTempImageStorageService.deleteAll();
-
-        try {
-            if(!delete) {
-
-                Files.createDirectory(Paths.get("testing"));
-            } else if (delete){
-                //FileUtils.cleanDirectory(Paths.get("testing").toFile());
-                FileSystemUtils.deleteRecursively(Paths.get("testing").toFile());
-                //Files.delete(Paths.get("testing"));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+    public String myProfile() {
         return ViewName.MY_PROFILE;
     }
 
