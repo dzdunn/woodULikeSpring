@@ -1,4 +1,4 @@
-package com.dunn.model.storage;
+package com.dunn.util.storage;
 
 public class StorageException extends RuntimeException {
 

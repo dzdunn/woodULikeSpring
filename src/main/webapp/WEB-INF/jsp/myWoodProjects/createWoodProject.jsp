@@ -27,8 +27,8 @@
         <td><form:input path="woodProject.description"/></td>
     </tr>
     <tr>
-        <td><form:label path="imageHolder">Image</form:label> </td>
-        <td><input type="file" name="imageHolder"></td>
+        <td><form:label path="imageFile">Image</form:label> </td>
+        <td><input type="file" name="imageFile"></td>
     </tr>
     <tr>
         <td><input type="submit" value="Add image" class="btn btn-primary" formaction="/fileUploadProcess?${_csrf.parameterName}=${_csrf.token}"/></td>

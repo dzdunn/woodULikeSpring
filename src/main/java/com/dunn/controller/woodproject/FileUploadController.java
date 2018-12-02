@@ -2,10 +2,9 @@ package com.dunn.controller.woodproject;
 
 import com.dunn.controller.path.PathHelper;
 import com.dunn.controller.path.resources.ResourceProperties;
-import com.dunn.controller.path.resources.ResourcePropertiesHolder;
 import com.dunn.controller.path.views.ViewName;
-import com.dunn.model.storage.IStorageService;
-import com.dunn.model.storage.StorageFileNotFoundException;
+import com.dunn.util.storage.CreateWoodProjectTempImageStorageService;
+import com.dunn.util.storage.StorageFileNotFoundException;
 import com.dunn.model.user.WoodProjectDTO;
 import com.dunn.model.user.WoodulikeUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,21 +17,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Controller
 public class FileUploadController {
 
-
-    private final IStorageService createWoodProjectTempImageStorageService;
+    private final CreateWoodProjectTempImageStorageService createWoodProjectTempImageStorageService;
 
     @Autowired
-    public FileUploadController(IStorageService createWoodProjectTempImageStorageService) {
+    public FileUploadController(CreateWoodProjectTempImageStorageService createWoodProjectTempImageStorageService) {
         this.createWoodProjectTempImageStorageService = createWoodProjectTempImageStorageService;
     }
-
 
     @RequestMapping(value = ViewName.FILE_UPLOAD_PROCESS, method = RequestMethod.POST)
     public String fileUploadProcess(@ModelAttribute("woodProjectDTO") WoodProjectDTO woodProjectDTO, @SessionAttribute("woodProjectDTO") WoodProjectDTO sessionWoodProjectDTO, @RequestParam(value = "save", required = false) boolean isSave, RedirectAttributes redirectAttributes) {
@@ -56,52 +52,34 @@ public class FileUploadController {
         return "redirect:" + ViewName.EDIT_WOOD_PROJECT;
     }
 
-
     private WoodProjectDTO updateModelFromSessionModel(WoodProjectDTO modelAttribute, WoodProjectDTO sessionAttribute) {
-        modelAttribute.setTempDirectory(sessionAttribute.getTempDirectory());
-
         if (sessionAttribute.getTempDirectory() != null) {
-
-            try (Stream<Path> paths = Files.list(sessionAttribute.getTempDirectory())) {
-                modelAttribute.setImageDirectories(
-                        paths.map(x -> PathHelper
-                                .replaceRootWithResourceHandlerWithForwardSlash(
-                                        x,
-                                        ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getResourcePropertiesHolder()).toString())
-                                .collect(Collectors.toList()
-                                )
-                );
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            modelAttribute.setTempDirectory(sessionAttribute.getTempDirectory());
+            modelAttribute.setImageDirectories(sessionAttribute.getImageDirectories());
         }
-
         return modelAttribute;
     }
 
     private WoodProjectDTO storeImageToSessionDirectory(WoodProjectDTO woodProjectDTO) {
-        if (woodProjectDTO.getImageHolder() != null & !woodProjectDTO.getImageHolder().isEmpty()) {
+        if (woodProjectDTO.getImageFile() != null & !woodProjectDTO.getImageFile().isEmpty()) {
             WoodulikeUser woodulikeUser = (WoodulikeUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-            woodProjectDTO.setTempDirectory(
-                    createWoodProjectTempImageStorageService.storeToUniqueDirectory(
-                            woodProjectDTO.getImageHolder(),
-                            woodulikeUser.getUsername(),
-                            woodProjectDTO.getTempDirectory()
-                    )
-            );
+            if(woodProjectDTO.getTempDirectory() == null) {
+                Path tempDir = createWoodProjectTempImageStorageService.createTempWoodProjectPath(woodulikeUser.getUsername());
+                woodProjectDTO.setTempDirectory(tempDir);
+            }
+            if(woodProjectDTO.getTempDirectory() != null){
+                createWoodProjectTempImageStorageService.store(woodProjectDTO.getImageFile(), woodProjectDTO.getTempDirectory());
+            }
         }
         //Add validation and error message if empty
         return woodProjectDTO;
     }
 
     private WoodProjectDTO addImageDirectoryToWoodProjectSession(WoodProjectDTO woodProjectDTO) {
-        if (woodProjectDTO.getImageHolder().getOriginalFilename() != null
-                && !woodProjectDTO.getImageHolder().getOriginalFilename().equals("")) {
-
-            Path imagePath = PathHelper.getFileNamePath(woodProjectDTO.getImageHolder().getOriginalFilename(), woodProjectDTO.getTempDirectory());
+        String filename = woodProjectDTO.getImageFile().getOriginalFilename();
+        if (filename != null && filename.matches(".*\\S.*")) {
+            Path imagePath = PathHelper.getFileNamePath(woodProjectDTO.getImageFile().getOriginalFilename(), woodProjectDTO.getTempDirectory());
             String newRelativePath = PathHelper.replaceRootWithResourceHandlerWithForwardSlash(imagePath, ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getResourcePropertiesHolder());
-
             if (!woodProjectDTO.getImageDirectories().contains(newRelativePath)) {
                 woodProjectDTO.addImageDirectory(newRelativePath);
             }
@@ -109,11 +87,8 @@ public class FileUploadController {
         return woodProjectDTO;
     }
 
-
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
         return ResponseEntity.notFound().build();
     }
-
-
 }

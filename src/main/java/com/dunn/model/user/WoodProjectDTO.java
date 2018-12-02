@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class WoodProjectDTO {
 
@@ -34,17 +33,17 @@ public class WoodProjectDTO {
 
     private Path tempDirectory;
 
-    public MultipartFile getImageHolder() {
-        return imageHolder;
+    public MultipartFile getImageFile() {
+        return imageFile;
     }
 
-    public void setImageHolder(MultipartFile imageHolder) {
-        this.imageHolder = imageHolder;
+    public void setImageFile(MultipartFile imageHolder) {
+        this.imageFile = imageHolder;
     }
 
     private List<String> imageDirectories;
 
-    private MultipartFile imageHolder;
+    private MultipartFile imageFile;
 
 
     public WoodProject getWoodProject() {

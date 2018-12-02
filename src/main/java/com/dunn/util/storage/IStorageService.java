@@ -1,4 +1,4 @@
-package com.dunn.model.storage;
+package com.dunn.util.storage;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +24,4 @@ public interface IStorageService {
 
     Path getRootLocation();
 
-    Path storeToUniqueDirectory(MultipartFile file, String username, Path targetDirectory);
-
-    void transferToUserProjectDirectory();
 }

@@ -5,8 +5,8 @@ import com.dunn.controller.path.views.ViewName;
 import com.dunn.dao.woodproject.IWoodProjectDAO;
 import com.dunn.model.Image;
 import com.dunn.model.WoodProject;
-import com.dunn.model.storage.CreateWoodProjectTempImageStorageService;
-import com.dunn.model.storage.WoodProjectImageStorageService;
+import com.dunn.util.storage.CreateWoodProjectTempImageStorageService;
+import com.dunn.util.storage.WoodProjectImageStorageService;
 import com.dunn.model.user.WoodProjectDTO;
 import com.dunn.model.user.WoodulikeUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,7 +92,7 @@ public class MyWoodProjectController {
         String username = woodProjectDTO.getWoodProject().getWoodulikeUser().getUsername();
         String projectTitle = woodProjectDTO.getWoodProject().getTitle();
 
-        Path targetDirectory = woodProjectImageStorageService.generateWoodProjectPath(username, projectTitle);
+        Path targetDirectory = woodProjectImageStorageService.createWoodProjectPath(username, projectTitle);
         boolean isCopySuccessful = woodProjectImageStorageService.copy(woodProjectDTO.getTempDirectory(), targetDirectory);
         if(isCopySuccessful){
             createWoodProjectTempImageStorageService.deleteDirectory(woodProjectDTO.getTempDirectory());
@@ -100,7 +100,7 @@ public class MyWoodProjectController {
             return "redirect:" + ViewName.CREATE_WOOD_PROJECT;
         } else{
                 //SHOULD IMPLEMENT REDIRECT TO RESUBMIT PROJECT WITH INFORMATION IF UNSUCCESFUL
-            status.setComplete();
+            //status.setComplete();
             return "redirect:" + ViewName.CREATE_WOOD_PROJECT;
         }
 

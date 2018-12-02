@@ -1,5 +1,8 @@
-package com.dunn.model.storage;
+package com.dunn.util.storage;
 
+import com.dunn.util.pathgenerators.PathGenerator;
+import com.dunn.util.pathgenerators.PathInfoHolder;
+import com.dunn.util.pathgenerators.TempWoodProjectPathGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,6 +23,8 @@ import java.util.stream.Stream;
 public class CreateWoodProjectTempImageStorageService implements IStorageService {
 
     private final Path rootLocation;
+
+    private final PathGenerator pathGenerator = new TempWoodProjectPathGenerator();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateWoodProjectTempImageStorageService.class);
 
@@ -45,12 +50,6 @@ public class CreateWoodProjectTempImageStorageService implements IStorageService
 
 
     @Override
-    public Path storeToUniqueDirectory(MultipartFile file, String username, Path tempDirectoryTarget){
-       return StorageServiceHelper.storeToUniqueDirectory(rootLocation, file, username, tempDirectoryTarget);
-    }
-
-
-    @Override
     public Stream<Path> loadAll() {
         return StorageServiceHelper.loadAll(rootLocation);
     }
@@ -71,24 +70,13 @@ public class CreateWoodProjectTempImageStorageService implements IStorageService
     }
 
 
-    public Path generateUniqueDirectory(String directoryPrefix){
-        Path tempFolder = rootLocation.resolve(directoryPrefix + "-" + UUID.randomUUID());
-        System.out.println(tempFolder.toAbsolutePath().toString());
-        if (!Files.exists(tempFolder)) {
-            try {
-                Files.createDirectories(tempFolder);
-            } catch (IOException e) {
-                throw new StorageException("Could not create user temp directory for gallery: ", e);
-            }
-        }
-        return tempFolder;
-       //return StorageServiceHelper.generateUniqueDirectory(rootLocation, username);
+    public Path createTempWoodProjectPath(String username){
+        PathInfoHolder pathInfoHolder = pathGenerator.getPathInfoHolder();
+        pathInfoHolder.setUsername(username);
+        Path tempPath = pathGenerator.generatePath(rootLocation, pathInfoHolder);
+        StorageServiceHelper.createDirectory(tempPath);
+        return tempPath;
     }
-
-    @Override
-    public void transferToUserProjectDirectory(){
-
-    };
 
     @Override
     public Path getRootLocation() {
