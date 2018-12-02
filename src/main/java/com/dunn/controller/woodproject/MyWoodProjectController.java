@@ -125,7 +125,7 @@ public class MyWoodProjectController {
                     Image image = new Image();
                     image.setImageName(path.getFileName().toString());
                     image.setPath(path.toString());
-
+                    image.setStoredDirectory(path.toAbsolutePath().toString());
                     image.setWoodProject(woodProject);
                     woodProject.getImages().add(image);
                 }
