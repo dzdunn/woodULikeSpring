@@ -1,7 +1,6 @@
 package com.dunn.controller.woodproject;
 
 import com.dunn.controller.path.PathHelper;
-import com.dunn.controller.path.resources.ResourceProperties;
 import com.dunn.controller.path.views.ViewName;
 import com.dunn.util.storage.CreateWoodProjectTempImageStorageService;
 import com.dunn.util.storage.StorageFileNotFoundException;
@@ -14,11 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Controller
 public class FileUploadController {
@@ -55,7 +50,7 @@ public class FileUploadController {
     private WoodProjectDTO updateModelFromSessionModel(WoodProjectDTO modelAttribute, WoodProjectDTO sessionAttribute) {
         if (sessionAttribute.getTempDirectory() != null) {
             modelAttribute.setTempDirectory(sessionAttribute.getTempDirectory());
-            modelAttribute.setImageDirectories(sessionAttribute.getImageDirectories());
+            modelAttribute.setImagePaths(sessionAttribute.getImagePaths());
         }
         return modelAttribute;
     }
@@ -79,9 +74,8 @@ public class FileUploadController {
         String filename = woodProjectDTO.getImageFile().getOriginalFilename();
         if (filename != null && filename.matches(".*\\S.*")) {
             Path imagePath = PathHelper.getFileNamePath(woodProjectDTO.getImageFile().getOriginalFilename(), woodProjectDTO.getTempDirectory());
-            String newRelativePath = PathHelper.replaceRootWithResourceHandlerWithForwardSlash(imagePath, ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getResourcePropertiesHolder());
-            if (!woodProjectDTO.getImageDirectories().contains(newRelativePath)) {
-                woodProjectDTO.addImageDirectory(newRelativePath);
+            if(!woodProjectDTO.getImagePaths().contains(imagePath)){
+                woodProjectDTO.addImagePath(imagePath);
             }
         }
         return woodProjectDTO;

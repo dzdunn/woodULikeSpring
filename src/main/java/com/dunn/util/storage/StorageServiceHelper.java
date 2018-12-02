@@ -103,8 +103,6 @@ public class StorageServiceHelper {
     }
 
     public static boolean copy(Path source, Path target) {
-        boolean result = false;
-
         try {
             FileSystemUtils.copyRecursively(source, target);
         } catch (IOException e) {

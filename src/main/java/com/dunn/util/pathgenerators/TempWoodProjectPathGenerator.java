@@ -10,9 +10,9 @@ public class TempWoodProjectPathGenerator implements PathGenerator {
     PathInfoHolder pathInfoHolder;
 
     @Override
-    public Path generatePath(Path rootLocation, PathInfoHolder directoryPrefix) {
+    public Path generatePath(Path rootLocation, PathInfoHolder pathInfoHolder) {
         return rootLocation
-                .resolve(directoryPrefix.getUsername() + UUID.randomUUID());
+                .resolve(pathInfoHolder.getUsername() + UUID.randomUUID());
     }
 
     public PathInfoHolder getPathInfoHolder(){

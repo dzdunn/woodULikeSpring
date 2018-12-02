@@ -11,10 +11,10 @@ public class WoodProjectPathGenerator implements PathGenerator {
     private PathInfoHolder pathInfoHolder;
 
     @Override
-    public Path generatePath(Path rootLocation, PathInfoHolder directoryPrefix) {
+    public Path generatePath(Path rootLocation, PathInfoHolder pathInfoHolder) {
         return rootLocation
-                .resolve(directoryPrefix.getUsername() + UUID.randomUUID())
-                .resolve(directoryPrefix.getProjectTitle() + UUID.randomUUID())
+                .resolve(pathInfoHolder.getUsername() + UUID.randomUUID())
+                .resolve(pathInfoHolder.getProjectTitle() + UUID.randomUUID())
                 .resolve(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-YYYY-HH-mm-ss")));
     }
 

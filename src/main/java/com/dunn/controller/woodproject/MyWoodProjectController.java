@@ -18,11 +18,14 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 @SessionAttributes("woodProjectDTO")
@@ -39,7 +42,6 @@ public class MyWoodProjectController {
 
     @ModelAttribute("woodProjectDTO")
     public WoodProjectDTO createWoodProjectDTO() {
-
         return new WoodProjectDTO();
     }
 
@@ -61,49 +63,28 @@ public class MyWoodProjectController {
 
 
     @RequestMapping(value = ViewName.SAVE_WOOD_PROJECT, method = RequestMethod.GET)
-    public String saveWoodProject(SessionStatus status, @ModelAttribute("woodProjectDTO") WoodProjectDTO woodProjectDTO, RedirectAttributes redirectAttributes) {
+    public String saveWoodProject(SessionStatus status, @ModelAttribute("woodProjectDTO") WoodProjectDTO woodProjectDTO, RedirectAttributes redirectAttributes) throws IOException {
 
+        Path targetDirectory = generateTargetDirectory(woodProjectDTO);
+        boolean isCopySuccessful = copyToTargetDirectory(woodProjectDTO, targetDirectory);
 
-        WoodProject woodProject = woodProjectDTO.getWoodProject();
-
-        woodProjectDTO.getImageDirectories().forEach(x -> {
-            Image image = new Image();
-            Path path = Paths.get(x);
-            image.setImageName(path.getFileName().toString());
-            image.setPath(path.toString());
-
-            image.setWoodProject(woodProject);
-            woodProject.getImages().add(image);
-
-        });
-
-        woodProject.setWoodulikeUser((WoodulikeUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        woodProject.setDate(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
-
-        woodProjectDAO.createWoodProject(woodProject);
-
-
-        return "redirect:/saveCleanup";
-    }
-
-    @RequestMapping(value = "/saveCleanup", method = RequestMethod.GET)
-    public String cleanUp(SessionStatus status, @SessionAttribute WoodProjectDTO woodProjectDTO){
-
-        String username = woodProjectDTO.getWoodProject().getWoodulikeUser().getUsername();
-        String projectTitle = woodProjectDTO.getWoodProject().getTitle();
-
-        Path targetDirectory = woodProjectImageStorageService.createWoodProjectPath(username, projectTitle);
-        boolean isCopySuccessful = woodProjectImageStorageService.copy(woodProjectDTO.getTempDirectory(), targetDirectory);
         if(isCopySuccessful){
+
+            WoodProject woodProject = updateWoodProjectImagePaths(woodProjectDTO, targetDirectory);
+            woodProject.setDate(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+            woodProject.setWoodulikeUser(((WoodulikeUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
+            woodProjectDAO.createWoodProject(woodProject);
+
             createWoodProjectTempImageStorageService.deleteDirectory(woodProjectDTO.getTempDirectory());
+
             status.setComplete();
             return "redirect:" + ViewName.CREATE_WOOD_PROJECT;
         } else{
-                //SHOULD IMPLEMENT REDIRECT TO RESUBMIT PROJECT WITH INFORMATION IF UNSUCCESFUL
+
+            //SHOULD IMPLEMENT REDIRECT TO RESUBMIT PROJECT WITH INFORMATION IF UNSUCCESFUL
             //status.setComplete();
             return "redirect:" + ViewName.CREATE_WOOD_PROJECT;
         }
-
     }
 
 
@@ -117,4 +98,40 @@ public class MyWoodProjectController {
         return ViewName.MY_PROFILE;
     }
 
+    private Path generateTargetDirectory(WoodProjectDTO woodProjectDTO){
+        WoodProject woodProject = woodProjectDTO.getWoodProject();
+
+        String username = woodProject.getWoodulikeUser() != null ? woodProject.getWoodulikeUser().getUsername() : ((WoodulikeUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        String projectTitle = woodProjectDTO.getWoodProject().getTitle();
+
+        return woodProjectImageStorageService.createWoodProjectPath(username, projectTitle);
+    }
+
+
+    private boolean copyToTargetDirectory(WoodProjectDTO woodProjectDTO, Path targetDirectory) {
+        boolean isCopySuccessful = woodProjectImageStorageService.copy(woodProjectDTO.getTempDirectory(), targetDirectory);
+        if (isCopySuccessful) {
+            createWoodProjectTempImageStorageService.deleteDirectory(woodProjectDTO.getTempDirectory());
+        }
+        return isCopySuccessful;
+    }
+
+    private WoodProject updateWoodProjectImagePaths(WoodProjectDTO woodProjectDTO, Path targetDirectory) throws IOException {
+        WoodProject woodProject = woodProjectDTO.getWoodProject();
+        try(Stream<Path> newPaths = Files.walk(targetDirectory)) {
+            woodProjectDTO.setImagePaths(newPaths.collect(Collectors.toList()));
+            woodProjectDTO.getImagePaths().forEach(path -> {
+                if (!Files.isDirectory(path)) {
+                    Image image = new Image();
+                    image.setImageName(path.getFileName().toString());
+                    image.setPath(path.toString());
+
+                    image.setWoodProject(woodProject);
+                    woodProject.getImages().add(image);
+                }
+            });
+        }
+        return woodProject;
+
+    }
 }

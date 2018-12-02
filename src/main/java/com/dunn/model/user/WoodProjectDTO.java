@@ -1,5 +1,7 @@
 package com.dunn.model.user;
 
+import com.dunn.controller.path.PathHelper;
+import com.dunn.controller.path.resources.ResourceProperties;
 import com.dunn.model.WoodProject;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,6 +11,7 @@ import javax.persistence.Id;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class WoodProjectDTO {
 
@@ -26,12 +29,14 @@ public class WoodProjectDTO {
     }
 
     public WoodProjectDTO(){
-        this.imageDirectories = new ArrayList<>();
+        this.imagePaths = new ArrayList<>();
     }
 
     private WoodProject woodProject;
 
     private Path tempDirectory;
+
+    private List<Path> imagePaths;
 
     public MultipartFile getImageFile() {
         return imageFile;
@@ -40,8 +45,6 @@ public class WoodProjectDTO {
     public void setImageFile(MultipartFile imageHolder) {
         this.imageFile = imageHolder;
     }
-
-    private List<String> imageDirectories;
 
     private MultipartFile imageFile;
 
@@ -62,15 +65,21 @@ public class WoodProjectDTO {
         this.tempDirectory = tempDirectory;
     }
 
-    public List<String> getImageDirectories() {
-        return imageDirectories;
+    public List<String> getRelativeImagePaths(){
+       return imagePaths.stream().map(absolutePath ->
+                    PathHelper.replaceRootWithResourceHandlerWithForwardSlash(absolutePath, ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getResourcePropertiesHolder())
+                ).collect(Collectors.toList());
     }
 
-    public void setImageDirectories(List<String> imageDirectories) {
-        this.imageDirectories = imageDirectories;
+    public List<Path> getImagePaths() {
+        return imagePaths;
     }
 
-    public void addImageDirectory(String imageDirectory){
-        this.imageDirectories.add(imageDirectory);
+    public void setImagePaths(List<Path> imagePaths) {
+        this.imagePaths = imagePaths;
+    }
+
+    public void addImagePath(Path imagePath){
+        this.imagePaths.add(imagePath);
     }
 }

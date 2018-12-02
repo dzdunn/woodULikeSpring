@@ -36,8 +36,6 @@
     <tr>
         <td><input type="submit" value="Submit" class="btn btn-primary" formaction="/fileUploadProcess?${_csrf.parameterName}=${_csrf.token}&save=true"/></td>
     </tr>
-    <%--<input type="hidden" name="imageDirectories" value="${woodProjectDTO.imageDirectories}"/>--%>
-    <%--<input type="hidden" name="tempDirectory" value="${woodProjectDTO.tempDirectory}"/>--%>
 
 </table>
 
@@ -45,8 +43,8 @@
 
 
 
-<c:if test="${woodProjectDTO.imageDirectories != null && !woodProjectDTO.imageDirectories.isEmpty()}">
-    <c:forEach var="image" items="${woodProjectDTO.imageDirectories}">
+<c:if test="${woodProjectDTO.imagePaths != null && !woodProjectDTO.imagePaths.isEmpty()}">
+    <c:forEach var="image" items="${woodProjectDTO.getRelativeImagePaths()}">
         <c:out value="${image}"/>
         <img src="${image}"/>
 
