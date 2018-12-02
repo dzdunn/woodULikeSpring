@@ -5,14 +5,13 @@ import com.dunn.controller.path.views.ViewName;
 import com.dunn.dao.woodproject.IWoodProjectDAO;
 import com.dunn.model.Image;
 import com.dunn.model.WoodProject;
-import com.dunn.util.storage.CreateWoodProjectTempImageStorageService;
+import com.dunn.util.storage.TempWoodProjectImageStorageService;
 import com.dunn.util.storage.WoodProjectImageStorageService;
 import com.dunn.model.user.WoodProjectDTO;
 import com.dunn.model.user.WoodulikeUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -38,7 +37,7 @@ public class MyWoodProjectController {
     private WoodProjectImageStorageService woodProjectImageStorageService;
 
     @Autowired
-    private CreateWoodProjectTempImageStorageService createWoodProjectTempImageStorageService;
+    private TempWoodProjectImageStorageService tempWoodProjectImageStorageService;
 
     @ModelAttribute("woodProjectDTO")
     public WoodProjectDTO createWoodProjectDTO() {
@@ -48,7 +47,8 @@ public class MyWoodProjectController {
 
     //@ScopeSessionAttributesToViews(sessionStatus = "status", allowedViewNames = {"redirect:" + ViewName.CREATE_WOOD_PROJECT}, sessionAttribute = "woodProjectDTO")
     @RequestMapping(value = {ViewName.CREATE_WOOD_PROJECT}, method = RequestMethod.GET)
-    public ModelAndView showCreateWoodProject(SessionStatus status, Model model) {
+    public ModelAndView showCreateWoodProject(SessionStatus status, @ModelAttribute("woodProjectDTO") WoodProjectDTO woodProjectDTO) {
+        cleanSessionTempDirectory(woodProjectDTO);
         status.setComplete();
 
         ModelAndView mav = new ModelAndView("redirect:" + ViewName.EDIT_WOOD_PROJECT);
@@ -56,9 +56,8 @@ public class MyWoodProjectController {
     }
 
     @RequestMapping(value = ViewName.EDIT_WOOD_PROJECT, method = RequestMethod.GET)
-    public ModelAndView editCreateWoodProject() {
-        ModelAndView mav = new ModelAndView(ViewName.CREATE_WOOD_PROJECT);
-        return mav;
+    public String editCreateWoodProject() {
+        return ViewName.CREATE_WOOD_PROJECT;
     }
 
 
@@ -75,7 +74,7 @@ public class MyWoodProjectController {
             woodProject.setWoodulikeUser(((WoodulikeUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
             woodProjectDAO.createWoodProject(woodProject);
 
-            createWoodProjectTempImageStorageService.deleteDirectory(woodProjectDTO.getTempDirectory());
+            tempWoodProjectImageStorageService.deleteDirectory(woodProjectDTO.getTempDirectory());
 
             status.setComplete();
             return "redirect:" + ViewName.CREATE_WOOD_PROJECT;
@@ -111,7 +110,7 @@ public class MyWoodProjectController {
     private boolean copyToTargetDirectory(WoodProjectDTO woodProjectDTO, Path targetDirectory) {
         boolean isCopySuccessful = woodProjectImageStorageService.copy(woodProjectDTO.getTempDirectory(), targetDirectory);
         if (isCopySuccessful) {
-            createWoodProjectTempImageStorageService.deleteDirectory(woodProjectDTO.getTempDirectory());
+            tempWoodProjectImageStorageService.deleteDirectory(woodProjectDTO.getTempDirectory());
         }
         return isCopySuccessful;
     }
@@ -132,6 +131,11 @@ public class MyWoodProjectController {
             });
         }
         return woodProject;
+    }
 
+    private void cleanSessionTempDirectory(WoodProjectDTO woodProjectDTO){
+        if(woodProjectDTO.getTempDirectory() != null && Files.exists(woodProjectDTO.getTempDirectory())){
+            tempWoodProjectImageStorageService.deleteDirectory(woodProjectDTO.getTempDirectory());
+        }
     }
 }

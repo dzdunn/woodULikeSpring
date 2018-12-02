@@ -5,7 +5,7 @@ import com.dunn.controller.path.views.ViewNameWrapper;
 import com.dunn.dao.woodproject.IWoodProjectDAO;
 import com.dunn.model.Image;
 import com.dunn.model.WoodProject;
-import com.dunn.util.storage.CreateWoodProjectTempImageStorageService;
+import com.dunn.util.storage.TempWoodProjectImageStorageService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class WoodProjectDAOIT {
     private JavaMailSenderImpl javaMailSender;
 
     @Autowired
-    private CreateWoodProjectTempImageStorageService createWoodProjectTempImageStorageService;
+    private TempWoodProjectImageStorageService tempWoodProjectImageStorageService;
 
     private WoodProject woodProject;
 
@@ -183,8 +183,8 @@ public class WoodProjectDAOIT {
 
     @Test
     public void testDirectory(){
-        assertNotNull(createWoodProjectTempImageStorageService);
-        createWoodProjectTempImageStorageService.init();
+        assertNotNull(tempWoodProjectImageStorageService);
+        tempWoodProjectImageStorageService.init();
     }
 
     @Value("${storage.location.createwoodproject.temp}")

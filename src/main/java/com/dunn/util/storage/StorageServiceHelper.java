@@ -45,7 +45,8 @@ public class StorageServiceHelper {
 
     public static Stream<Path> loadAll(Path rootLocation) {
         try {
-            return Files.walk(rootLocation, 1).filter(path -> !path.equals(rootLocation)).map(rootLocation::relativize);
+           // return Files.walk(rootLocation, 1).filter(path -> !path.equals(rootLocation)).map(rootLocation::relativize);
+            return Files.walk(rootLocation, 1).filter(path -> !path.equals(rootLocation));
         } catch (IOException e) {
             throw new StorageException("Failed to read stored files: ", e);
         }

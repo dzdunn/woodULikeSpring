@@ -13,22 +13,20 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.UUID;
 import java.util.stream.Stream;
 
 @Service
-public class CreateWoodProjectTempImageStorageService implements IStorageService {
+public class TempWoodProjectImageStorageService implements IStorageService {
 
     private final Path rootLocation;
 
     private final PathGenerator pathGenerator = new TempWoodProjectPathGenerator();
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CreateWoodProjectTempImageStorageService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TempWoodProjectImageStorageService.class);
 
-    public CreateWoodProjectTempImageStorageService(@Qualifier("storageServiceProperties") PropertiesFactoryBean storageServiceProperties){
+    public TempWoodProjectImageStorageService(@Qualifier("storageServiceProperties") PropertiesFactoryBean storageServiceProperties){
         try {
             this.rootLocation = Paths.get(storageServiceProperties.getObject().getProperty("storage.location.createwoodproject.temp"));
         } catch (IOException e) {

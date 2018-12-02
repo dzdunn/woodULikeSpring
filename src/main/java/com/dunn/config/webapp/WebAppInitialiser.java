@@ -1,5 +1,6 @@
 package com.dunn.config.webapp;
 
+import com.dunn.config.session.SessionListener;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -23,6 +24,7 @@ public class WebAppInitialiser implements WebApplicationInitializer {
 		         
 		        dispatcher.setLoadOnStartup(1);
 		        dispatcher.addMapping("/");
+		servletContext.addListener(SessionListener.class);
 	}
 
 }

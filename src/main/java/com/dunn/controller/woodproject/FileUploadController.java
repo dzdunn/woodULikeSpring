@@ -2,7 +2,7 @@ package com.dunn.controller.woodproject;
 
 import com.dunn.controller.path.PathHelper;
 import com.dunn.controller.path.views.ViewName;
-import com.dunn.util.storage.CreateWoodProjectTempImageStorageService;
+import com.dunn.util.storage.TempWoodProjectImageStorageService;
 import com.dunn.util.storage.StorageFileNotFoundException;
 import com.dunn.model.user.WoodProjectDTO;
 import com.dunn.model.user.WoodulikeUser;
@@ -18,11 +18,11 @@ import java.nio.file.Path;
 @Controller
 public class FileUploadController {
 
-    private final CreateWoodProjectTempImageStorageService createWoodProjectTempImageStorageService;
+    private final TempWoodProjectImageStorageService tempWoodProjectImageStorageService;
 
     @Autowired
-    public FileUploadController(CreateWoodProjectTempImageStorageService createWoodProjectTempImageStorageService) {
-        this.createWoodProjectTempImageStorageService = createWoodProjectTempImageStorageService;
+    public FileUploadController(TempWoodProjectImageStorageService tempWoodProjectImageStorageService) {
+        this.tempWoodProjectImageStorageService = tempWoodProjectImageStorageService;
     }
 
     @RequestMapping(value = ViewName.FILE_UPLOAD_PROCESS, method = RequestMethod.POST)
@@ -59,11 +59,11 @@ public class FileUploadController {
         if (woodProjectDTO.getImageFile() != null & !woodProjectDTO.getImageFile().isEmpty()) {
             WoodulikeUser woodulikeUser = (WoodulikeUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             if(woodProjectDTO.getTempDirectory() == null) {
-                Path tempDir = createWoodProjectTempImageStorageService.createTempWoodProjectPath(woodulikeUser.getUsername());
+                Path tempDir = tempWoodProjectImageStorageService.createTempWoodProjectPath(woodulikeUser.getUsername());
                 woodProjectDTO.setTempDirectory(tempDir);
             }
             if(woodProjectDTO.getTempDirectory() != null){
-                createWoodProjectTempImageStorageService.store(woodProjectDTO.getImageFile(), woodProjectDTO.getTempDirectory());
+                tempWoodProjectImageStorageService.store(woodProjectDTO.getImageFile(), woodProjectDTO.getTempDirectory());
             }
         }
         //Add validation and error message if empty
