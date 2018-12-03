@@ -1,4 +1,4 @@
-package com.dunn.controller.woodproject;
+package com.dunn.controller.mywoodprojects;
 
 
 import com.dunn.controller.path.views.ViewName;
@@ -77,7 +77,7 @@ public class MyWoodProjectController {
             tempWoodProjectImageStorageService.deleteDirectory(woodProjectDTO.getTempDirectory());
 
             status.setComplete();
-            return "redirect:" + ViewName.CREATE_WOOD_PROJECT;
+            return "redirect:" + ViewName.WOOD_PROJECT + "/" + woodProject.getId();
         } else{
 
             //SHOULD IMPLEMENT REDIRECT TO RESUBMIT PROJECT WITH INFORMATION IF UNSUCCESFUL

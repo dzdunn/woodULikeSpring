@@ -46,6 +46,11 @@ public class WoodProjectDAO implements IWoodProjectDAO {
     }
 
     @Override
+    public WoodProject findWoodProjectById(Long id) {
+        return sessionFactory.getCurrentSession().get(WoodProject.class, id);
+    }
+
+    @Override
     public WoodProject findWoodProjectByTitle(String title){
         CriteriaBuilder builder = sessionFactory.getCriteriaBuilder();
         CriteriaQuery<WoodProject> criteria = builder.createQuery(WoodProject.class);

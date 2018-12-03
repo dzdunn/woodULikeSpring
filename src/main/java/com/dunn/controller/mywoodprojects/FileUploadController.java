@@ -1,4 +1,4 @@
-package com.dunn.controller.woodproject;
+package com.dunn.controller.mywoodprojects;
 
 import com.dunn.controller.path.PathHelper;
 import com.dunn.controller.path.views.ViewName;

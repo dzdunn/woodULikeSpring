@@ -85,5 +85,10 @@ public final class ViewName {
 	public final static String FILE_UPLOAD_PROCESS = "/fileUpload" + PROCESS;
 	public final static ViewNameWrapper FILE_UPLOAD_PROCESS_WRAPPER = new ViewNameWrapper(FILE_UPLOAD_PROCESS);
 
+	public final static String WOOD_PROJECTS = "/woodProjects";
+	public final static ViewNameWrapper WOOD_PROJECT_WRAPPER = new ViewNameWrapper(WOOD_PROJECTS, true);
+
+	public final static String WOOD_PROJECT = WOOD_PROJECTS + "/woodProject";
+	public final static ViewNameWrapper GENERIC_WOOD_PROJECT_WRAPPER = new ViewNameWrapper(WOOD_PROJECT, true, true);
 
 }

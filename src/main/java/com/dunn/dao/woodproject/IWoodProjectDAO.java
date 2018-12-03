@@ -13,6 +13,8 @@ public interface IWoodProjectDAO {
 
     WoodProject findWoodProjectByTitle(String title);
 
+    public WoodProject findWoodProjectById(Long id);
+
     WoodProject updateWoodProject(WoodProject woodProject);
 
     void deleteWoodProject(WoodProject woodProject);
