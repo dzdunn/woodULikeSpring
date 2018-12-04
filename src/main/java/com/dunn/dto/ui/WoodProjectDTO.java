@@ -1,8 +1,8 @@
-package com.dunn.model.user;
+package com.dunn.dto.ui;
 
 import com.dunn.controller.path.PathHelper;
 import com.dunn.controller.path.resources.ResourceProperties;
-import com.dunn.model.WoodProject;
+import com.dunn.model.woodproject.WoodProject;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.GeneratedValue;

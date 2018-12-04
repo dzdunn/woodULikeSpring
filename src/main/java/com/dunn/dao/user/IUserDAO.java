@@ -1,7 +1,5 @@
 package com.dunn.dao.user;
 
-import com.dunn.model.WoodProject;
-import com.dunn.model.user.PasswordResetToken;
 import com.dunn.model.user.WoodulikeUser;
 import org.hibernate.SessionFactory;
 

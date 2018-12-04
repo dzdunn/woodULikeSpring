@@ -15,17 +15,20 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.persistence.metamodel.StaticMetamodel;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Past;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@StaticMetamodel(WoodulikeUser.class)
 @Entity
 @WoodulikePasswordValid(groups = {IWoodulikeUserRegistrationValidationGroup.class, IResetPasswordValidationGroup.class})
 @LoginConstraint(groups = IWoodulikeUserLoginValidationGroup.class)
-public class WoodulikeUser implements UserDetails, CredentialsContainer {
+public class WoodulikeUser implements UserDetails, CredentialsContainer, Serializable {
 
     @Autowired
     private MessageSource messageSource;

@@ -1,25 +1,14 @@
-package com.dunn.model;
-
-import org.hibernate.annotations.Type;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+package com.dunn.model.woodproject;
 
 import javax.persistence.*;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Collection;
 
 @Entity
 public class Image implements Serializable {
 
-
-
     private Long id;
     private String imageName;
     private String path;
-
-
 
     private String storedDirectory;
     private WoodProject woodProject;

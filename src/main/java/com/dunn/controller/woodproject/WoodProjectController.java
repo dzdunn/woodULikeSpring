@@ -2,7 +2,8 @@ package com.dunn.controller.woodproject;
 
 import com.dunn.controller.path.views.ViewName;
 import com.dunn.dao.woodproject.WoodProjectService;
-import com.dunn.model.WoodProject;
+import com.dunn.dto.hibernate.WoodProjectDisplayDTO;
+import com.dunn.model.woodproject.WoodProject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ public class WoodProjectController {
 
     @RequestMapping(value = ViewName.WOOD_PROJECT + "/{wpId}", method = RequestMethod.GET)
     public ModelAndView showWoodProjectById(@PathVariable("wpId") Long id){
+       // WoodProject woodProject = woodProjectService.findWoodProjectById(id);
         WoodProject woodProject = woodProjectService.findWoodProjectById(id);
         ModelAndView mav = new ModelAndView(ViewName.WOOD_PROJECT);
         mav.addObject(woodProject);

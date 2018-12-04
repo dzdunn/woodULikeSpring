@@ -7,13 +7,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.dunn.controller.path.views.ViewName" %>
 <head>
-    <link href="../static/bootstrap/css/bootstrap.min.css" type="text/css"
+    <link href="/static/bootstrap/css/bootstrap.min.css" type="text/css"
           rel="stylesheet"/>
-    <link href="../static/font-awesome/css/all.css" type="text/css"
+    <link href="/static/font-awesome/css/all.css" type="text/css"
           rel="stylesheet"/>
-    <link href="../static/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.css" type="text/css"
+    <link href="/static/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.css" type="text/css"
           rel="stylesheet"/>
-    <link href="../static/css/style.css" type="text/css" rel="stylesheet"/>
+    <link href="/static/css/style.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg">

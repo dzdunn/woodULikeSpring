@@ -1,9 +1,8 @@
 package com.dunn.config.session;
 
-import com.dunn.model.user.WoodProjectDTO;
+import com.dunn.dto.ui.WoodProjectDTO;
 import org.springframework.util.FileSystemUtils;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 import java.io.IOException;

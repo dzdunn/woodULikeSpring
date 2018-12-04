@@ -1,6 +1,6 @@
 package com.dunn.dao.woodproject;
 
-import com.dunn.model.WoodProject;
+import com.dunn.model.woodproject.WoodProject;
 import org.hibernate.SessionFactory;
 
 import java.util.List;

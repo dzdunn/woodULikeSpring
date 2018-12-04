@@ -3,11 +3,11 @@ package com.dunn.controller.mywoodprojects;
 
 import com.dunn.controller.path.views.ViewName;
 import com.dunn.dao.woodproject.IWoodProjectDAO;
-import com.dunn.model.Image;
-import com.dunn.model.WoodProject;
+import com.dunn.model.woodproject.Image;
+import com.dunn.model.woodproject.WoodProject;
 import com.dunn.util.storage.TempWoodProjectImageStorageService;
 import com.dunn.util.storage.WoodProjectImageStorageService;
-import com.dunn.model.user.WoodProjectDTO;
+import com.dunn.dto.ui.WoodProjectDTO;
 import com.dunn.model.user.WoodulikeUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;

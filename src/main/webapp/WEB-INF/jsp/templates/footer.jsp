@@ -68,13 +68,13 @@
 	</div>
 	<!-- Copyright --> </footer>
 	<!-- Footer -->
-	<script type="text/javascript" src="../static/jquery/jquery.min.js"></script>
-	<script type="text/javascript" src="../static/popper.js/popper.min.js"></script>
-	<script type="text/javascript" src="../static/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/static/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="/static/popper.js/popper.min.js"></script>
+	<script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
 
-	<script type="text/javascript" src="../static/font-awesome/js/all.js"></script>
-	<script type="text/javascript" src="../static/momentjs/moment.js"></script>
-	<script type="text/javascript" src="../static/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.js"></script>
+	<script type="text/javascript" src="/static/font-awesome/js/all.js"></script>
+	<script type="text/javascript" src="/static/momentjs/moment.js"></script>
+	<script type="text/javascript" src="/static/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.js"></script>
 
 </body>
 </html>

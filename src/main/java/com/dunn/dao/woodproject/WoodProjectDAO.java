@@ -1,7 +1,13 @@
 package com.dunn.dao.woodproject;
 
-import com.dunn.dao.woodproject.IWoodProjectDAO;
-import com.dunn.model.WoodProject;
+import com.dunn.dto.hibernate.WoodProjectDisplayDTO;
+import com.dunn.model.user.WoodulikeUser_;
+import com.dunn.model.woodproject.WoodProject_;
+import com.dunn.model.user.WoodulikeUser;
+import com.dunn.model.woodproject.Image;
+
+import com.dunn.model.woodproject.WoodProject;
+import com.dunn.util.hibernate.HibernateHelper;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Fetch;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -22,6 +29,10 @@ public class WoodProjectDAO implements IWoodProjectDAO {
 
     @Value("${upload.location}")
     private String uploadLocation;
+
+
+
+
 
     @Override
     public SessionFactory getSessionFactory() {
@@ -47,8 +58,39 @@ public class WoodProjectDAO implements IWoodProjectDAO {
 
     @Override
     public WoodProject findWoodProjectById(Long id) {
-        return sessionFactory.getCurrentSession().get(WoodProject.class, id);
+
+        CriteriaBuilder builder = sessionFactory.getCriteriaBuilder();
+        CriteriaQuery<WoodProject> criteria = builder.createQuery(WoodProject.class);
+        Root<WoodProject> woodProjectRoot = criteria.from(WoodProject.class);
+        criteria.where(builder.equal(woodProjectRoot.get(WoodProject_.id), id));
+
+        Fetch<WoodProject, WoodulikeUser> woodProjectUser = woodProjectRoot.fetch(WoodProject_.woodulikeUser);
+        Fetch<WoodProject, Image> woodProjectImages = woodProjectRoot.fetch(WoodProject_.images);
+
+        List<WoodProject> woodProjects = sessionFactory.getCurrentSession().createQuery(criteria).list();
+
+        return woodProjects.get(0);
     }
+
+    //WORK IN PROGRESS
+
+//    public WoodProjectDisplayDTO findWoodProjectByIdDisplayDTO(Long id) {
+//        CriteriaBuilder builder = sessionFactory.getCriteriaBuilder();
+//        CriteriaQuery<WoodProjectDisplayDTO> woodProjectDisplayDTOQuery = builder.createQuery(WoodProjectDisplayDTO.class);
+//        Root<WoodProject> woodProjectRoot = woodProjectDisplayDTOQuery.from(WoodProject.class);
+//        woodProjectDisplayDTOQuery.where(builder.equal(woodProjectRoot.get(WoodProject_.id), id));
+//        woodProjectDisplayDTOQuery.multiselect(
+//                woodProjectRoot.get(WoodProject_.title),
+//                woodProjectRoot.get(WoodProject_.woodulikeUser).get(WoodulikeUser_.username),
+//                woodProjectRoot.get(WoodProject_.description),
+//                woodProjectRoot.get(WoodProject_.images)
+//        );
+//
+//
+//        List<WoodProjectDisplayDTO> woodProjects = sessionFactory.getCurrentSession().createQuery(woodProjectDisplayDTOQuery).list();
+//
+//        return woodProjects.get(0);
+//    }
 
     @Override
     public WoodProject findWoodProjectByTitle(String title){

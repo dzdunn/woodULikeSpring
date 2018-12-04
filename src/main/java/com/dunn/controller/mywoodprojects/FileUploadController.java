@@ -4,7 +4,7 @@ import com.dunn.controller.path.PathHelper;
 import com.dunn.controller.path.views.ViewName;
 import com.dunn.util.storage.TempWoodProjectImageStorageService;
 import com.dunn.util.storage.StorageFileNotFoundException;
-import com.dunn.model.user.WoodProjectDTO;
+import com.dunn.dto.ui.WoodProjectDTO;
 import com.dunn.model.user.WoodulikeUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
