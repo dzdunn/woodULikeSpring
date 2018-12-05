@@ -18,12 +18,15 @@ import org.springframework.validation.beanvalidation.MessageSourceResourceBundle
 import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
 import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.WebJarsResourceResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletContext;
 import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
 import java.util.Properties;
@@ -37,6 +40,9 @@ public class WebMvcConfig implements WebMvcConfigurer{
 
 	@Autowired
 	private AutowireCapableBeanFactory beanFactory;
+
+	@Autowired
+	private ServletContext servletContext;
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -70,12 +76,20 @@ public class WebMvcConfig implements WebMvcConfigurer{
 
 
 
-	@Bean(name = "multipartResolver")
-	public CommonsMultipartResolver multipartResolver() {
-		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-		multipartResolver.setMaxUploadSize(100000);
-		return multipartResolver;
+//	@Bean(name = "multipartResolver")
+//	public CommonsMultipartResolver multipartResolver() {
+//		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+//		multipartResolver.setMaxUploadSize(100000);
+//		multipartResolver.setServletContext(servletContext);
+//		return multipartResolver;
+//	}
+
+	@Bean
+	public StandardServletMultipartResolver multipartResolver() {
+		StandardServletMultipartResolver resolver = new StandardServletMultipartResolver();
+		return new StandardServletMultipartResolver();
 	}
+
 
 	@Bean
 	public JavaMailSenderImpl javaMailSender(){

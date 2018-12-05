@@ -56,7 +56,7 @@ public class FileUploadController {
     }
 
     private WoodProjectDTO storeImageToSessionDirectory(WoodProjectDTO woodProjectDTO) {
-        if (woodProjectDTO.getImageFile() != null & !woodProjectDTO.getImageFile().isEmpty()) {
+        if (woodProjectDTO.getImageFile() != null && !woodProjectDTO.getImageFile().isEmpty()) {
             WoodulikeUser woodulikeUser = (WoodulikeUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             if(woodProjectDTO.getTempDirectory() == null) {
                 Path tempDir = tempWoodProjectImageStorageService.createTempWoodProjectPath(woodulikeUser.getUsername());

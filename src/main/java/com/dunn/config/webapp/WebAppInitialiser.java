@@ -6,6 +6,7 @@ import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 
@@ -24,7 +25,19 @@ public class WebAppInitialiser implements WebApplicationInitializer {
 		         
 		        dispatcher.setLoadOnStartup(1);
 		        dispatcher.addMapping("/");
+
 		servletContext.addListener(SessionListener.class);
+
+//		FilterRegistration.Dynamic filter = servletContext.addFilter("myFilter", MyFilter.class);
+//		filter.addMappingForUrlPatterns(null, true, "/*");
+
+		MultipartConfigElement multipartConfig = new MultipartConfigElement(
+				"/", 50000000, 50000000, 0);
+
+		dispatcher.setMultipartConfig(multipartConfig);
+
+
+
 	}
 
 }
