@@ -1,8 +1,8 @@
 package com.dunn.config.security;
 
-import com.dunn.controller.path.resources.ResourceHandler;
-import com.dunn.controller.path.views.ViewName;
-import com.dunn.controller.path.views.ViewNameWrapper;
+import com.dunn.controller.uipaths.resources.ResourceHandler;
+import com.dunn.controller.uipaths.views.ViewName;
+import com.dunn.controller.uipaths.views.ViewNameWrapper;
 import com.dunn.config.security.filter.MyFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

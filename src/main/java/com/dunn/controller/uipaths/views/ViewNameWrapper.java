@@ -1,4 +1,4 @@
-package com.dunn.controller.path.views;
+package com.dunn.controller.uipaths.views;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

@@ -1,4 +1,4 @@
-package com.dunn.controller.path.views;
+package com.dunn.controller.uipaths.views;
 
 public final class ViewName {
 

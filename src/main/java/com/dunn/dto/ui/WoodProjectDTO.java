@@ -1,7 +1,8 @@
 package com.dunn.dto.ui;
 
-import com.dunn.controller.path.PathHelper;
-import com.dunn.controller.path.resources.ResourceProperties;
+import com.dunn.controller.uipaths.PathHelper;
+import com.dunn.controller.uipaths.resources.ResourceProperties;
+import com.dunn.controller.uipaths.resources.ResourcePropertiesHolder;
 import com.dunn.model.woodproject.WoodProject;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,34 +10,44 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class WoodProjectDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public WoodProjectDTO(){
-        this.imagePaths = new ArrayList<>();
     }
+
+    public WoodProjectDTO(ResourcePropertiesHolder resourcePropertiesHolder){
+        this.resourcePropertiesHolder = resourcePropertiesHolder;
+    }
+
+    public WoodProjectDTO(WoodProject woodProject, ResourcePropertiesHolder resourcePropertiesHolder){
+        this.username = woodProject.getWoodulikeUser().getUsername();
+        this.imagePaths= woodProject.getImages().stream().map(x -> Paths.get(x.getPath())).collect(Collectors.toList());
+        this.resourcePropertiesHolder = resourcePropertiesHolder;
+        this.woodProject = woodProject;
+    }
+
+    private ResourcePropertiesHolder resourcePropertiesHolder = ResourceProperties.WOOD_PROJECT_IMAGE_PROPERTIES;
+
+    private String username;
 
     private WoodProject woodProject;
 
     private Path tempDirectory;
 
-    private List<Path> imagePaths;
+    private List<Path> imagePaths = new ArrayList<>();
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public MultipartFile getImageFile() {
         return imageFile;
@@ -67,7 +78,7 @@ public class WoodProjectDTO {
 
     public List<String> getRelativeImagePaths(){
        return imagePaths.stream().map(absolutePath ->
-                    PathHelper.replaceRootWithResourceHandlerWithForwardSlash(absolutePath, ResourceProperties.CREATE_WOOD_PROJECT_TEMP_PROPERTIES.getResourcePropertiesHolder())
+                    PathHelper.replaceRootWithResourceHandlerWithForwardSlash(absolutePath, resourcePropertiesHolder)
                 ).collect(Collectors.toList());
     }
 
@@ -81,5 +92,13 @@ public class WoodProjectDTO {
 
     public void addImagePath(Path imagePath){
         this.imagePaths.add(imagePath);
+    }
+
+    public ResourcePropertiesHolder getResourcePropertiesHolder() {
+        return resourcePropertiesHolder;
+    }
+
+    public void setResourcePropertiesHolder(ResourcePropertiesHolder resourcePropertiesHolder) {
+        this.resourcePropertiesHolder = resourcePropertiesHolder;
     }
 }

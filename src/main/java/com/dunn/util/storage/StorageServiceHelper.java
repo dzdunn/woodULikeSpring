@@ -32,7 +32,7 @@ public class StorageServiceHelper {
                 throw new StorageException("Failed to store empty file: " + targetDirectory.getFileName());
             }
             if (targetDirectory.toString().contains("..")) {
-                throw new StorageException("Cannot store file with relative path outside current directory: " + targetDirectory.toString());
+                throw new StorageException("Cannot store file with relative uipaths outside current directory: " + targetDirectory.toString());
             }
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, targetDirectory.resolve(file.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
@@ -45,7 +45,7 @@ public class StorageServiceHelper {
 
     public static Stream<Path> loadAll(Path rootLocation) {
         try {
-           // return Files.walk(rootLocation, 1).filter(path -> !path.equals(rootLocation)).map(rootLocation::relativize);
+           // return Files.walk(rootLocation, 1).filter(uipaths -> !uipaths.equals(rootLocation)).map(rootLocation::relativize);
             return Files.walk(rootLocation, 1).filter(path -> !path.equals(rootLocation));
         } catch (IOException e) {
             throw new StorageException("Failed to read stored files: ", e);

@@ -1,9 +1,8 @@
 package com.dunn.dao;
 
 import com.dunn.config.webapp.WebMvcConfig;
-import com.dunn.controller.path.resources.ResourceHandler;
-import com.dunn.controller.path.resources.ResourceProperties;
-import com.dunn.controller.path.resources.ResourcePropertiesHolder;
+import com.dunn.controller.uipaths.resources.ResourceProperties;
+import com.dunn.controller.uipaths.resources.ResourcePropertiesHolder;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
@@ -93,19 +92,19 @@ public class ViewNameConstantTest {
 
     }
 
-//    private void getDirectories(Path path, Path tempCreate) throws IOException {
-////        System.out.println("Raw path: " + path);
-////        System.out.println("Absolute path: " + path.toAbsolutePath());
-////        System.out.println("URI: " + path.toUri());
-////        System.out.println("Parent: " + path.getParent());
-////        System.out.println("Root: " + path.getRoot());
-////        System.out.println("Filename: " + path.getFileName());
+//    private void getDirectories(Path uipaths, Path tempCreate) throws IOException {
+////        System.out.println("Raw uipaths: " + uipaths);
+////        System.out.println("Absolute uipaths: " + uipaths.toAbsolutePath());
+////        System.out.println("URI: " + uipaths.toUri());
+////        System.out.println("Parent: " + uipaths.getParent());
+////        System.out.println("Root: " + uipaths.getRoot());
+////        System.out.println("Filename: " + uipaths.getFileName());
 ////        System.out.println();
 ////        System.out.println("******************************************************");
-////        Files.walk(path.toAbsolutePath()).forEach(x -> System.out.println("Files.walk: " + x));
+////        Files.walk(uipaths.toAbsolutePath()).forEach(x -> System.out.println("Files.walk: " + x));
 ////        System.out.println();
 ////        System.out.println("******************************************************");
-////        Files.walk(path).forEach(x -> System.out.println("FILES.WALK: " + x));
+////        Files.walk(uipaths).forEach(x -> System.out.println("FILES.WALK: " + x));
 ////
 ////        System.out.println("******************************************************");
 //

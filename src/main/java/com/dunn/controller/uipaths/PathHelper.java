@@ -1,6 +1,6 @@
-package com.dunn.controller.path;
+package com.dunn.controller.uipaths;
 
-import com.dunn.controller.path.resources.ResourcePropertiesHolder;
+import com.dunn.controller.uipaths.resources.ResourcePropertiesHolder;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,7 +27,7 @@ public class PathHelper {
         }
 
         String resourceHandlerReplacement = removePatternMatchersAndBackSlashes(resourcePropertiesHolder.getResourceHandler().getResourceHandlerString());
-        String path ="../" + pathToReplace.toString().replaceAll(regexBuilder.toString(), resourceHandlerReplacement);
+        String path ="/" + pathToReplace.toString().replaceAll(regexBuilder.toString(), resourceHandlerReplacement);
 
         return Paths.get(path);
     }

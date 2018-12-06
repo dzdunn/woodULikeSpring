@@ -30,7 +30,7 @@ public class TempWoodProjectImageStorageService implements IStorageService {
         try {
             this.rootLocation = Paths.get(storageServiceProperties.getObject().getProperty("storage.location.createwoodproject.temp"));
         } catch (IOException e) {
-           throw new StorageException("Storage path could not be set: ", e);
+           throw new StorageException("Storage uipaths could not be set: ", e);
         }
     }
 

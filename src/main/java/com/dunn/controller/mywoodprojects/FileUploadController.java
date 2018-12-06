@@ -1,7 +1,7 @@
 package com.dunn.controller.mywoodprojects;
 
-import com.dunn.controller.path.PathHelper;
-import com.dunn.controller.path.views.ViewName;
+import com.dunn.controller.uipaths.PathHelper;
+import com.dunn.controller.uipaths.views.ViewName;
 import com.dunn.util.storage.TempWoodProjectImageStorageService;
 import com.dunn.util.storage.StorageFileNotFoundException;
 import com.dunn.dto.ui.WoodProjectDTO;

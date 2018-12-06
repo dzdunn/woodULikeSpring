@@ -1,7 +1,7 @@
 package com.dunn.controller.mywoodprojects;
 
 
-import com.dunn.controller.path.views.ViewName;
+import com.dunn.controller.uipaths.views.ViewName;
 import com.dunn.dao.woodproject.IWoodProjectDAO;
 import com.dunn.model.woodproject.Image;
 import com.dunn.model.woodproject.WoodProject;

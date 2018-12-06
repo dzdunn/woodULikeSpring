@@ -1,8 +1,10 @@
 package com.dunn.controller.woodproject;
 
-import com.dunn.controller.path.views.ViewName;
+import com.dunn.controller.uipaths.PathHelper;
+import com.dunn.controller.uipaths.resources.ResourceProperties;
+import com.dunn.controller.uipaths.views.ViewName;
 import com.dunn.dao.woodproject.WoodProjectService;
-import com.dunn.dto.hibernate.WoodProjectDisplayDTO;
+import com.dunn.dto.ui.WoodProjectDTO;
 import com.dunn.model.woodproject.WoodProject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.nio.file.Paths;
 
 @Controller
 public class WoodProjectController {
@@ -24,10 +28,11 @@ public class WoodProjectController {
 
     @RequestMapping(value = ViewName.WOOD_PROJECT + "/{wpId}", method = RequestMethod.GET)
     public ModelAndView showWoodProjectById(@PathVariable("wpId") Long id){
-       // WoodProject woodProject = woodProjectService.findWoodProjectById(id);
-        WoodProject woodProject = woodProjectService.findWoodProjectById(id);
+
+        WoodProjectDTO woodProjectDTO = woodProjectService.findWoodProjectDTOById(id);
+
         ModelAndView mav = new ModelAndView(ViewName.WOOD_PROJECT);
-        mav.addObject(woodProject);
+        mav.addObject(woodProjectDTO);
         return mav;
     }
 }

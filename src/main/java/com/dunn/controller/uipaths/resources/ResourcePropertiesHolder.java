@@ -1,4 +1,4 @@
-package com.dunn.controller.path.resources;
+package com.dunn.controller.uipaths.resources;
 
 import java.nio.file.Paths;
 

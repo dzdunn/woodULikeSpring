@@ -1,11 +1,9 @@
 package com.dunn.config.security.filter;
 
-import com.dunn.controller.path.views.ViewName;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,9 +43,9 @@ public class MyFilter extends GenericFilterBean {
                     System.out.println(httpServletRequest.getRequestURL());
                     System.out.println(httpServletRequest.getServletPath());
                     System.out.println(httpServletRequest.getPathTranslated());
-
-                    ((HttpServletResponse)response).sendRedirect(ViewName.HOME);
-                    return;
+//
+//                    ((HttpServletResponse)response).sendRedirect(ViewName.HOME);
+//                    return;
 
                 }
             }

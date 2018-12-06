@@ -1,7 +1,7 @@
 package com.dunn.dao;
 
 import com.dunn.config.webapp.WebMvcConfig;
-import com.dunn.controller.path.resources.ResourceProperties;
+import com.dunn.controller.uipaths.resources.ResourceProperties;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;

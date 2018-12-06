@@ -30,7 +30,7 @@ public class WoodProjectImageStorageService implements IStorageService{
         try {
             this.rootLocation = Paths.get(storageServiceProperties.getObject().getProperty("storage.location.createwoodproject.permanent"));
         } catch (IOException e) {
-            throw new StorageException("Storage path could not be set: ", e);
+            throw new StorageException("Storage uipaths could not be set: ", e);
         }
     }
 

@@ -1,6 +1,8 @@
 package com.dunn.dao.woodproject;
 
+import com.dunn.controller.uipaths.resources.ResourceProperties;
 import com.dunn.dto.hibernate.WoodProjectDisplayDTO;
+import com.dunn.dto.ui.WoodProjectDTO;
 import com.dunn.model.user.WoodulikeUser_;
 import com.dunn.model.woodproject.WoodProject_;
 import com.dunn.model.user.WoodulikeUser;
@@ -70,6 +72,12 @@ public class WoodProjectDAO implements IWoodProjectDAO {
         List<WoodProject> woodProjects = sessionFactory.getCurrentSession().createQuery(criteria).list();
 
         return woodProjects.get(0);
+    }
+
+    public WoodProjectDTO findWoodProjectDTOById(Long id){
+        WoodProject woodProject = (WoodProject)sessionFactory.getCurrentSession().get(WoodProject.class, id);
+        WoodProjectDTO woodProjectDTO = new WoodProjectDTO(woodProject, ResourceProperties.WOOD_PROJECT_IMAGE_PROPERTIES);
+        return woodProjectDTO;
     }
 
     //WORK IN PROGRESS

@@ -1,6 +1,6 @@
 package com.dunn.controller.user;
 
-import com.dunn.controller.path.views.ViewName;
+import com.dunn.controller.uipaths.views.ViewName;
 import com.dunn.model.user.UserRole;
 import com.dunn.model.user.WoodulikeUser;
 import com.dunn.validation.login.IWoodulikeUserLoginValidationGroup;
