@@ -1,9 +1,10 @@
 package com.dunn.config.security;
 
+import com.dunn.config.security.filter.ImageUploadFilter;
+import com.dunn.config.session.SessionNavigation;
 import com.dunn.controller.uipaths.resources.ResourceHandler;
 import com.dunn.controller.uipaths.views.ViewName;
 import com.dunn.controller.uipaths.views.ViewNameWrapper;
-import com.dunn.config.security.filter.MyFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -21,6 +23,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ImageUploadFilter imageUploadFilter;
 
     @Autowired
     private UserDetailsService userService;
@@ -53,8 +58,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        //http.addFilterBefore(new MyFilter(), ChannelProcessingFilter.class);
-        http.addFilterAfter(new MyFilter(), FilterSecurityInterceptor.class);
+
+        http.addFilterBefore(imageUploadFilter, ChannelProcessingFilter.class);
 
         http.authorizeRequests()
                 .antMatchers(ViewNameWrapper.getPublicViewUrlsArray()).permitAll()
@@ -69,7 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher(ViewName.LOGOUT, "GET"))
                 .logoutSuccessUrl(ViewName.LOGIN).deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true).and().csrf().and().rememberMe();
-        
+
     }
 
 

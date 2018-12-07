@@ -3,27 +3,43 @@ package com.dunn.config.session;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Stack;
 
 @Component
 @SessionScope
 public class SessionNavigation {
 
-    private static List<NavigationAction> navigationHistory = new ArrayList<>();
+    //The URIs requested
+    private static final Stack<NavigationAction> navigationRequestHistory = new Stack<>();
 
-    public void addNavigationActionToNavigationHistory(NavigationAction navigationAction){
-        navigationHistory.add(navigationAction);
+    //The response i.e. the page or redirect or forward URI
+    private static final Stack<NavigationAction> navigationResponseHistory = new Stack<>();
+
+    public void addNavigationRequest(NavigationAction navigationAction){
+        navigationRequestHistory.push(navigationAction);
     }
 
-    public List<NavigationAction> getNavigationHistory(){
-        return Collections.unmodifiableList(navigationHistory);
+    public void addNavigationResponse(NavigationAction visitedPage){
+        navigationResponseHistory.push(visitedPage);
     }
 
-    public String getLastView(){
-        return navigationHistory.get(0) != null ? navigationHistory.get(navigationHistory.size()-1).getViewName() : "";
+    public Stack<NavigationAction> getNavigationHistory(){
+        return navigationRequestHistory;
     }
+
+    public Stack<NavigationAction> getNavigationResponseHistory(){
+        return navigationResponseHistory;
+    }
+
+    public String getLastRequest(){
+        return navigationRequestHistory.peek()!= null ? navigationRequestHistory.peek().getViewName() : "";
+    }
+
+    public String getLastResponse(){
+        return navigationResponseHistory.peek() != null ? navigationRequestHistory.peek().getViewName() : "";
+    }
+
+
 
 
 }

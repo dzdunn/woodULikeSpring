@@ -1,5 +1,7 @@
 package com.dunn.config.webapp;
 
+import com.dunn.config.security.filter.ImageUploadFilter;
+import com.dunn.config.session.SessionNavigation;
 import com.dunn.controller.uipaths.resources.ResourceProperties;
 import org.hibernate.validator.HibernateValidator;
 import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
@@ -17,13 +19,16 @@ import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.MessageSourceResourceBundleLocator;
 import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
 import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
+import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.WebJarsResourceResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.validation.Validation;
 import javax.validation.ValidatorFactory;

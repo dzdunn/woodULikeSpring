@@ -30,9 +30,6 @@ import java.util.List;
 @LoginConstraint(groups = IWoodulikeUserLoginValidationGroup.class)
 public class WoodulikeUser implements UserDetails, CredentialsContainer, Serializable {
 
-    @Autowired
-    private MessageSource messageSource;
-
     private Long id;
     private String username;
     private String password;

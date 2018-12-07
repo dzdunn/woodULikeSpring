@@ -10,18 +10,15 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.RequestDispatcher;
 
 @Component
 @Aspect
 public class NavigationHistoryAspect {
 
     @Autowired
-    private SessionNavigation sessionNavigation;
+    private SessionNavigation sessionNavigationBean;
 
     @Pointcut("within(@org.springframework.stereotype.Controller *)")
     public void beanAnnotatedWithController() {
@@ -33,7 +30,7 @@ public class NavigationHistoryAspect {
         NavigationAction navigationAction = new NavigationAction();
         navigationAction.setViewName(((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest().getRequestURI());
         System.out.println("BEFORE: " + navigationAction.getViewName());
-        sessionNavigation.addNavigationActionToNavigationHistory(navigationAction);
+        sessionNavigationBean.addNavigationRequest(navigationAction);
     }
 
     @AfterReturning(pointcut = "beanAnnotatedWithController()", returning = "returnValue")
@@ -52,7 +49,7 @@ public class NavigationHistoryAspect {
         }
 
         if(navigationAction.getViewName() != null) {
-            sessionNavigation.addNavigationActionToNavigationHistory(navigationAction);
+            //sessionNavigationBean.addNavigationRequest(navigationAction);
             System.out.println(navigationAction.getViewName());
         }
     }
