@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class NavigationHistoryAspect {
 
     @Autowired
-    private SessionNavigation sessionNavigationBean;
+    private SessionNavigation sessionNavigation;
 
     @Pointcut("within(@org.springframework.stereotype.Controller *)")
     public void beanAnnotatedWithController() {
@@ -30,7 +30,7 @@ public class NavigationHistoryAspect {
         NavigationAction navigationAction = new NavigationAction();
         navigationAction.setViewName(((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest().getRequestURI());
         System.out.println("BEFORE: " + navigationAction.getViewName());
-        sessionNavigationBean.addNavigationRequest(navigationAction);
+        sessionNavigation.addNavigationRequest(navigationAction);
     }
 
     @AfterReturning(pointcut = "beanAnnotatedWithController()", returning = "returnValue")
@@ -49,7 +49,7 @@ public class NavigationHistoryAspect {
         }
 
         if(navigationAction.getViewName() != null) {
-            //sessionNavigationBean.addNavigationRequest(navigationAction);
+            sessionNavigation.addNavigationResponse(navigationAction);
             System.out.println(navigationAction.getViewName());
         }
     }

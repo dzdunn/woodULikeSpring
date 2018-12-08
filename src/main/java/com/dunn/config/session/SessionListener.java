@@ -3,10 +3,12 @@ package com.dunn.config.session;
 import com.dunn.dto.ui.WoodProjectDTO;
 import org.springframework.util.FileSystemUtils;
 
+import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 import java.io.IOException;
 
+@WebListener
 public class SessionListener implements HttpSessionListener {
 
 

@@ -1,24 +1,34 @@
 package com.dunn.config.security.filter;
 
 import com.dunn.config.session.SessionNavigation;
+import org.apache.commons.fileupload.FileUploadBase;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.DelegatingFilterProxy;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
-import javax.servlet.*;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
 
 @Component
+//@WebFilter(filterName = "imageUploadFilter", urlPatterns = "/*")
 public class ImageUploadFilter extends DelegatingFilterProxy {
 
     @Autowired
     private SessionNavigation sessionNavigation;
+
+    @Value("${storage.maxfilesize}")
+    private long maxFileSize;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -30,9 +40,10 @@ public class ImageUploadFilter extends DelegatingFilterProxy {
             Collection<Part> parts = httpServletRequest.getParts();
 
             for (Part part : parts) {
-                if(part.getSize() > 5000000){
-                    ((HttpServletResponse) response).sendRedirect(sessionNavigation.getLastRequest());
-                    return;
+                if(part.getSize() > maxFileSize){
+                    throw new MaxUploadSizeExceededException(maxFileSize);
+                   // ((HttpServletResponse) response).sendRedirect(sessionNavigation.getLastRequest());
+                   // return;
                 }
                 if (part.getSubmittedFileName() != null && !isImageSuffix(part.getSubmittedFileName()) && part.getContentType() != null && !isImageContentType(part.getContentType())) {
 

@@ -32,9 +32,9 @@ public class WoodulikeProperties {
         storageServiceProperties.setLocation(new ClassPathResource("configuration/storage.properties"));
         return storageServiceProperties;
     }
-//
-//    @Bean
-//    public static PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() {
-//        return new PropertySourcesPlaceholderConfigurer();
-//    }
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 }

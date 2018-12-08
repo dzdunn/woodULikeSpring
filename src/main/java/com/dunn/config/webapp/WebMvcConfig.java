@@ -20,6 +20,7 @@ import org.springframework.validation.beanvalidation.MessageSourceResourceBundle
 import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
 import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 import org.springframework.web.context.annotation.SessionScope;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -79,19 +80,19 @@ public class WebMvcConfig implements WebMvcConfigurer{
 
 
 
-//	@Bean(name = "multipartResolver")
-//	public CommonsMultipartResolver multipartResolver() {
-//		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-//		multipartResolver.setMaxUploadSize(100000);
-//		multipartResolver.setServletContext(servletContext);
-//		return multipartResolver;
-//	}
-
 	@Bean
-	public StandardServletMultipartResolver multipartResolver() {
-		StandardServletMultipartResolver resolver = new StandardServletMultipartResolver();
-		return new StandardServletMultipartResolver();
+	public CommonsMultipartResolver multipartResolver() {
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+		multipartResolver.setMaxUploadSize(100000);
+		multipartResolver.setServletContext(servletContext);
+		return multipartResolver;
 	}
+
+//	@Bean
+//	public StandardServletMultipartResolver multipartResolver() {
+//		StandardServletMultipartResolver resolver = new StandardServletMultipartResolver();
+//		return new StandardServletMultipartResolver();
+//	}
 
 
 	@Bean
