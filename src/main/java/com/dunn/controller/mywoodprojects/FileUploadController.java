@@ -6,22 +6,31 @@ import com.dunn.util.storage.TempWoodProjectImageStorageService;
 import com.dunn.util.storage.StorageFileNotFoundException;
 import com.dunn.dto.ui.WoodProjectDTO;
 import com.dunn.model.user.WoodulikeUser;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.config.MvcNamespaceUtils;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import java.io.IOException;
 import java.nio.file.Path;
 
 @Controller
-public class FileUploadController implements HandlerExceptionResolver {
+public class FileUploadController {
 
     private final TempWoodProjectImageStorageService tempWoodProjectImageStorageService;
 
@@ -91,12 +100,40 @@ public class FileUploadController implements HandlerExceptionResolver {
         return ResponseEntity.notFound().build();
     }
 
-    @Override
-    public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-        ModelAndView modelAndView = new ModelAndView(ViewName.EDIT_WOOD_PROJECT);
-        if (ex instanceof MaxUploadSizeExceededException) {
-            modelAndView.getModel().put("message", "File size exceeds limit!");
-        }
-        return modelAndView;
+//    @Override
+//    public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+//        ModelAndView modelAndView = new ModelAndView(ViewName.EDIT_WOOD_PROJECT);
+//        if (ex instanceof MaxUploadSizeExceededException) {
+//            modelAndView.getModel().put("message", "File size exceeds limit!");
+//        }
+//        return modelAndView;
+//    }
+
+    @RequestMapping(value="/testHandle", method = RequestMethod.POST)
+    public void handleFileSizeLimitExceeded(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Model model, RedirectAttributes redirectAttributes) {
+        throw new MaxUploadSizeExceededException(10000L);
+//        ModelAndView mav = new ModelAndView("redirect:" + ViewName.EDIT_WOOD_PROJECT);
+//        WoodProjectDTO woodProjectDTO = (WoodProjectDTO)httpServletRequest.getSession().getAttribute("woodProjectDTO");
+//        try {
+//            for(Part p : httpServletRequest.getParts()){
+//                switch(p.getName()){
+//                    case "woodProject.title":
+//                        String title = IOUtils.toString(p.getInputStream());
+//                        woodProjectDTO.getWoodProject().setTitle(title);
+//                        break;
+//                    case "woodProject.description":
+//                        String description = IOUtils.toString(p.getInputStream());
+//                        woodProjectDTO.getWoodProject().setDescription(description);
+//                        break;
+//                }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (ServletException e) {
+//            e.printStackTrace();
+//        }
+//        //redirectAttributes.addFlashAttribute("woodProjectDTO", woodProjectDTO);
+//
+//        return mav;
     }
 }

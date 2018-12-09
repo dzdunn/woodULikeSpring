@@ -14,33 +14,34 @@
 <body>
 
 <c:out value="${message}"/>
-<form:form method="POST"  modelAttribute="woodProjectDTO" enctype="multipart/form-data">
+<form:form method="POST" modelAttribute="woodProjectDTO" enctype="multipart/form-data">
 
-<table>
+    <table>
 
-    <tr>
-        <td><form:label path="woodProject.title">Title</form:label></td>
-        <td><form:input path="woodProject.title"/></td>
-    </tr>
-    <tr>
-        <td><form:label path="woodProject.description">Description</form:label></td>
-        <td><form:input path="woodProject.description"/></td>
-    </tr>
-    <tr>
-        <td><form:label path="imageFile">Image</form:label> </td>
-        <td><input type="file" name="imageFile"></td>
-    </tr>
-    <tr>
-        <td><input type="submit" value="Add image" class="btn btn-primary" formaction="/fileUploadProcess?${_csrf.parameterName}=${_csrf.token}"/></td>
-    </tr>
-    <tr>
-        <td><input type="submit" value="Submit" class="btn btn-primary" formaction="/fileUploadProcess?${_csrf.parameterName}=${_csrf.token}&save=true"/></td>
-    </tr>
+        <tr>
+            <td><form:label path="woodProject.title">Title</form:label></td>
+            <td><form:input path="woodProject.title" id="woodProject.title"/></td>
+        </tr>
+        <tr>
+            <td><form:label path="woodProject.description">Description</form:label></td>
+            <td><form:input path="woodProject.description" id="woodProject.description"/></td>
+        </tr>
+        <tr>
+            <td><form:label path="imageFile">Image</form:label></td>
+            <td><input type="file" name="imageFile"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Add image" class="btn btn-primary"
+                       formaction="/fileUploadProcess?${_csrf.parameterName}=${_csrf.token}"/></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Submit" class="btn btn-primary"
+                       formaction="/fileUploadProcess?${_csrf.parameterName}=${_csrf.token}&save=true"/></td>
+        </tr>
 
-</table>
+    </table>
 
 </form:form>
-
 
 
 <c:if test="${woodProjectDTO.imagePaths != null && !woodProjectDTO.imagePaths.isEmpty()}">
@@ -53,8 +54,71 @@
 
 <%--<img src="../createWoodProjectTemp/tester-34853fe9-f15d-4938-9afe-33b5052ec380/outputtedGraduation.jpg"/>--%>
 <%--<img src="../createWoodProjectTemp/tester-5bf7b78c-74dc-42ff-a383-98de51a4d3b4/graduation.jpg"/>--%>
+<input id="testInput"/>
+
+<%@include file="../templates/footer.jsp" %>
+<script type="text/javascript">
+
+    $(document).ready(function () {
 
 
-    <%@include file="../templates/footer.jsp" %>
+        $("#testInput").on("focusout", function(){
+            console.log("it works!");
+        });
+
+        $("#woodProject\\.title").on("focusout", function () {
+                console.log("HEY")
+                ajaxFormUpdate("#woodProject\\.title")
+            }
+        );
+
+        $("#woodProject\\.description").on("focusout", function () {
+                ajaxFormUpdate("#woodProject\\.description")
+            }
+        );
+
+
+    });
+
+    function ajaxFormUpdate(id) {
+
+
+        var data = {};
+        data[id] = $(id).val();
+
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+                type: "POST",
+                url: "/jsonTest?${_csrf.parameterName}=${_csrf.token}",
+                data: JSON.stringify(data),
+                success: null,
+                dataType: "json"
+            }
+        );
+
+    }
+
+
+    <%--function ajaxFormUpdate(id) {--%>
+    <%--var data = {};--%>
+    <%--data[id] = $(id).val();--%>
+
+    <%--$.ajax({--%>
+    <%--type: "POST",--%>
+    <%--url: "/jsonTest?${_csrf.parameterName}=${_csrf.token}"--%>
+    <%--data: JSON.stringify(data),--%>
+    <%--success: null,--%>
+    <%--dataType: "json,"--%>
+
+    <%--}--%>
+    <%--)--%>
+
+
+    <%--};--%>
+
+</script>
 </body>
 </html>

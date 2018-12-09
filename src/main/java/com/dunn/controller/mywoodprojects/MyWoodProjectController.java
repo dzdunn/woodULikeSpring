@@ -12,6 +12,7 @@ import com.dunn.model.user.WoodulikeUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,6 +24,7 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -58,6 +60,13 @@ public class MyWoodProjectController {
     @RequestMapping(value = ViewName.EDIT_WOOD_PROJECT, method = RequestMethod.GET)
     public String editCreateWoodProject() {
         return ViewName.CREATE_WOOD_PROJECT;
+    }
+
+    @RequestMapping(value="/jsonTest", method = RequestMethod.POST)
+    public String updateForm(@RequestBody HashMap<String, String> woodProjectDTO, @SessionAttribute("woodProjectDTO") WoodProjectDTO sessionWoodProjectDTO){
+        sessionWoodProjectDTO.getWoodProject().setTitle(woodProjectDTO.get("woodProject.title"));
+        sessionWoodProjectDTO.getWoodProject().setDescription(woodProjectDTO.get("woodProject.description"));
+        return "redirect:" + ViewName.EDIT_WOOD_PROJECT;
     }
 
 
@@ -138,4 +147,6 @@ public class MyWoodProjectController {
             tempWoodProjectImageStorageService.deleteDirectory(woodProjectDTO.getTempDirectory());
         }
     }
+
+
 }

@@ -29,7 +29,7 @@ public class NavigationHistoryAspect {
     public void beforeControllerMethod(JoinPoint joinPoint) {
         NavigationAction navigationAction = new NavigationAction();
         navigationAction.setViewName(((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest().getRequestURI());
-        System.out.println("BEFORE: " + navigationAction.getViewName());
+        System.out.println("REQUEST: " + navigationAction.getViewName());
         sessionNavigation.addNavigationRequest(navigationAction);
     }
 
@@ -50,7 +50,7 @@ public class NavigationHistoryAspect {
 
         if(navigationAction.getViewName() != null) {
             sessionNavigation.addNavigationResponse(navigationAction);
-            System.out.println(navigationAction.getViewName());
+            System.out.println("RESPONSE: " + navigationAction.getViewName());
         }
     }
 }
