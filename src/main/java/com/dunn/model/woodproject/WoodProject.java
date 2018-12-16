@@ -2,8 +2,6 @@ package com.dunn.model.woodproject;
 
 
 import com.dunn.model.user.WoodulikeUser;
-import com.dunn.model.woodproject.Image;
-
 
 import javax.persistence.*;
 import java.io.Serializable;

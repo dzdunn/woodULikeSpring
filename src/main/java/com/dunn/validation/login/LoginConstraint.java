@@ -1,7 +1,6 @@
 package com.dunn.validation.login;
 
 import javax.validation.Constraint;
-import javax.validation.ReportAsSingleViolation;
 import java.lang.annotation.*;
 
 @Documented

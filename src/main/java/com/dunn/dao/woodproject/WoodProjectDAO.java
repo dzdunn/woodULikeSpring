@@ -1,15 +1,11 @@
 package com.dunn.dao.woodproject;
 
 import com.dunn.controller.uipaths.resources.ResourceProperties;
-import com.dunn.dto.hibernate.WoodProjectDisplayDTO;
 import com.dunn.dto.ui.WoodProjectDTO;
-import com.dunn.model.user.WoodulikeUser_;
-import com.dunn.model.woodproject.WoodProject_;
 import com.dunn.model.user.WoodulikeUser;
 import com.dunn.model.woodproject.Image;
-
 import com.dunn.model.woodproject.WoodProject;
-import com.dunn.util.hibernate.HibernateHelper;
+import com.dunn.model.woodproject.WoodProject_;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

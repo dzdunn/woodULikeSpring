@@ -4,28 +4,14 @@ import com.dunn.config.db.PersistenceJPAConfig;
 import com.dunn.config.properties.WoodulikeProperties;
 import com.dunn.config.schduler.SchedulerConfig;
 import com.dunn.config.security.SecurityConfig;
-import com.dunn.config.security.filter.ImageUploadFilter;
-import com.dunn.config.session.SessionListener;
-import com.dunn.model.woodproject.Image;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.EnvironmentAware;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import org.springframework.web.WebApplicationInitializer;
-import org.springframework.web.context.ContextLoaderListener;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextListener;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.springframework.web.servlet.DispatcherServlet;
-import org.springframework.web.servlet.FrameworkServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import javax.servlet.*;
-import javax.servlet.annotation.MultipartConfig;
-import java.util.ResourceBundle;
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
 
 @Component
 public class WebAppInitialiser extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -92,7 +78,7 @@ public class WebAppInitialiser extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected String[] getServletMappings() {
-        return new String[]{"/"};
+        return new String[]{"/", "/woodulike"};
     }
 
 

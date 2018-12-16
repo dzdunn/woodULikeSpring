@@ -1,6 +1,5 @@
 package com.dunn.dao.user;
 
-import com.dunn.model.user.PasswordResetToken;
 import com.dunn.model.user.WoodulikeUser;
 import org.hibernate.NonUniqueObjectException;
 import org.hibernate.SessionFactory;

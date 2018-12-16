@@ -3,7 +3,6 @@ package com.dunn.util.pathgenerators;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.UUID;
 
 public class WoodProjectPathGenerator implements PathGenerator {

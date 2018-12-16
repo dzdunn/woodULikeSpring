@@ -1,28 +1,20 @@
 package com.dunn.config.security.filter;
 
-import com.dunn.config.security.filter.httpwrappers.PostToGetRequestWrapper;
 import com.dunn.config.session.SessionNavigation;
 import com.dunn.controller.mywoodprojects.FileUploadController;
 import com.dunn.controlleradvice.MaxFileSizeAdvice;
-import com.dunn.dto.ui.WoodProjectDTO;
-import org.apache.commons.fileupload.FileUploadBase;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.DelegatingFilterProxy;
-import org.springframework.web.multipart.MaxUploadSizeExceededException;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;

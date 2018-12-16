@@ -3,16 +3,15 @@ package com.dunn.controller.mywoodprojects;
 
 import com.dunn.controller.uipaths.views.ViewName;
 import com.dunn.dao.woodproject.IWoodProjectDAO;
+import com.dunn.dto.ui.WoodProjectDTO;
+import com.dunn.model.user.WoodulikeUser;
 import com.dunn.model.woodproject.Image;
 import com.dunn.model.woodproject.WoodProject;
 import com.dunn.util.storage.TempWoodProjectImageStorageService;
 import com.dunn.util.storage.WoodProjectImageStorageService;
-import com.dunn.dto.ui.WoodProjectDTO;
-import com.dunn.model.user.WoodulikeUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -66,6 +65,13 @@ public class MyWoodProjectController {
     public String updateForm(@RequestBody HashMap<String, String> woodProjectDTO, @SessionAttribute("woodProjectDTO") WoodProjectDTO sessionWoodProjectDTO){
         sessionWoodProjectDTO.getWoodProject().setTitle(woodProjectDTO.get("woodProject.title"));
         sessionWoodProjectDTO.getWoodProject().setDescription(woodProjectDTO.get("woodProject.description"));
+        return "redirect:" + ViewName.EDIT_WOOD_PROJECT;
+    }
+
+    @RequestMapping(value="/jsonTest2", method = RequestMethod.POST)
+    public String updateForm2(@RequestBody WoodProject woodProject, @SessionAttribute("woodProjectDTO") WoodProjectDTO sessionWoodProjectDTO){
+        sessionWoodProjectDTO.getWoodProject().setTitle(woodProject.getTitle());
+        sessionWoodProjectDTO.getWoodProject().setDescription(woodProject.getDescription());
         return "redirect:" + ViewName.EDIT_WOOD_PROJECT;
     }
 

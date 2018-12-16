@@ -1,8 +1,6 @@
 package com.dunn.config.session;
 
 
-import org.springframework.http.HttpRequest;
-
 public class NavigationAction {
 
     private String viewName;

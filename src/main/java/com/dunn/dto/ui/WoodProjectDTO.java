@@ -6,9 +6,6 @@ import com.dunn.controller.uipaths.resources.ResourcePropertiesHolder;
 import com.dunn.model.woodproject.WoodProject;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;

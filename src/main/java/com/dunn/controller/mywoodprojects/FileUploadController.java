@@ -2,31 +2,21 @@ package com.dunn.controller.mywoodprojects;
 
 import com.dunn.controller.uipaths.PathHelper;
 import com.dunn.controller.uipaths.views.ViewName;
-import com.dunn.util.storage.TempWoodProjectImageStorageService;
-import com.dunn.util.storage.StorageFileNotFoundException;
 import com.dunn.dto.ui.WoodProjectDTO;
 import com.dunn.model.user.WoodulikeUser;
-import org.apache.commons.io.IOUtils;
+import com.dunn.util.storage.StorageFileNotFoundException;
+import com.dunn.util.storage.TempWoodProjectImageStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
-import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.config.MvcNamespaceUtils;
-import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
-import java.io.IOException;
 import java.nio.file.Path;
 
 @Controller

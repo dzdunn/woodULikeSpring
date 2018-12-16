@@ -1,7 +1,6 @@
 package com.dunn.config.security;
 
 import com.dunn.config.security.filter.ImageUploadFilter;
-import com.dunn.config.session.SessionNavigation;
 import com.dunn.controller.uipaths.resources.ResourceHandler;
 import com.dunn.controller.uipaths.views.ViewName;
 import com.dunn.controller.uipaths.views.ViewNameWrapper;
@@ -15,7 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity

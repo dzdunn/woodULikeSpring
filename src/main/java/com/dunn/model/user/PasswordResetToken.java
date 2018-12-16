@@ -1,7 +1,5 @@
 package com.dunn.model.user;
 
-import net.bytebuddy.asm.Advice;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 

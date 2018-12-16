@@ -1,7 +1,7 @@
 package com.dunn.model.woodproject;
 
 import javax.persistence.*;
-import java.io.*;
+import java.io.Serializable;
 
 @Entity
 public class Image implements Serializable {

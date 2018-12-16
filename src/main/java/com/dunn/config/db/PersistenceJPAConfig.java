@@ -10,7 +10,6 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.Validator;
 
-
 import javax.sql.DataSource;
 import java.util.Properties;
 

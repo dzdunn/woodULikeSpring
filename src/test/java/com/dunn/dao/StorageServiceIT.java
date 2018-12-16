@@ -6,13 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
-
 import java.io.File;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringJUnitWebConfig(classes = {WebMvcConfig.class})
 public class StorageServiceIT {

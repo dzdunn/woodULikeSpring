@@ -4,8 +4,6 @@ import com.dunn.controller.uipaths.views.ViewName;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

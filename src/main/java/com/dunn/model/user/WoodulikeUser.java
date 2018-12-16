@@ -1,14 +1,12 @@
 package com.dunn.model.user;
 
-import com.dunn.validation.resetpassword.IResetPasswordValidationGroup;
 import com.dunn.validation.login.IWoodulikeUserLoginValidationGroup;
 import com.dunn.validation.login.LoginConstraint;
 import com.dunn.validation.registration.EmailConstraint;
 import com.dunn.validation.registration.IWoodulikeUserRegistrationValidationGroup;
 import com.dunn.validation.registration.UsernameConstraint;
 import com.dunn.validation.registration.WoodulikePasswordValid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
+import com.dunn.validation.resetpassword.IResetPasswordValidationGroup;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;

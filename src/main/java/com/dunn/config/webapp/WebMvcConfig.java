@@ -1,15 +1,17 @@
 package com.dunn.config.webapp;
 
-import com.dunn.config.security.filter.ImageUploadFilter;
-import com.dunn.config.session.SessionNavigation;
 import com.dunn.controller.uipaths.resources.ResourceProperties;
 import org.hibernate.validator.HibernateValidator;
 import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.http.CacheControl;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,23 +22,19 @@ import org.springframework.validation.beanvalidation.MessageSourceResourceBundle
 import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
 import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.annotation.SessionScope;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
-import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
-import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 import org.springframework.web.servlet.resource.WebJarsResourceResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 @Configuration
@@ -48,12 +46,6 @@ public class WebMvcConfig implements WebMvcConfigurer{
 
 	@Autowired
 	private AutowireCapableBeanFactory beanFactory;
-
-	@Autowired
-	private ServletContext servletContext;
-
-	@Autowired
-	private WebApplicationContext webApplicationContext;
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -85,7 +77,22 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		return viewResolver;
 	}
 
+	@Bean
+	public File fileSystemRoot(){
+		try {
+			return Files.createTempDirectory("").toFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
+	@Bean
+	public FileSystemResourceLoader fileSystemResourceLoader() {
+		FileSystemResourceLoader loader = new FileSystemResourceLoader();
+		return loader;
+
+	}
 
 //	@Bean
 //	public CommonsMultipartResolver multipartResolver() {

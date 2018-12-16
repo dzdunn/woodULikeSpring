@@ -1,7 +1,7 @@
 package com.dunn.model.genericmodelwrappers;
 
-import com.dunn.validation.resetpassword.IForgotPasswordEmailValidationGroup;
 import com.dunn.validation.registration.EmailConstraint;
+import com.dunn.validation.resetpassword.IForgotPasswordEmailValidationGroup;
 
 public class GenericEmailWrapper {
 
