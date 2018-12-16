@@ -2,6 +2,7 @@ package com.dunn.config.db;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -10,9 +11,8 @@ import java.util.Properties;
 
 @Component
 @Profile("production")
-public class ProductionDatasourceConfig {
+public class ProductionDatasourceConfig implements WoodulikeDataSource{
 
-    @Bean
     public DataSource dataSource(){
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
@@ -22,7 +22,7 @@ public class ProductionDatasourceConfig {
         return dataSource;
     }
 
-    Properties hibernateProperties() {
+    public Properties hibernateProperties() {
         return new Properties() {
             {
                 setProperty("hibernate.hbm2ddl.auto",

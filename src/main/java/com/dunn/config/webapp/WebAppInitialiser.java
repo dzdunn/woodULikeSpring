@@ -4,6 +4,8 @@ import com.dunn.config.db.PersistenceJPAConfig;
 import com.dunn.config.properties.WoodulikeProperties;
 import com.dunn.config.schduler.SchedulerConfig;
 import com.dunn.config.security.SecurityConfig;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextListener;
@@ -26,6 +28,8 @@ public class WebAppInitialiser extends AbstractAnnotationConfigDispatcherServlet
         registration.setMultipartConfig(multipartConfigElement);
     }
 
+    @Autowired
+    private Environment env;
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
@@ -47,6 +51,8 @@ public class WebAppInitialiser extends AbstractAnnotationConfigDispatcherServlet
 //
 //        servletContext.addListener(SessionListener.class);
         servletContext.addListener(new RequestContextListener());
+//        servletContext.setInitParameter(
+//                "spring.profiles.active", "dev");
 
         //servletContext.addFilter("imageUploadFilter", ImageUploadFilter.class);
 //        servletContext.addListener(MyServletContextListener.class);

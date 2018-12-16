@@ -1,10 +1,7 @@
 package com.dunn.config.properties;
 
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 
@@ -34,7 +31,15 @@ public class WoodulikeProperties {
     }
 
     @Bean
-    public static PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() {
+    public PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
     }
+
+    @Bean
+    public PropertiesFactoryBean localProperties(){
+        PropertiesFactoryBean localProperties = new PropertiesFactoryBean();
+        localProperties.setLocation(new ClassPathResource("configuration/local.properties"));
+        return localProperties;
+    }
+
 }

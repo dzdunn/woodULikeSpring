@@ -3,6 +3,7 @@ package com.dunn.config.db;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
@@ -22,6 +23,15 @@ public class PersistenceJPAConfig {
 
     @Autowired
     private Validator validator;
+
+//    @Autowired
+//    private DevDatasourceConfig devDatasourceConfig;
+//
+//    @Autowired
+//    private ProductionDatasourceConfig productionDatasourceConfig;
+
+    @Autowired
+    private WoodulikeDataSource woodulikeDataSource;
 
     @Bean(name = "sessionFactory")
     public LocalSessionFactoryBean sessionFactory() {
@@ -47,25 +57,27 @@ public class PersistenceJPAConfig {
 
     @Bean
     public DataSource datasource() {
-        switch (env.getProperty("spring.profiles.active")) {
-            case "dev":
-                return new DevDatasourceConfig().dataSource();
-            case "production":
-                return new ProductionDatasourceConfig().dataSource();
-            default:
-                throw new IllegalArgumentException("No datasource set for current profile.");
-        }
+        return woodulikeDataSource.dataSource();
+//        switch (env.getProperty("spring.profiles.active")) {
+//            case "dev":
+//                return devDatasourceConfig.dataSource();
+//            case "production":
+//                return productionDatasourceConfig.dataSource();
+//            default:
+//                throw new IllegalArgumentException("No datasource set for current profile.");
+//        }
     }
 
     private Properties properties() {
-        switch (env.getProperty("spring.profiles.active")) {
-            case "dev":
-                return globalHibernateProperties(new DevDatasourceConfig().hibernateProperties());
-            case "production":
-                return globalHibernateProperties(new ProductionDatasourceConfig().hibernateProperties());
-            default:
-                throw new IllegalArgumentException("No datasource set for current profile.");
-        }
+        return woodulikeDataSource.hibernateProperties();
+//        switch (env.getProperty("spring.profiles.active")) {
+//            case "dev":
+//                return globalHibernateProperties(devDatasourceConfig.hibernateProperties());
+//            case "production":
+//                return globalHibernateProperties(productionDatasourceConfig.hibernateProperties());
+//            default:
+//                throw new IllegalArgumentException("No datasource set for current profile.");
+//        }
     }
 
     private Properties globalHibernateProperties(Properties localProperties) {
