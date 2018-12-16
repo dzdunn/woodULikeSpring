@@ -25,13 +25,6 @@ public class WoodProjectDAO implements IWoodProjectDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
-    @Value("${upload.location}")
-    private String uploadLocation;
-
-
-
-
-
     @Override
     public SessionFactory getSessionFactory() {
         return sessionFactory;
