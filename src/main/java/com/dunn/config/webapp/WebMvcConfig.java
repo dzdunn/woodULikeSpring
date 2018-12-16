@@ -21,7 +21,6 @@ import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.MessageSourceResourceBundleLocator;
 import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
 import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -29,7 +28,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.WebJarsResourceResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import javax.servlet.ServletContext;
 import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
 import java.io.File;
@@ -65,7 +63,6 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		registry.addResourceHandler(ResourceProperties.WOOD_PROJECT_IMAGE_PROPERTIES.getResourceHandler().getResourceHandlerString()).addResourceLocations(ResourceProperties.WOOD_PROJECT_IMAGE_PROPERTIES.getResourceLocationsAsUriFormattedString());
 
 	}
-
 
 	@Bean
 	public InternalResourceViewResolver viewResolver() {

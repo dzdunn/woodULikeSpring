@@ -60,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(imageUploadFilter, ChannelProcessingFilter.class);
 
         http.authorizeRequests()
+                .antMatchers("/woodulike/**").permitAll()
                 .antMatchers(ViewNameWrapper.getPublicViewUrlsArray()).permitAll()
                 .antMatchers(resourcePatterns).permitAll();
         http.authorizeRequests().antMatchers(ViewName.UPDATE_PASSWORD_PROCESS).hasAuthority("CHANGE_PASSWORD_PRIVILEGE");

@@ -22,7 +22,7 @@ public class WebAppInitialiser extends AbstractAnnotationConfigDispatcherServlet
     @Override
     protected void customizeRegistration(ServletRegistration.Dynamic registration){
         MultipartConfigElement multipartConfigElement = new MultipartConfigElement("/", 500000000, 500000000, 0);
-        registration.setMultipartConfig(multipartConfigElement);
+        registration.setMultipartConfig(multipartConfigElement);;
     }
 
 //    @Override
@@ -78,7 +78,7 @@ public class WebAppInitialiser extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected String[] getServletMappings() {
-        return new String[]{"/", "/woodulike"};
+        return new String[]{"/", "/woodulike/*"};
     }
 
 
