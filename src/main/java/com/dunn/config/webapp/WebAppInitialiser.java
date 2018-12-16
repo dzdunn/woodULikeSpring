@@ -5,7 +5,10 @@ import com.dunn.config.properties.WoodulikeProperties;
 import com.dunn.config.schduler.SchedulerConfig;
 import com.dunn.config.security.SecurityConfig;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextListener;
+import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.FrameworkServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.MultipartConfigElement;
@@ -16,28 +19,20 @@ import javax.servlet.ServletRegistration;
 @Component
 public class WebAppInitialiser extends AbstractAnnotationConfigDispatcherServletInitializer {
 
-//    @Value("${storage.maxfilesize}")
-//    private long maxFileSize;
 
     @Override
     protected void customizeRegistration(ServletRegistration.Dynamic registration){
         MultipartConfigElement multipartConfigElement = new MultipartConfigElement("/", 500000000, 500000000, 0);
-        registration.setMultipartConfig(multipartConfigElement);;
+        registration.setMultipartConfig(multipartConfigElement);
     }
 
-//    @Override
-//    protected FrameworkServlet createDispatcherServlet(WebApplicationContext servletAppContext) {
-//        DispatcherServlet dispatcherServlet = new DispatcherServlet(servletAppContext);
-//        return dispatcherServlet;
-//
-//    }
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         super.onStartup(servletContext);
 
 ////        ResourceBundle resourceBundle = ResourceBundle.getBundle("classpath:configuration/storage.properties");
-////        String maxFileSize = resourceBundle.getString("storage.maxfilesize");
+////        String maxFileSize = resourceBundle.getViewName("storage.maxfilesize");
         //AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
         //rootContext.register(WebMvcConfig.class);
         //rootContext.setServletContext(servletContext);
@@ -78,7 +73,7 @@ public class WebAppInitialiser extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected String[] getServletMappings() {
-        return new String[]{"/", "/woodulike/*"};
+        return new String[]{ "", "/"};
     }
 
 

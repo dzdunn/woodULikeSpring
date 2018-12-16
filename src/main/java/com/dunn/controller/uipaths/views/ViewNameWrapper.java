@@ -11,24 +11,24 @@ public class ViewNameWrapper {
 
     private final static List<String> ALL_STRINGS = new ArrayList<>();
 
-    private String string;
+    private String viewName;
 
     private boolean isPublic;
 
     private boolean hasAllSubDirectoriesPublic;
 
 
-    public ViewNameWrapper(final String string) {
-        this.string = string;
+    public ViewNameWrapper(final String viewName) {
+        this.viewName = viewName;
     }
 
-    public ViewNameWrapper(final String string, final boolean isPublic) {
-        this.string = string;
+    public ViewNameWrapper(final String viewName, final boolean isPublic) {
+        this.viewName = viewName;
         this.isPublic = isPublic;
     }
 
-    public ViewNameWrapper(final String string, final boolean isPublic, final boolean hasAllSubDirectoriesPublic) {
-        this.string = string;
+    public ViewNameWrapper(final String viewName, final boolean isPublic, final boolean hasAllSubDirectoriesPublic) {
+        this.viewName = viewName;
         this.isPublic = isPublic;
         this.hasAllSubDirectoriesPublic = hasAllSubDirectoriesPublic;
     }
@@ -37,8 +37,8 @@ public class ViewNameWrapper {
         return isPublic;
     }
 
-    public String getString() {
-        return string;
+    public String getViewName() {
+        return viewName;
     }
 
     public boolean hasAllSubDirectoriesPublic() {
@@ -71,7 +71,7 @@ public class ViewNameWrapper {
                     if (Modifier.isPublic(field.getModifiers()) && field.getType().equals(ViewNameWrapper.class)) {
                         ViewNameWrapper viewNameWrapper = (ViewNameWrapper) field.get(ViewNameWrapper.class);
                         if (viewNameWrapper.isPublic()) {
-                            String viewName = ((ViewNameWrapper) field.get(ViewNameWrapper.class)).getString();
+                            String viewName = ((ViewNameWrapper) field.get(ViewNameWrapper.class)).getViewName();
 
                             publicViewUrls.add(viewName);
                             if (viewNameWrapper.hasAllSubDirectoriesPublic()){
@@ -92,4 +92,5 @@ public class ViewNameWrapper {
         publicViewUrlsArray = getPublicViewUrls().toArray(publicViewUrlsArray);
         return publicViewUrlsArray;
     }
+
 }
