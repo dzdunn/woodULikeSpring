@@ -130,14 +130,19 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		return messageSource;
 	}
 
-	@Override
-	public Validator getValidator() {
+	@Bean
+	public ValidatorFactory validatorFactory(){
 		ValidatorFactory validatorFactory = Validation
 				.byProvider(HibernateValidator.class).configure()
 				.constraintValidatorFactory(new SpringConstraintValidatorFactory(beanFactory))
 				.messageInterpolator(new ResourceBundleMessageInterpolator(new MessageSourceResourceBundleLocator(messageSource())))
 				.buildValidatorFactory();
-		return new SpringValidatorAdapter(validatorFactory.getValidator());
+		return validatorFactory;
+	}
+
+	@Override
+	public Validator getValidator() {
+		return new SpringValidatorAdapter(validatorFactory().getValidator());
 	}
 
 	@Bean

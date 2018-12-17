@@ -50,7 +50,10 @@ public final class ViewName {
 	public final static ViewNameWrapper LOGIN_WRAPPER = new ViewNameWrapper(LOGIN, true);
 
 	public final static String LOGIN_PROCESS = LOGIN + PROCESS;
-	public final static ViewNameWrapper LOGIN_PROCESS_WRAPPER = new ViewNameWrapper(LOGIN_PROCESS);
+	public final static ViewNameWrapper LOGIN_PROCESS_WRAPPER = new ViewNameWrapper(LOGIN_PROCESS, true);
+
+	public final static String LOGIN_FAILURE = LOGIN + "Failure";
+	public final static ViewNameWrapper LOGIN_FAILURE_WRAPPER = new ViewNameWrapper(LOGIN_FAILURE, true) ;
 
 	public final static String LOGOUT = "/logout";
 	public final static ViewNameWrapper LOGOUT_WRAPPER = new ViewNameWrapper(LOGOUT);

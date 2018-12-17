@@ -33,15 +33,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             ResourceHandler.IMG.getResourceHandlerString()};
 
 
+    @Autowired
+    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .passwordEncoder(passwordEncoder)
-                .withUser("user").password(passwordEncoder.encode("root")).roles("USER")
-                .and()
-                .withUser("admin").password(passwordEncoder.encode("root")).roles("USER", "ADMIN");
 
         auth.authenticationProvider(authenticationProvider());
+
 
     }
 
@@ -67,12 +66,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests().anyRequest().hasAnyRole("ADMIN", "USER")
                 .and()
-                .formLogin().loginPage(ViewName.LOGIN)
-                .loginProcessingUrl(ViewName.LOGIN_PROCESS)
-                .defaultSuccessUrl(ViewName.HOMEPAGE).failureForwardUrl(ViewName.LOGIN_PROCESS)
+                .formLogin()
+                    .loginPage(ViewName.LOGIN)
+                    .loginProcessingUrl(ViewName.LOGIN_PROCESS)
+                    .defaultSuccessUrl(ViewName.HOMEPAGE)
+                    .failureHandler(customAuthenticationFailureHandler)
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher(ViewName.LOGOUT, "GET"))
                 .logoutSuccessUrl(ViewName.LOGIN).deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true).and().csrf().and().rememberMe();
+
 
     }
 

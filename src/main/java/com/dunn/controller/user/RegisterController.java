@@ -11,7 +11,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Arrays;
@@ -26,17 +25,6 @@ public class RegisterController {
     @Autowired
     private UserService userService;
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
-
-//    @Autowired
-//    private Validator passwordMatchValidator;
-//
-//    @InitBinder
-//    private void initBinder(WebDataBinder binder) {
-//        binder.setValidator(passwordMatchValidator);
-//    }
-
     private static final List<String> COUNTRIES = Arrays.stream(Locale.getISOCountries())
                                                     .map(x -> new Locale("", x)
                                                     .getDisplayCountry()).sorted(Comparator.naturalOrder())
@@ -44,7 +32,7 @@ public class RegisterController {
 
 
     @RequestMapping(value = ViewName.REGISTER, method = RequestMethod.GET)
-    public ModelAndView showRegister(@RequestParam(value = "error", required = false) Boolean error){
+    public ModelAndView showRegister(){
         ModelAndView mav = new ModelAndView(ViewName.REGISTER);
         mav.addObject("countries", COUNTRIES);
 
@@ -61,18 +49,13 @@ public class RegisterController {
             mav.setViewName(ViewName.REGISTER);
             return mav;
         }
-//        woodulikeUser.setUserRoles(Arrays.asList(new UserRole("ROLE_USER")));
-//        woodulikeUser.setPassword(passwordEncoder.encode(woodulikeUser.getPassword()));
-//        woodulikeUser.setEnabled(true);
-//        woodulikeUser.setAccountNonExpired(true);
-//        woodulikeUser.setCredentialsNonExpired(true);
-//        woodulikeUser.setAccountNonLocked(true);
+
         boolean isRegistered = userService.registerUser(woodulikeUser);
         if(isRegistered) {
            mav.setViewName("redirect:" + ViewName.LOGIN);
            return mav;
         } else {
-           mav.setViewName("redirect:" + ViewName.REGISTER + "?error=true");
+           mav.setViewName("redirect:" + ViewName.REGISTER);
            return mav;
         }
     }

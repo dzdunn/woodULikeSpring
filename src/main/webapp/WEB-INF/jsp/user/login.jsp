@@ -16,10 +16,9 @@
                             <span class="input-group-text">Username</span>
                         </div>
                         <form:input path="username" cssClass="form-control" type="text" id="username" name="username"/>
-
-
                     </div>
                     <form:errors path="username" cssClass="alert alert-danger" element="div"/>
+
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Password</span>

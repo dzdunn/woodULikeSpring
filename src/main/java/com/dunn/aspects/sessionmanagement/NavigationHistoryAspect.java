@@ -18,10 +18,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Component
 @Aspect
 public class NavigationHistoryAspect {

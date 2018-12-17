@@ -7,10 +7,7 @@ import com.dunn.config.security.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextListener;
-import org.springframework.web.servlet.DispatcherServlet;
-import org.springframework.web.servlet.FrameworkServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.MultipartConfigElement;
@@ -51,8 +48,6 @@ public class WebAppInitialiser extends AbstractAnnotationConfigDispatcherServlet
 //
 //        servletContext.addListener(SessionListener.class);
         servletContext.addListener(new RequestContextListener());
-//        servletContext.setInitParameter(
-//                "spring.profiles.active", "dev");
 
         //servletContext.addFilter("imageUploadFilter", ImageUploadFilter.class);
 //        servletContext.addListener(MyServletContextListener.class);
