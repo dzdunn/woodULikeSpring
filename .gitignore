@@ -3,5 +3,6 @@ target
 .classpath
 .idea
 .vscode
+.factorypath
 
 local.properties
