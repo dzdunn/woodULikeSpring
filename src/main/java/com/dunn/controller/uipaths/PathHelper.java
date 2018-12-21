@@ -27,7 +27,7 @@ public class PathHelper {
         }
 
         String resourceHandlerReplacement = removePatternMatchersAndBackSlashes(resourcePropertiesHolder.getResourceHandler().getResourceHandlerString());
-        String path ="/" + pathToReplace.toString().replaceAll(regexBuilder.toString(), resourceHandlerReplacement);
+        String path = pathToReplace.toString().replaceAll(regexBuilder.toString(), resourceHandlerReplacement);
 
         return Paths.get(path);
     }

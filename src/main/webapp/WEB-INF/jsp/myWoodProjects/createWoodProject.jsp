@@ -41,25 +41,15 @@
 
     </table>
 
-    <%--<input id="woodProjectDTO.username" name="woodProjectDTO.username" value="TESTINGUSERNAME"/>--%>
-
 </form:form>
-<%--<form:form method="POST" modelAttribute="woodProjectDTO" enctype="multipart/form-data" id="woodProjectDTOForm2">--%>
 
-    <%--<input type="text" name="woodProjectDTO.username" value="Danny"/>--%>
-
-<%--</form:form>--%>
 
 <c:if test="${woodProjectDTO.imagePaths != null && !woodProjectDTO.imagePaths.isEmpty()}">
     <c:forEach var="image" items="${woodProjectDTO.getRelativeImagePaths()}">
         <c:out value="${image}"/>
         <img src="${image}"/>
-
     </c:forEach>
 </c:if>
-
-<%--<img src="../createWoodProjectTemp/tester-34853fe9-f15d-4938-9afe-33b5052ec380/outputtedGraduation.jpg"/>--%>
-<%--<img src="../createWoodProjectTemp/tester-5bf7b78c-74dc-42ff-a383-98de51a4d3b4/graduation.jpg"/>--%>
 
 
 <%@include file="../templates/footer.jsp" %>
@@ -76,19 +66,6 @@
             console.log("working");
             ajaxFormUpdate2();
         });
-        //
-        // $("#woodProject\\.title").on("focusout", function () {
-        //         console.log("HEY")
-        //         ajaxFormUpdate("#woodProject\\.title")
-        //     }
-        // );
-        //
-        // $("#woodProject\\.description").on("focusout", function () {
-        //         ajaxFormUpdate("#woodProject\\.description")
-        //     }
-        // );
-
-
     });
 
     function ajaxFormUpdate2() {
